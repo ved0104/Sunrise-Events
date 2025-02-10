@@ -13,6 +13,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
     },
     password: {
       type: String,
@@ -22,9 +25,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default:
         "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg",
+      validate: {
+        validator: function (url) {
+          return /^https?:\/\/.+/.test(url);
+        },
+        message: "Invalid profile picture URL",
+      },
     },
     role: {
       type: String,
+      enum: ["user", "admin"],
       default: "user",
     },
   },

@@ -1,43 +1,35 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Service = require('../models/Service');
-const Gallery = require('../models/Gallery');
+const serviceController = require("../../controller/service.controller.js");
+const { isAuthenticated } = require("../../middleware/auth.js");
 
 // Get all services
-router.get('/services', async (req, res) => {
-  try {
-    const services = await Service.find();
-    res.json(services);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.get("/services", serviceController.getAllServices);
+
+//get by id
+router.get("/services/:id", serviceController.getServiceById);
 
 // Get services by category
-router.get('/services/:category', async (req, res) => {
-  try {
-    const services = await Service.find({ category: req.params.category });
-    res.json(services);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.get(
+  "/services/category/:category",
+  serviceController.getServiceByCategory
+);
 
 // Create booking
-router.post('/bookings', async (req, res) => {
+router.post("/bookings", async (req, res) => {
   // Check date availability
-  const existingBooking = await Booking.findOne({ 
+  const existingBooking = await Booking.findOne({
     date: req.body.date,
-    service: req.body.service
+    service: req.body.service,
   });
-  
+
   if (existingBooking) {
-    return res.status(400).json({ message: 'Date already booked' });
+    return res.status(400).json({ message: "Date already booked" });
   }
 
   const booking = new Booking({
     ...req.body,
-    user: req.user.id // From JWT
+    user: req.user.id, // From JWT
   });
 
   try {
