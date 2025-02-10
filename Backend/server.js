@@ -5,10 +5,12 @@ const cors = require("cors");
 
 const app = express();
 const dbConnect = require("./db/dbconnect.js");
-const userRoutes = require("./routes/user.routes.js");
+const authRoutes = require("./routes/auth/auth.js");
+const adminRoutes = require("./routes/admin/admin.routes.js");
 app.use(cors());
 app.use(express.json());
-app.use("/users", userRoutes);
+app.use("/users", authRoutes);
+app.use("/admin", adminRoutes);
 
 // Database connection
 dbConnect();
