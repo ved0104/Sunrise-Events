@@ -1,0 +1,236 @@
+import { create } from "zustand";
+import axios from "axios";
+
+const API_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5000/api/auth/admin"
+    : "/api/auth/admin";
+
+axios.defaults.withCredentials = true;
+
+export const useAdminAuthStore = create((set) => ({
+  user: null,
+  isAuthenticated: false,
+  isLoading: false,
+  isCheckingAuth: true,
+  error: null,
+  message: null,
+  users: [],
+  dashboardStats: {},
+
+  // Admin Signup (if required)
+  signup: async (email, password, name, phonenumber) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(`${API_URL}/signup`, {
+        email,
+        password,
+        name,
+        phonenumber,
+      });
+
+      console.log("Signup response:", response);
+
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Signup failed:", error.response?.data); // 🔴 Log exact error message
+      set({
+        error: error.response?.data?.message || "Error signing up",
+        isLoading: false,
+      });
+    }
+  },
+
+  // Admin Login
+  login: async (email, password) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+      console.log(response);
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      return true; // ✅ Return success for redirection
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Login failed",
+        isLoading: false,
+      });
+      return false; // ❌ Return failure
+    }
+  },
+
+  // Admin Logout
+  // logout: async () => {
+  //   set({ isLoading: true, error: null });
+  //   try {
+  //     await axios.post(`${API_URL}/logout`);
+  //     set({
+  //       user: null,
+  //       isAuthenticated: false,
+  //       isLoading: false,
+  //     });
+  //     console.log("logged out");
+  //     localStorage.removeItem("token");
+  //   } catch (error) {
+  //     set({ error: "Error logging out", isLoading: false });
+  //     throw error;
+  //   }
+  // },
+  logout: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      await axios.post(`${API_URL}/logout`);
+      set({
+        user: null,
+        isAuthenticated: false,
+        error: null,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ error: "Error logging out", isLoading: false });
+      throw error;
+    }
+  },
+
+  // Fetch Admin Profile (for Dashboard)
+  fetchAdmin: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/profile`);
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ user: null, isAuthenticated: false, isLoading: false });
+    }
+  },
+
+  // Update Admin Profile
+  updateAdmin: async (updatedData) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.put(
+        `${API_URL}/profile/update`,
+        updatedData
+      );
+      set({
+        user: response.data.user,
+        isLoading: false,
+        message: "Profile updated successfully!",
+      });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error updating profile",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // Fetch Users for Admin Panel
+  fetchUsers: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/users`);
+      set({ users: response.data.users, isLoading: false });
+    } catch (error) {
+      set({ error: "Failed to fetch users", isLoading: false });
+    }
+  },
+
+  // Fetch Dashboard Statistics
+  fetchDashboardStats: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/dashboard/stats`);
+      set({ dashboardStats: response.data.stats, isLoading: false });
+    } catch (error) {
+      set({ error: "Failed to load dashboard stats", isLoading: false });
+    }
+  },
+
+  // Check Admin Authentication Status
+  checkAuth: async () => {
+    set({ isCheckingAuth: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/check-auth`);
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isCheckingAuth: false,
+      });
+    } catch (error) {
+      set({ user: null, isAuthenticated: false, isCheckingAuth: false });
+      localStorage.removeItem("adminToken");
+    }
+  },
+
+  // Forgot Password
+  forgotPassword: async (email) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/forgot-password`, {
+        email,
+      });
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error sending reset email",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // Reset Password
+  resetPassword: async (token, password) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/reset-password/${token}`, {
+        password,
+      });
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error resetting password",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // Verify Admin Email
+  verifyAdminEmail: async (code) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await axios.post(`${API_URL}/verify-email`, { code });
+      set({
+        user: res.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      return res.data;
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Verification failed",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+}));

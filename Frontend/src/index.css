@@ -6,3 +6,24 @@
   -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
   "Helvetica Neue", Arial, sans-serif;
 }
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap');
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-union {
+--tkww-union-spinner-color: var(--tkww-union-buttons-primary-spinner-color, var(--tkww-union-color-neutral-white, #fff));
+background-color: var(--tkww-union-buttons-primary-background-color, var(--tkww-union-color-cta-default, var(--tkww-union-color-primary-300, #ff44cb)));
+border-color: var(--tkww-union-buttons-primary-border-color, var(--tkww-union-color-cta-default, var(--tkww-union-color-primary-300, #ff44cb)));
+color: var(--tkww-union-buttons-primary-color, var(--tkww-union-color-text-on-dark-default, var(--tkww-union-color-neutral-white, #fff)));
+text-decoration: var(--tkww-union-buttons-primary-decoration, none);
+
+/* Optional: Tailwind-like styles */
+@apply px-4 py-2 rounded-lg font-bold text-lg border;
+}
+
+.btn-union:hover{
+    background-color: #c5299c;
+    border-color: #c5299c;
+}
