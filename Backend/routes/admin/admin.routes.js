@@ -1,44 +1,60 @@
 // routes/adminRoutes.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const auth = require('../middleware/auth');
-const admin = require('../middleware/admin');
-const Service = require('../models/Service');
+const { isAuthenticated } = require("../../middleware/auth.js");
+const { isAdmin } = require("../../middleware/admin.js");
+const serviceController = require("../../controller/service.controller.js");
+const userController = require("../../controller/user.controller.js");
 
-// Admin middleware (add to middleware/admin.js)
-exports.admin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).send('Access denied');
-  }
-  next();
-};
+// Get all services
+router.get("/services", serviceController.getAllServices);
+
+//get by id
+router.get("/services/:id", serviceController.getServiceById);
+
+// Get services by category
+router.get(
+  "/services/category/:category",
+  serviceController.getServiceByCategory
+);
 
 // Add new service
-router.post('/services', [auth, admin], async (req, res) => {
-  const service = new Service({
-    ...req.body
-  });
-
-  try {
-    const newService = await service.save();
-    res.status(201).json(newService);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+router.post(
+  "/services/add",
+  isAuthenticated,
+  isAdmin,
+  serviceController.addService
+);
 
 // Update service
-router.put('/services/:id', [auth, admin], async (req, res) => {
-  try {
-    const updatedService = await Service.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updatedService);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+router.put(
+  "/services/:id",
+  isAuthenticated,
+  isAdmin,
+  serviceController.updateService
+);
 
-// Other admin routes follow similar pattern...
+router.delete(
+  "/services/:id",
+  isAuthenticated,
+  isAdmin,
+  serviceController.deleteService
+);
+
+//managing users
+
+//get all users
+router.get("/users", isAuthenticated, isAdmin, userController.getAllUsers);
+router.get("/users/:id", isAuthenticated, isAdmin, userController.getUserById);
+router.put(
+  "/users/:id/role",
+  isAuthenticated,
+  isAdmin,
+  userController.updateUserRole
+);
+router.delete(
+  "/users/:id",
+  isAuthenticated,
+  isAdmin,
+  userController.deleteUser
+);
