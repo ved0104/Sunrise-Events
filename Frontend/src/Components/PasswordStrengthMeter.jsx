@@ -1,5 +1,4 @@
 import { Check, X } from "lucide-react";
-
 const PasswordCriteria = ({ password }) => {
 	const criteria = [
 		{ label: "At least 6 characters", met: password.length >= 6 },

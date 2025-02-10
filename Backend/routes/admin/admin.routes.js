@@ -58,3 +58,5 @@ router.delete(
   isAdmin,
   userController.deleteUser
 );
+
+module.exports=router;
