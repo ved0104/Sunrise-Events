@@ -1,8 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@300..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap");
+@import "tailwindcss";
 /* Define global variables using :root */
 :root {
   --color-primary: #fb923c;
@@ -12,7 +9,6 @@
 }
 
 /* Import Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@300..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap");
 
 /* Apply font styles */
 .font-inter {

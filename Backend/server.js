@@ -7,7 +7,12 @@ const app = express();
 const dbConnect = require("./db/dbconnect.js");
 const authRoutes = require("./routes/auth/auth.js");
 const adminRoutes = require("./routes/admin/admin.routes.js");
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Set frontend origin explicitly
+    credentials: true, // Allow credentials (cookies, sessions)
+  })
+);
 app.use(express.json());
 app.use("/users", authRoutes);
 app.use("/admin", adminRoutes);

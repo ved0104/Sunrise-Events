@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { NavbarMenu } from "../../mockData/data";
 import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
@@ -7,6 +8,7 @@ import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Function to close menu when clicking outside
   React.useEffect(() => {
@@ -35,18 +37,16 @@ const Navbar = () => {
             <ul className="flex items-center gap-8 text-black-700">
               {NavbarMenu.map((item) => (
                 <li key={item.id} className="relative">
-                <a
-                  href={item.link}
-                  className="inline-block py-2 px-4 font-semibold transition duration-200 
+                  <a
+                    href={item.link}
+                    className="inline-block py-2 px-4 font-semibold transition duration-200 
                     relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
                     before:bg-black before:transition-all before:duration-300 
                     hover:before:h-[3px]"
-                >
-                  {item.title}
-                </a>
-              </li>
-              
-              
+                  >
+                    {item.title}
+                  </a>
+                </li>
               ))}
             </ul>
           </div>
@@ -56,10 +56,16 @@ const Navbar = () => {
             <button className="text-2xl hover:bg-pink-500 hover:text-white rounded-full p-2 transition duration-200">
               <CiSearch />
             </button>
-            <button className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block">
+            <button
+              className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block"
+              onClick={() => navigate("/login")} // Redirect to login
+            >
               Login
             </button>
-            <button className="hover:bg-pink-500 text-pink-500 font-semibold hover:text-white rounded-md border-2 border-pink-500 px-6 py-2 transition duration-200 hidden md:block">
+            <button
+              className="hover:bg-pink-500 text-pink-500 font-semibold hover:text-white rounded-md border-2 border-pink-500 px-6 py-2 transition duration-200 hidden md:block"
+              onClick={() => navigate("/signup")} // Redirect to signup
+            >
               Signup
             </button>
           </div>
@@ -78,9 +84,7 @@ const Navbar = () => {
       </nav>
 
       {/* Background overlay when menu is open */}
-      {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
-      )}
+      {open && <div className="fixed inset-0 bg-black bg-opacity-50 z-10"></div>}
 
       {/* Mobile Sidebar Menu */}
       <ResponsiveMenu open={open} setOpen={setOpen} />

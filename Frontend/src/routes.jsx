@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
 
 // Import pages
-// import SignUpPage from "./pages/userloginSignup/SignUpPage";
+import SignUpPage from "./pages/userloginSignup/SignUpPage";
 import LoginPage from "./pages/userloginSignup/LoginPage";
 import EmailVerificationPage from "./pages/userloginSignup/EmailVerificationPage";
 import DashboardPage from "./pages/userloginSignup/DashboardPage";
@@ -116,7 +116,7 @@ const AppRoutes = () => {
         path="/user/dashboard"
         element={
           <RedirectAuthenticatedUser>
-            <Services />
+            {/* <Services /> */}
           </RedirectAuthenticatedUser>
         }
       />
