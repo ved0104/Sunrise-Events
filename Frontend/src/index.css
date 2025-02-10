@@ -1,1 +1,8 @@
 @import "tailwindcss";
+@theme {
+  --color-primary: #fb923c;
+  --color-secondary: #fb923c;
+  --font-display: "Oswald", "Union Primary Font", "Union Sans-serif",
+  -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif;
+}
