@@ -1,4 +1,4 @@
-const { User } = require("../models/user.model.js");
+const User = require("../models/user.model.js");
 const bcryptjs = require("bcryptjs");
 const crypto = require("crypto");
 
@@ -79,12 +79,18 @@ module.exports.verifyEmail = async (req, res) => {
     await user.save();
 
     await sendWelcomeEmail(user.email, user.name);
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: "Email Verified Successfully",
+      message: "Admin created successfully",
       user: {
-        ...user._doc,
-        password: undefined,
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        phonenumber: user.phonenumber,
+        role: user.role,
+        createdAt: user.createdAt, // ✅ Ensure createdAt is included
+        updatedAt: user.updatedAt,
+        token, // ✅ Include token in response
       },
     });
   } catch (error) {

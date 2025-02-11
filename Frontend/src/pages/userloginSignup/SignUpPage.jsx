@@ -18,9 +18,11 @@ const SignUpPage = () => {
 	const handleSignUp = async (e) => {
 		e.preventDefault();
 		console.log("Sending data:", { name, email, password, phonenumber }); // ✅ Debugging log
+
+		
 		try {
 			await signup(email, password, name, phonenumber );
-			navigate("/verify-email");
+			navigate("/verify-email"); // ✅ Ensure this route exists
 		} catch (error) {
 			console.log("signup error",error);
 		}

@@ -8,13 +8,18 @@ import { Link } from "react-router-dom";
 const ForgotPasswordPage = () => {
 	const [email, setEmail] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
-
+	const [errorMessage, setErrorMessage] = useState("");
 	const { isLoading, forgotPassword } = useAuthStore();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await forgotPassword(email);
-		setIsSubmitted(true);
+		setErrorMessage("");
+		const response = await forgotPassword(email);
+		if (!response.success) {
+			setErrorMessage(response.message); // Show error message if email is not found
+		  } else {
+			setIsSubmitted(true);
+		  }
 	};
 
 	return (
@@ -42,6 +47,10 @@ const ForgotPasswordPage = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
+						{errorMessage && (
+  <p className="text-red-500 font-bold text-sm text-center mt-2 pb-2">{errorMessage}</p>
+)}
+
 						<motion.button
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}

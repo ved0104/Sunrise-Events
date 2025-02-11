@@ -18,6 +18,8 @@ export const useAuthStore = create((set) => ({
 
   signup: async (email, password, name, phonenumber) => {
     set({ isLoading: true, error: null });
+    const userData = { email, password, name, phonenumber };
+    console.log("Sending signup data:", userData); // ✅ Debugging
     try {
       const response = await axios.post(`${API_URL}/signup`, {
         email,
@@ -114,15 +116,17 @@ export const useAuthStore = create((set) => ({
       const response = await axios.post(`${API_URL}/forgot-password`, {
         email,
       });
-      console.log(response)
+      console.log(response);
       set({ message: response.data.message, isLoading: false });
+      return { success: true, message: response.data.message };
     } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
       set({
         isLoading: false,
-        error:
-          error.response.data.message || "Error sending reset password email",
+        error: errorMessage,
       });
-      throw error;
+      return { success: false, message: errorMessage };
     }
   },
   resetPassword: async (token, password) => {

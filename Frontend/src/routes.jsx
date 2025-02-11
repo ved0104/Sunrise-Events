@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
 // import Navbar from "./Components/Navbar/navbar";
+import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import FloatingShape from "./components/FloatingShape";
 import { Toaster } from "react-hot-toast";
@@ -22,12 +23,15 @@ const ProtectedRoute = ({ children }) => {
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+
+  // Allow user to access verification page
   if (!user.isVerified) {
-    return <Navigate to="/verify-email" replace />;
+    return children;
   }
 
   return children;
 };
+
 
 // Redirect authenticated users to dashboard
 const RedirectAuthenticatedUser = ({ children }) => {
