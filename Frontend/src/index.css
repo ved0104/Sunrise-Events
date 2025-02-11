@@ -2,8 +2,6 @@
 @import "tailwindcss";
 /* Define global variables using :root */
 :root {
-  --color-primary: #fb923c;
-  --color-secondary: #fb923c;
   --font-display: "Oswald", "Roboto", -apple-system, system-ui,
     BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
