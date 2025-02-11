@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavbarMenu } from "../../mockData/data";
 import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
@@ -7,11 +7,27 @@ import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [open, setOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
+  const navigate = useNavigate();
 
-  // Function to close menu when clicking outside
-  React.useEffect(() => {
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    const user = localStorage.getItem("user"); // Fetch user from localStorage
+    if (user) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Remove user data
+    setIsAuthenticated(false);
+    navigate("/"); // Redirect to home
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".menu-container") && open) {
         setOpen(false);
@@ -56,25 +72,39 @@ const Navbar = () => {
             <button className="text-2xl hover:bg-pink-500 hover:text-white rounded-full p-2 transition duration-200">
               <CiSearch />
             </button>
-            <button
-              className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block"
-              onClick={() => navigate("/login")} // Redirect to login
-            >
-              Login
-            </button>
-            <button
-              className="hover:bg-pink-500 text-pink-500 font-semibold hover:text-white rounded-md border-2 border-pink-500 px-6 py-2 transition duration-200 hidden md:block"
-              onClick={() => navigate("/signup")} // Redirect to signup
-            >
-              Signup
-            </button>
+
+            {/* Show Login/Signup if not authenticated */}
+            {!isAuthenticated ? (
+              <>
+                <button
+                  className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+                <button
+                  className="hover:bg-pink-500 text-pink-500 font-semibold hover:text-white rounded-md border-2 border-pink-500 px-6 py-2 transition duration-200 hidden md:block"
+                  onClick={() => navigate("/signup")}
+                >
+                  Signup
+                </button>
+              </>
+            ) : (
+              // Show Logout if authenticated
+              <button
+                className="hover:bg-red-500 text-red-500 font-semibold hover:text-white rounded-md border-2 border-red-500 px-6 py-2 transition duration-200 hidden md:block"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           {/* Mobile Hamburger Menu */}
           <div
             className="md:hidden cursor-pointer menu-container"
             onClick={(e) => {
-              e.stopPropagation(); // Prevent closing when clicking the button
+              e.stopPropagation();
               setOpen(!open);
             }}
           >
