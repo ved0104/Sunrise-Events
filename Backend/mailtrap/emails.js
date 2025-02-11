@@ -1,11 +1,11 @@
-import { transporter } from "./mailtrap.config.js";
-import {
+const { transporter } = require("./mailtrap.config.js");
+const {
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
-} from "./emailTemplates.js";
+} = require("./emailTemplates.js");
 
-export const sendVerificationEmail = async (email, verificationToken) => {
+module.exports.sendVerificationEmail = async (email, verificationToken) => {
   try {
     const response = await transporter.sendMail({
       from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>', // sender address
@@ -24,7 +24,10 @@ export const sendVerificationEmail = async (email, verificationToken) => {
   }
 };
 
-export const sendAdminVerificationEmail = async (email, verificationToken) => {
+module.exports.sendAdminVerificationEmail = async (
+  email,
+  verificationToken
+) => {
   try {
     const response = await transporter.sendMail({
       from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>', // sender address
@@ -43,7 +46,7 @@ export const sendAdminVerificationEmail = async (email, verificationToken) => {
   }
 };
 
-export const sendWelcomeEmail = async (email, name) => {
+module.exports.sendWelcomeEmail = async (email, name) => {
   try {
     const response = await transporter.sendMail({
       from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
@@ -61,7 +64,7 @@ export const sendWelcomeEmail = async (email, name) => {
   }
 };
 
-export const sendForgotPasswordEmail = async (email, resetURL) => {
+module.exports.sendForgotPasswordEmail = async (email, resetURL) => {
   try {
     const response = await transporter.sendMail({
       from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
@@ -76,7 +79,7 @@ export const sendForgotPasswordEmail = async (email, resetURL) => {
   }
 };
 
-export const sendResetSuccessEmail = async (email) => {
+module.exports.sendResetSuccessEmail = async (email) => {
   try {
     const response = await transporter.sendMail({
       from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
