@@ -30,6 +30,9 @@ export default function TopComponnent() {
                 type="password"
                 placeholder="Password"
               />
+              <Routes>
+              <Route path="/signup" element={<RedirectAuthenticatedUser><SignUpPage /></RedirectAuthenticatedUser>} />
+              </Routes>
               <button
                 className="btn-union" onClick={() => navigate("/signup")}
               >

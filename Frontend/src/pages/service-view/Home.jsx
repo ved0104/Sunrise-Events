@@ -6,10 +6,8 @@ import ServiceComponent from '../../Components/homePage/ServiceComponent'
 
 const home = () => {
   return (<>
-    <Navbar/>
     <TopComponnent/>
     <ServiceComponent/>
-    <Footer/>
     </>
   )
 }

@@ -2,8 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore";
 import LoadingSpinner from "./components/LoadingSpinner";
-import FloatingShape from "./components/FloatingShape";
 import { Toaster } from "react-hot-toast";
+import Layout from "./components/Layout"; // Import Layout
 import SignUpPage from "./pages/userloginSignup/SignUpPage";
 import LoginPage from "./pages/userloginSignup/LoginPage";
 import EmailVerificationPage from "./pages/userloginSignup/EmailVerificationPage";
@@ -27,20 +27,16 @@ import AdminBooking from "./pages/admin/AdminBooking";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
-  
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (user && !user.isVerified) return <Navigate to="/verify-email" replace />;
-
   return children;
 };
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
-  
   if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/" replace />;
   }
-
   return children;
 };
 
@@ -55,31 +51,37 @@ const AppRoutes = () => {
   
   return (
     <div className="min-h-screen bg-gradient-to-br flex flex-col relative overflow-hidden">
-      {/* <FloatingShape color="bg-green-500" size="w-64 h-64" top="-5%" left="10%" delay={0} />
-      <FloatingShape color="bg-emerald-500" size="w-48 h-48" top="70%" left="80%" delay={5} />
-      <FloatingShape color="bg-lime-500" size="w-32 h-32" top="40%" left="-10%" delay={2} /> */}
-      
       <Toaster />
-      
       <Routes>
-        <Route path="/" element={<Home/>} />
+        {/* Wrap all main pages inside Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/find-store" element={<FindStore />} />
+        </Route>
+
+        {/* Authentication Routes (without Layout) */}
         <Route path="/signup" element={<RedirectAuthenticatedUser><SignUpPage /></RedirectAuthenticatedUser>} />
         <Route path="/login" element={<RedirectAuthenticatedUser><LoginPage /></RedirectAuthenticatedUser>} />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
         <Route path="/forgot-password" element={<RedirectAuthenticatedUser><ForgotPasswordPage /></RedirectAuthenticatedUser>} />
         <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
+
+        {/* Admin Routes */}
         <Route path="/admin/signup" element={<RedirectAuthenticatedUser><AdminSignUpPage /></RedirectAuthenticatedUser>} />
         <Route path="/admin/login" element={<RedirectAuthenticatedUser><AdminLoginPage /></RedirectAuthenticatedUser>} />
         <Route path="/admin/verify-email" element={<AdminEmailVerificationPage />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
         <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
         <Route path="/admin/booking" element={<ProtectedRoute><AdminBooking /></ProtectedRoute>} />
+
+        {/* User Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/find-store" element={<FindStore />} />
+
+        {/* Misc Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
