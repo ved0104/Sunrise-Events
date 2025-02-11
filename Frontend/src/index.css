@@ -35,6 +35,8 @@
 
   /* Tailwind-like styles */
   @apply px-4 py-2 rounded-lg font-bold text-lg border;
+
+  cursor: pointer;
 }
 
 .btn-union:hover {

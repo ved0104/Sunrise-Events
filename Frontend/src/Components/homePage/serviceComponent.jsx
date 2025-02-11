@@ -8,10 +8,10 @@ export default function ServiceComponent() {
             <div className="grid grid-cols-3 gap-5 w-250 h-[1920px] mx-70 mt-6">
                 <div className="flex flex-col w-100 h-[660px] pt-10">
                     <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')] mb-5">
-                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
-                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                        <h2 className="text-white text-bold text-3xl font-semibold mt-15">Haldi</h2>
+                        <p className="text-white text-bold underline underline-offset-3">Browse galleries to find your look.</p>
                     </div>
-                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                    <div className="bg-blue-300 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
                         <h2 className="text-xl font-semibold mb-2">Haldi</h2>
                         <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
                         <div className="flex justify-center mt-4">
@@ -23,7 +23,7 @@ export default function ServiceComponent() {
                     </div>
                 </div>
                 <div className="flex flex-col w-100 h-[660px] pb-10">
-                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs mb-5">
+                    <div className="bg-orange-400 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs mb-5">
                         <h2 className="text-xl font-semibold mb-2">Haldi</h2>
                         <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
                         <div className="flex justify-center mt-4">
@@ -34,16 +34,16 @@ export default function ServiceComponent() {
                         </button>
                     </div>
                     <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')]">
-                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
-                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                        <h2 className="text-white text-bold text-3xl font-semibold mt-15">Haldi</h2>
+                        <p className="text-white text-bold underline underline-offset-3">Browse galleries to find your look.</p>
                     </div>
                 </div>
                 <div className="flex flex-col w-100 h-[660px] pt-10">
                     <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')] mb-5">
-                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
-                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                        <h2 className="text-white text-bold text-3xl font-semibold mt-15">Haldi</h2>
+                        <p className="text-white text-bold underline underline-offset-3">Browse galleries to find your look.</p>
                     </div>
-                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                    <div className="bg-yellow-300 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
                         <h2 className="text-xl font-semibold mb-2">Haldi</h2>
                         <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
                         <div className="flex justify-center mt-4">
