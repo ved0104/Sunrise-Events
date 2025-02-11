@@ -1,7 +1,138 @@
-const serviceComponent = () => {
-  return (
-    <div>serviceComponent</div>
-  )
-}
+import React from "react";
+import furniture from "../../assets/images/home/furniture.jpg"
+export default function ServiceComponent() {
+    return (
+        <div className="flex flex-col justify-center">
+            <h2 className="mt-8 mb-4 text-center font-inter font-bold text-5xl">Find your service</h2>
+            <p className="text-center font-inter text-2xl">Discover top-rated pros for any budget, background and style.</p>
+            <div className="grid grid-cols-3 gap-5 w-250 h-[1920px] mx-70 mt-6">
+                <div className="flex flex-col w-100 h-[660px] pt-10">
+                    <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')] mb-5">
+                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
+                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                    </div>
+                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                        <h2 className="text-xl font-semibold mb-2">Haldi</h2>
+                        <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                        <div className="flex justify-center mt-4">
+                            <img src={furniture} className="rounded-lg w-44 h-28" />
+                        </div>
+                        <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                            See photographers
+                        </button>
+                    </div>
+                </div>
+                <div className="flex flex-col w-100 h-[660px] pb-10">
+                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs mb-5">
+                        <h2 className="text-xl font-semibold mb-2">Haldi</h2>
+                        <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                        <div className="flex justify-center mt-4">
+                            <img src={furniture} className="rounded-lg w-44 h-28" />
+                        </div>
+                        <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                            See photographers
+                        </button>
+                    </div>
+                    <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')]">
+                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
+                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                    </div>
+                </div>
+                <div className="flex flex-col w-100 h-[660px] pt-10">
+                    <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')] mb-5">
+                        <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
+                        <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+                    </div>
+                    <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                        <h2 className="text-xl font-semibold mb-2">Haldi</h2>
+                        <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                        <div className="flex justify-center mt-4">
+                            <img src={furniture} className="rounded-lg w-44 h-28" />
+                        </div>
+                        <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                            See photographers
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-export default serviceComponent
+            {/* <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')]">
+            <h2 className="text-white text-bold text-3xl font-semibold mb-2 mt-15">Haldi</h2>
+            <p className="text-white text-bold mt-1">Browse galleries to find your look.</p>
+        </div>
+        <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+            <h2 className="text-xl font-semibold mb-2">Haldi</h2>
+            <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+            <div className="flex justify-center mt-4">
+                <img src="../../../assets/images/home/furniture.jpg" className="rounded-lg w-44 h-28"/>
+            </div>
+            <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                See photographers
+            </button>
+        </div> */}
+
+            {/* <div className="grid grid-cols-3 mt-10 ml-50 mr-30">
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div rounded-lg w-44 h-28>
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div className="flex justify-center mt-4">
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div className="flex justify-center mt-4">
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div className="flex justify-center mt-4">
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div className="flex justify-center mt-4">
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+            <div className="bg-blue-200 w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs">
+                <h2 className="text-xl font-semibold mb-2">Photographers</h2>
+                <p className="text-gray-700 mt-1">Browse galleries to find your look.</p>
+                <div className="flex justify-center mt-4">
+                    <img className="rounded-lg w-44 h-28" src="../../../assets/images/home/wedImage.jpg" />
+                </div>
+                <button className="mt-4 px-4 py-2 border border-black rounded-full text-black hover:bg-black hover:text-white transition">
+                    See photographers
+                </button>
+            </div>
+        </div> */}
+        </div>
+    )
+}
