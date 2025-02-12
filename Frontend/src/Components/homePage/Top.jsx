@@ -3,7 +3,7 @@ export default function TopComponnent() {
   const navigate = useNavigate();
   return (
     <>
-      <div>
+      <div className="pt-15">
         <div className="flex flex-col items-center justify-center bg-[url('assets/images/home/top.jpg')] h-130 w-full bg-no-repeat bg-cover bg-center">
           <div className="text-center mb-8">
             <h1 className="font-inter font-bold text-7xl">

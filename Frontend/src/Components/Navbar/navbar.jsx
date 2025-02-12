@@ -6,6 +6,7 @@ import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
@@ -39,7 +40,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="relative z-30 border-b border-gray-200">
+      {/* Updated nav element with fixed positioning */}
+      <nav className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200 bg-white">
         <div className="container flex justify-between items-center pt-5 pb-3 px-6 md:px-12">
           {/* Logo Section */}
           <div className="text-2xl flex items-center gap-2 font-bold uppercase">
