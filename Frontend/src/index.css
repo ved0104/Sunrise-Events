@@ -43,3 +43,7 @@
   background-color: #c5299c;
   border-color: #c5299c;
 }
+
+.clip-custom {
+  clip-path: polygon(0% 0%, 80% 0%, 50% 70%, 0% 100%);
+}

@@ -2,10 +2,10 @@ import React from "react";
 import furniture from "../../assets/images/home/furniture.jpg"
 export default function ServiceComponent() {
     return (
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center pb-15">
             <h2 className="mt-8 mb-4 text-center font-inter font-bold text-5xl">Find your service</h2>
             <p className="text-center font-inter text-2xl">Discover top-rated pros for any budget, background and style.</p>
-            <div className="grid grid-cols-3 gap-5 w-250 h-[1920px] mx-70 mt-6">
+            <div className="grid grid-cols-3 gap-5 w-250 mx-70 mt-6">
                 <div className="flex flex-col w-100 h-[660px] pt-10">
                     <div className="w-100 h-[320px] p-6 rounded-2xl shadow-lg text-center max-w-xs bg-[url('assets/images/home/haldi.gif')] mb-5">
                         <h2 className="text-white text-bold text-3xl font-semibold mt-15">Haldi</h2>
