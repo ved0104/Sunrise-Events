@@ -7,21 +7,26 @@ export const NavbarMenu=[
     {
         id:2,
         title:"Services",
-        link:"#",
+        link:"/services",
     },
     {
         id:3,
         title:"Gallery",
-        link:"#",
+        link:"/gallery",
     },
     {
         id:4,
         title:"Booking",
-        link:"#",
+        link:"/booking",
     },
     {
         id:5,
         title:"Contact",
-        link:"#",
+        link:"/contact-us",
+    },    
+    {
+        id:6,
+        title:"Find Store",
+        link:"/find-store",
     },    
 ]
