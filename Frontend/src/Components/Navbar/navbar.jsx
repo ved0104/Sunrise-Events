@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
@@ -53,17 +53,18 @@ const Navbar = () => {
             <ul className="flex items-center gap-8 text-black-700">
               {NavbarMenu.map((item) => (
                 <li key={item.id} className="relative">
-                  <a
-                    href={item.link}
+                  <Link
+                    to={item.link}
                     className="inline-block py-2 px-4 font-semibold transition duration-200 
                     relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
                     before:bg-black before:transition-all before:duration-300 
                     hover:before:h-[3px]"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              {/* <CiLocationOn /> */}
             </ul>
           </div>
 
