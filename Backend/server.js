@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-
+const cookieParser = require("cookie-parser");
 const app = express();
 const dbConnect = require("./db/dbconnect.js");
 const authRoutes = require("./routes/auth/auth.js");
@@ -13,6 +13,7 @@ app.use(
     credentials: true, // Allow credentials (cookies, sessions)
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);

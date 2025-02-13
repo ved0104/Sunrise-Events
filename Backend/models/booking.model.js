@@ -22,19 +22,6 @@ const bookingSchema = new mongoose.Schema({
     default: "pending",
     enum: ["pending", "approved", "rejected"],
   },
-  contactInfo: {
-    name: { type: String, required: true, trim: true },
-    email: {
-      type: String,
-      required: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
-    },
-    phone: {
-      type: String,
-      required: true,
-      match: [/^\d{10}$/, "Phone number must be 10 digits"],
-    },
-  },
 });
 
 module.exports = mongoose.model("Booking", bookingSchema);
