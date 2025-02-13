@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../../components/PasswordStrengthMeter";
 import { useAdminAuthStore } from "../../store/adminAuthStore"; // ✅ Import Admin Auth Store
-
+import { toast } from "react-toastify";
 const AdminSignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,16 +19,59 @@ const handleSignUp = async (e) => {
   e.preventDefault();
   
   console.log("Signing up admin with:", { email, password, name, phonenumber });
+  if (!name || !email || !password || !phonenumber) {
+    toast.error("All fields are required!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+    return;
+  }
 
   try {
     const response = await signup(email, password, name, phonenumber);
     console.log("Signup successful:", response);
     
     if (response.success) {
-      navigate("/admin/verify-email");
+      toast.success("Admin account created successfully! Redirecting...", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+
+      setTimeout(() => {
+        navigate("/admin/verify-email");
+      }, 2000);
+    }else {
+      toast.error(response.message || "Signup failed!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     }
   } catch (error) {
     console.error("Admin Signup Error:", error.response?.data || error);
+    toast.error(error.response?.data?.message || "Error signing up!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
   }
 };
 

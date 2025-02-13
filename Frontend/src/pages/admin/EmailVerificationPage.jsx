@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const AdminEmailVerificationPage = () => {
 	const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -46,12 +46,57 @@ const AdminEmailVerificationPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const verificationCode = code.join("");
+		if (verificationCode.length < 6) {
+			toast.error("Please enter all 6 digits!", {
+			  position: "top-right",
+			  autoClose: 3000,
+			  hideProgressBar: false,
+			  closeOnClick: true,
+			  pauseOnHover: true,
+			  draggable: true,
+			  theme: "dark",
+			});
+			return;
+		  }
 		try {
-			await verifyAdminEmail(verificationCode);
-			navigate("/admin/dashboard");
-			toast.success("Admin email verified successfully");
+			const success=await verifyAdminEmail(verificationCode);
+			if(success){
+				toast.success("Admin email verified successfully!", {
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					theme: "dark",
+				  });
+			
+				  setTimeout(() => {
+					navigate("/admin/dashboard");
+				  }, 2000);
+			}else{
+				toast.error("Invalid verification code.", {
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					theme: "dark",
+				  });
+			}
+			
 		} catch (error) {
 			console.log(error);
+			toast.error(error || "Verification failed! Try again.", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				theme: "dark",
+			  });
 		}
 	};
 
@@ -90,7 +135,6 @@ const AdminEmailVerificationPage = () => {
 							/>
 						))}
 					</div>
-					{error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
 					<motion.button
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}

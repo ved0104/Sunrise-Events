@@ -90,7 +90,6 @@ module.exports.verifyEmail = async (req, res) => {
         role: user.role,
         createdAt: user.createdAt, // ✅ Ensure createdAt is included
         updatedAt: user.updatedAt,
-        token, // ✅ Include token in response
       },
     });
   } catch (error) {
@@ -130,8 +129,14 @@ module.exports.login = async (req, res) => {
       success: true,
       message: "Admin logged in Successfully",
       user: {
-        ...user._doc,
-        password: undefined,
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        phonenumber: user.phonenumber,
+        role: user.role,
+        lastlogin: user.lastlogin, // ✅ Ensure lastlogin is sent
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
     });
   } catch (error) {

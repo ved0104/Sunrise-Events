@@ -16,6 +16,8 @@ import AdminSignUpPage from "./pages/admin/SignUpPage";
 import AdminLoginPage from "./pages/admin/LoginPage";
 import AdminEmailVerificationPage from "./pages/admin/EmailVerificationPage";
 import AdminDashboardPage from "./pages/admin/DashboardPage";
+import AdminForgotPasswordPage from "./pages/admin/ForgotPasswordPage";
+
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -147,6 +149,15 @@ const AppRoutes = () => {
           path="/admin/verify-email"
           element={<AdminEmailVerificationPage />}
         />
+        <Route
+  path="/admin/forgot-password"
+  element={
+    <RedirectAuthenticatedUser>
+      <AdminForgotPasswordPage />
+    </RedirectAuthenticatedUser>
+  }
+/>
+
         <Route
           path="/admin/dashboard"
           element={

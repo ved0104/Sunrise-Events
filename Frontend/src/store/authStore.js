@@ -33,13 +33,14 @@ export const useAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
+      return true;
     } catch (error) {
       console.log("error:", error);
       set({
         error: error.response.data.message || "Error signing up",
         isLoading: false,
       });
-      throw error;
+      return false;
     }
   },
   login: async (email, password) => {
@@ -55,12 +56,13 @@ export const useAuthStore = create((set) => ({
         error: null,
         isLoading: false,
       });
+      return true;
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error logging in",
         isLoading: false,
       });
-      throw error;
+      return false;
     }
   },
 

@@ -18,19 +18,46 @@ const ResetPasswordPage = () => {
 		e.preventDefault();
 
 		if (password !== confirmPassword) {
-			alert("Passwords do not match");
+			toast.error("Passwords do not match!", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
 			return;
 		}
 		try {
 			await resetPassword(token, password);
 
-			toast.success("Password reset successfully, redirecting to login page...");
+			toast.success("Password reset successfully! Redirecting...", {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
 			setTimeout(() => {
 				navigate("/login");
 			}, 2000);
 		} catch (error) {
 			console.error(error);
-			toast.error(error.message || "Error resetting password");
+			toast.error(error.response?.data?.message || "Error resetting password", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
 		}
 	};
 

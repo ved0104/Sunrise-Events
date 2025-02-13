@@ -4,7 +4,7 @@ import { useAdminAuthStore } from "../../store/adminAuthStore"; // Import adminA
 import Input from "../../components/Input";
 import { ArrowLeft, Loader, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const AdminForgotPasswordPage = () => {
 	const [email, setEmail] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -13,7 +13,29 @@ const AdminForgotPasswordPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await forgotPassword(email);
+		const response = await forgotPassword(email);
+		if (!response.success) {
+			toast.error(response.message, {
+			  position: "top-right",
+			  autoClose: 3000,
+			  hideProgressBar: false,
+			  closeOnClick: true,
+			  pauseOnHover: true,
+			  draggable: true,
+			  theme: "dark",
+			});
+		  } else {
+			setIsSubmitted(true);
+			toast.success("A reset link has been sent!", {
+			  position: "top-right",
+			  autoClose: 3000,
+			  hideProgressBar: false,
+			  closeOnClick: true,
+			  pauseOnHover: true,
+			  draggable: true,
+			  theme: "dark",
+			});
+		  }
 		setIsSubmitted(true);
 	};
 

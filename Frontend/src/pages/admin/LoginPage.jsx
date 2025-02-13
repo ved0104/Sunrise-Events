@@ -5,7 +5,7 @@ import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import { useAdminAuthStore } from "../../store/adminAuthStore"; // Admin-specific store
-
+import { toast } from "react-toastify";
 const AdminLoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -16,11 +16,48 @@ const AdminLoginPage = () => {
 
 	const handleLogin = async (e) => {
 	e.preventDefault();
+	if (!email || !password) {
+		toast.error("Email and Password are required!", {
+		  position: "top-right",
+		  autoClose: 3000,
+		  hideProgressBar: false,
+		  closeOnClick: true,
+		  pauseOnHover: true,
+		  draggable: true,
+		  theme: "dark",
+		});
+		return;
+	  }
 	const success = await login(email, password); // Make sure `login` returns a success flag
-	if (success) {
-		navigate("/admin/dashboard"); // Redirect to admin dashboard
+	
+    if (success) {
+		toast.success("Login successful! Redirecting...", {
+		  position: "top-right",
+		  autoClose: 2000,
+		  hideProgressBar: false,
+		  closeOnClick: true,
+		  pauseOnHover: true,
+		  draggable: true,
+		  theme: "dark",
+		});
+  
+		setTimeout(() => {
+		  navigate("/admin/dashboard"); // Redirect to admin dashboard
+		}, 2000);
 	}
+	else {
+		toast.error("Invalid email or password!", {
+		  position: "top-right",
+		  autoClose: 3000,
+		  hideProgressBar: false,
+		  closeOnClick: true,
+		  pauseOnHover: true,
+		  draggable: true,
+		  theme: "dark",
+		});
+	  }
 	};
+  
 
 
 	return (
@@ -57,7 +94,6 @@ const AdminLoginPage = () => {
 							Forgot password?
 						</Link>
 					</div>
-					{error && <p className='text-red-500 font-semibold mb-2'>{error}</p>}
 
 					<motion.button
 						whileHover={{ scale: 1.02 }}

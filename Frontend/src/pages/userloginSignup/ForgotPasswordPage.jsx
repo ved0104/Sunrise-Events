@@ -4,7 +4,7 @@ import { useAuthStore } from "../../store/authStore";
 import Input from "../../components/Input";
 import { ArrowLeft, Loader, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const ForgotPasswordPage = () => {
 	const [email, setEmail] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -15,11 +15,32 @@ const ForgotPasswordPage = () => {
 		e.preventDefault();
 		setErrorMessage("");
 		const response = await forgotPassword(email);
+
 		if (!response.success) {
-			setErrorMessage(response.message); // Show error message if email is not found
-		  } else {
-			setIsSubmitted(true);
-		  }
+		setErrorMessage(response.message);
+		toast.error(response.message, {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "dark",
+		});
+		} else {
+		setIsSubmitted(true);
+		toast.success(" a reset link has been sent!", {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "dark",
+		});
+		}
 	};
 
 	return (
@@ -47,9 +68,7 @@ const ForgotPasswordPage = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
-						{errorMessage && (
-  <p className="text-red-500 font-bold text-sm text-center mt-2 pb-2">{errorMessage}</p>
-)}
+						
 
 						<motion.button
 							whileHover={{ scale: 1.02 }}
