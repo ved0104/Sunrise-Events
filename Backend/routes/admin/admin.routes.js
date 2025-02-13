@@ -5,6 +5,7 @@ const { isAuthenticated } = require("../../middleware/auth.js");
 const { isAdmin } = require("../../middleware/admin.js");
 const serviceController = require("../../controller/service.controller.js");
 const userController = require("../../controller/user.controller.js");
+const adminBookingController = require("../../controller/admin.booking.controller.js");
 
 const {
   signup,
@@ -80,4 +81,11 @@ router.delete(
   userController.deleteUser
 );
 
+//booking routes
+router.put(
+  "/booking/:bookingId/status",
+  isAuthenticated,
+  isAdmin,
+  adminBookingController.updateBookingStatus
+);
 module.exports = router;

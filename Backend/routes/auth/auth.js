@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const serviceController = require("../../controller/service.controller.js");
 const { isAuthenticated } = require("../../middleware/auth.js");
+const bookingController = require("../../controller/user.booking.controller.js");
 
 const {
   signup,
@@ -37,28 +38,6 @@ router.get(
 );
 
 // Create booking
-router.post("/bookings", async (req, res) => {
-  // Check date availability
-  const existingBooking = await Booking.findOne({
-    date: req.body.date,
-    service: req.body.service,
-  });
-
-  if (existingBooking) {
-    return res.status(400).json({ message: "Date already booked" });
-  }
-
-  const booking = new Booking({
-    ...req.body,
-    user: req.user.id, // From JWT
-  });
-
-  try {
-    const newBooking = await booking.save();
-    res.status(201).json(newBooking);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+router.post("/services/:id/booking", bookingController.createBooking);
 
 module.exports = router;
