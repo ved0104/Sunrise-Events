@@ -37,13 +37,14 @@ export const useAdminAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      return response.data;
+      return { success: true, data: response.data };
     } catch (error) {
       console.error("Signup failed:", error.response?.data); // 🔴 Log exact error message
       set({
         error: error.response?.data?.message || "Error signing up",
         isLoading: false,
       });
+      return { success: false, message: errorMessage }; // ✅ Return error response
     }
   },
 
@@ -188,12 +189,15 @@ export const useAdminAuthStore = create((set) => ({
         email,
       });
       set({ message: response.data.message, isLoading: false });
+      return { success: true, message: response.data.message };
     } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Error sending reset email";
       set({
         error: error.response?.data?.message || "Error sending reset email",
         isLoading: false,
       });
-      throw error;
+      return { success: false, message: errorMessage };
     }
   },
 
@@ -224,13 +228,13 @@ export const useAdminAuthStore = create((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      return res.data;
+      return true;
     } catch (error) {
       set({
         error: error.response?.data?.message || "Verification failed",
         isLoading: false,
       });
-      throw error;
+      return false;
     }
   },
 }));

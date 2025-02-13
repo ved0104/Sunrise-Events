@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../../components/PasswordStrengthMeter";
 import { useAuthStore } from "../../store/authStore";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
 	const [name, setName] = useState("");
@@ -18,9 +19,36 @@ const SignUpPage = () => {
 	const handleSignUp = async (e) => {
 		e.preventDefault();
 		console.log("Sending data:", { name, email, password, phonenumber }); // ✅ Debugging log
+
+		
 		try {
-			await signup(email, password, name, phonenumber );
-			navigate("/verify-email");
+			const success=await signup(email, password, name, phonenumber );
+			if (success) {
+				toast.success("Signup successful! Please verify your email.", {
+				  position: "top-right",
+				  autoClose: 3000,
+				  hideProgressBar: false,
+				  closeOnClick: true,
+				  pauseOnHover: true,
+				  draggable: true,
+				  progress: undefined,
+				  theme: "dark",
+				});
+			
+				navigate("/verify-email");
+			  }
+			  else {
+				toast.error("Signup failed! Please check your details.", {
+				  position: "top-right",
+				  autoClose: 3000,
+				  hideProgressBar: false,
+				  closeOnClick: true,
+				  pauseOnHover: true,
+				  draggable: true,
+				  progress: undefined,
+				  theme: "dark",
+				});
+			  }
 		} catch (error) {
 			console.log("signup error",error);
 		}
@@ -68,7 +96,7 @@ const SignUpPage = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					{error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
+					
 					<PasswordStrengthMeter password={password} />
 
 					<motion.button

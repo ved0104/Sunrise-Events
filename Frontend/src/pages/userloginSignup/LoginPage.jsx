@@ -4,7 +4,7 @@ import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Input from "../Not-Found/Input";
 import { useAuthStore } from "../../store/authStore";
-
+import { toast } from "react-toastify";
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -13,7 +13,19 @@ const LoginPage = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		await login(email, password);
+		const success=await login(email, password);
+			if(!success){
+			toast.error("Invalid email or password!", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
+		}
 	};
 
 	return (
@@ -50,7 +62,6 @@ const LoginPage = () => {
 							Forgot password?
 						</Link>
 					</div>
-					{error && <p className='text-red-500 font-semibold mb-2'>{error}</p>}
 
 					<motion.button
 						whileHover={{ scale: 1.02 }}
