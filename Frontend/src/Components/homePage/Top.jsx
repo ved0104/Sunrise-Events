@@ -4,7 +4,7 @@ export default function TopComponnent() {
   return (
     <>
       <div className="pt-15">
-        <div className="flex flex-col items-center justify-center bg-[url('assets/images/home/home.jpg')] h-130 w-full bg-no-repeat bg-cover bg-center">
+        <div className="flex flex-col items-center justify-center bg-[url('assets/images/home/home.svg')] h-130 w-full bg-no-repeat bg-cover bg-center">
           <div className="text-center mb-8">
             <h1 className="font-inter font-bold text-7xl">
               Your wedding team and
@@ -33,7 +33,7 @@ export default function TopComponnent() {
                 <button
                   className="btn-union" onClick={() => navigate("/signup")}
                 >
-                  Signup
+                  Login
                 </button>
               </div>
             </form>

@@ -25,6 +25,7 @@
 
     "react-toastify": "^11.0.3",
     "react-simple-typewriter": "^5.0.1",
+    "react-toastify": "^11.0.3",
     "react-typed": "^2.0.12",
     "tailwindcss": "^4.0.6",
     "typed-js": "^0.2.3",
