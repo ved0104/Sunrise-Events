@@ -25,6 +25,8 @@ import Services from "./pages/service-view/Services";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
 
+
+
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
@@ -58,7 +60,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/booking" element={<Booking />} />
+          {/* <Route path="/booking" element={<Booking />} /> */}
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/find-store" element={<FindStore />} />
         </Route>
@@ -80,6 +82,12 @@ const AppRoutes = () => {
 
         {/* User Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+        {/*booking routes */}
+        
+        <Route path="/booking" element={<Booking />} />
+        
+
 
         {/* Misc Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
