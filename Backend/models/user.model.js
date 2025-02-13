@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     email: {
       type: String,
       required: true,
@@ -19,6 +14,15 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    phonenumber: {
+      type: String,
+      minlength: 10,
       required: true,
     },
     profilePicture: {
@@ -32,11 +36,19 @@ const UserSchema = new mongoose.Schema(
         message: "Invalid profile picture URL",
       },
     },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    lastlogin: {
+      type: Date,
+      default: Date.now,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
   },
   { timestamps: true }
 );
@@ -49,11 +61,11 @@ UserSchema.methods.generateAuthToken = async function () {
 };
 
 UserSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  return await bcryptjs.compare(password, this.password);
 };
 
 UserSchema.statics.hashPassword = async function (password) {
-  return await bcrypt.hash(password, 10);
+  return await bcryptjs.hash(password, 10);
 };
 
 module.exports = mongoose.model("User", UserSchema);

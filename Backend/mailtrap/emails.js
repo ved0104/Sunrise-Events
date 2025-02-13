@@ -49,7 +49,7 @@ module.exports.sendAdminVerificationEmail = async (
 module.exports.sendWelcomeEmail = async (email, name) => {
   try {
     const response = await transporter.sendMail({
-      from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
+      from: '"Sunrise Event " <allinoneatharv07@gmail.com>',
       to: email,
       template_uuid: "37e8ce20-5200-4a7a-b6fe-a534d48afc68",
       template_variables: {
@@ -66,13 +66,22 @@ module.exports.sendWelcomeEmail = async (email, name) => {
 
 module.exports.sendForgotPasswordEmail = async (email, resetURL) => {
   try {
+    console.log(resetURL);
     const response = await transporter.sendMail({
-      from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
+      from: '"Sunrise Event " <allinoneatharv07@gmail.com>"',
       to: email,
       subject: "Reset your password",
       html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
       category: "Password Reset",
     });
+
+    console.log(
+      "Reset email sent to:",
+      email,
+      "with link:",
+      resetURL,
+      response
+    );
   } catch (error) {
     console.log(`Error sending password reset email`, error);
     throw new Error("Error sending password reset email", error);

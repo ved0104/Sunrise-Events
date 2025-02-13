@@ -4,17 +4,43 @@ import { useAuthStore } from "../../store/authStore";
 import Input from "../Not-Found/Input";
 import { ArrowLeft, Loader, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const ForgotPasswordPage = () => {
 	const [email, setEmail] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
-
+	const [errorMessage, setErrorMessage] = useState("");
 	const { isLoading, forgotPassword } = useAuthStore();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await forgotPassword(email);
+		setErrorMessage("");
+		const response = await forgotPassword(email);
+
+		if (!response.success) {
+		setErrorMessage(response.message);
+		toast.error(response.message, {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "dark",
+		});
+		} else {
 		setIsSubmitted(true);
+		toast.success(" a reset link has been sent!", {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "dark",
+		});
+		}
 	};
 
 	return (
@@ -42,6 +68,8 @@ const ForgotPasswordPage = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
+						
+
 						<motion.button
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}

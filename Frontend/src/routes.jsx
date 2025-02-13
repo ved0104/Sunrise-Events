@@ -14,6 +14,26 @@ import AdminSignUpPage from "./pages/admin/SignUpPage";
 import AdminLoginPage from "./pages/admin/LoginPage";
 import AdminEmailVerificationPage from "./pages/admin/EmailVerificationPage";
 import AdminDashboardPage from "./pages/admin/DashboardPage";
+import AdminForgotPasswordPage from "./pages/admin/ForgotPasswordPage";
+
+// Protected Route Wrapper
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Allow user to access verification page
+  if (!user.isVerified) {
+    return children;
+  }
+
+  return children;
+};
+
+
+// Redirect authenticated users to dashboard
 import Home from "./pages/service-view/Home";
 import UnauthPage from "./pages/un-auth-page/index";
 import NotFound from "./pages/Not-Found/index";
@@ -73,12 +93,44 @@ const AppRoutes = () => {
         <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
 
         {/* Admin Routes */}
-        <Route path="/admin/signup" element={<RedirectAuthenticatedUser><AdminSignUpPage /></RedirectAuthenticatedUser>} />
-        <Route path="/admin/login" element={<RedirectAuthenticatedUser><AdminLoginPage /></RedirectAuthenticatedUser>} />
-        <Route path="/admin/verify-email" element={<AdminEmailVerificationPage />} />
-        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
-        <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
-        <Route path="/admin/booking" element={<ProtectedRoute><AdminBooking /></ProtectedRoute>} />
+        <Route
+          path="/admin/signup"
+          element={
+            <RedirectAuthenticatedUser>
+              <AdminSignUpPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/admin/login"
+          element={
+            <RedirectAuthenticatedUser>
+              <AdminLoginPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/admin/verify-email"
+          element={<AdminEmailVerificationPage />}
+        />
+        <Route
+  path="/admin/forgot-password"
+  element={
+    <RedirectAuthenticatedUser>
+      <AdminForgotPasswordPage />
+    </RedirectAuthenticatedUser>
+  }
+/>
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <RedirectAuthenticatedUser>
+              <AdminDashboardPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
+
 
         {/* User Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />

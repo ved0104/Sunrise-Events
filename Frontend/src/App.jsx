@@ -21,18 +21,4 @@ const AppWrapper = () => (
   </Router>
 );
 
-// const App=()=>{
-//   return(
-//     <div className="flex flex-col justify-center items-center">
-//       <div className="bg-amber-50 w-300 my-12 rounded-3xl border-2 border-amber-100">
-//         <BookingTop/>
-//         <BookingCalendar/>
-//       </div>
-//       <BookingDecoration/>
-//       <EndPart/>
-//     </div>
-//   )
-// }
-
 export default AppWrapper;
-//export default App;

@@ -1,6 +1,6 @@
-const { User } = require("../models/user.model.js");
+const User = require("../models/user.model.js");
 const bcryptjs = require("bcryptjs");
-const crypto = "crypto";
+const crypto = require("crypto");
 
 const {
   generateTokenAndSetCookie,
@@ -19,7 +19,7 @@ module.exports.signup = async (req, res) => {
     if (!email || !password || !name || !phonenumber) {
       throw new Error("All Fields are required");
     }
-
+    console.log(email);
     const userAlreadyExist = await User.findOne({ email });
     if (userAlreadyExist) {
       throw new Error("User Already Exists");
