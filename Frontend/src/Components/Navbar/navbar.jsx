@@ -6,23 +6,37 @@ import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
   const navigate = useNavigate();
-
+  const { logout } = useAuthStore();
   // Check if user is logged in on component mount
   useEffect(() => {
-    const user = localStorage.getItem("user"); // Fetch user from localStorage
-    if (user) {
-      setIsAuthenticated(true);
-    }
+    const checkUser = () => {
+      const user = localStorage.getItem("user");
+      setIsAuthenticated(!!user);
+    };
+
+    checkUser();
+
+    // Listen for login/logout updates across components
+    window.addEventListener("userAuthenticated", checkUser);
+    window.addEventListener("storage", checkUser); // Sync across browser tabs
+
+    return () => {
+      window.removeEventListener("userAuthenticated", checkUser);
+      window.removeEventListener("storage", checkUser);
+    };
   }, []);
 
   // Logout function
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await logout();
     localStorage.removeItem("user"); // Remove user data
+    window.dispatchEvent(new Event("userAuthenticated")); // Notify all components
     setIsAuthenticated(false);
     navigate("/"); // Redirect to home
   };
@@ -40,7 +54,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Updated nav element with fixed positioning */}
       <nav className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200 bg-white">
         <div className="container flex justify-between items-center pt-5 pb-3 px-6 md:px-12">
           {/* Logo Section */}
@@ -66,7 +79,6 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
-              {/* <CiLocationOn /> */}
             </ul>
           </div>
 

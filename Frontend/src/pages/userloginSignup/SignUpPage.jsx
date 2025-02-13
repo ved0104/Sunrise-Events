@@ -23,7 +23,10 @@ const SignUpPage = () => {
 		
 		try {
 			const success=await signup(email, password, name, phonenumber );
+			 // Notify Navbar and others
 			if (success) {
+				localStorage.setItem("user", JSON.stringify({isLoggedIn: true}));
+    		window.dispatchEvent(new Event("userAuthenticated"));
 				toast.success("Signup successful! Please verify your email.", {
 				  position: "top-right",
 				  autoClose: 3000,
