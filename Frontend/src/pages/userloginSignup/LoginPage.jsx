@@ -14,17 +14,23 @@ const LoginPage = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		const success=await login(email, password);
-			if(!success){
-			toast.error("Invalid email or password!", {
-				position: "top-right",
-				autoClose: 3000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-			});
+		//
+		 // Notify Navbar and others
+		if(!success){
+		toast.error("Invalid email or password!", {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "dark",
+		});
+		}
+		else{
+			localStorage.setItem("user", JSON.stringify({isLoggedIn: true}));
+   	 		window.dispatchEvent(new Event("userAuthenticated"));
 		}
 	};
 
