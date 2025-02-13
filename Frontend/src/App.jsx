@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import AppRoutes from "./routes"
+import FloatingButtons from "./Components/FloatingButtons";
 
 
 
@@ -18,6 +19,7 @@ const App = () => {
 const AppWrapper = () => (
   <Router>
     <App />
+    <FloatingButtons/>
   </Router>
 );
 

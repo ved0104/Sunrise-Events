@@ -117,7 +117,7 @@ const FramerMotion = () => {
       >
         {/* Clients */}
         <motion.div
-          className="p-6 pt-20 h-60 w-60 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
+          className="pt-10 h-40 w-40 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -128,7 +128,7 @@ const FramerMotion = () => {
 
         {/* Years */}
         <motion.div
-          className="p-6 pt-20 h-60 w-60 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
+          className=" pt-10 h-40 w-40 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -139,7 +139,7 @@ const FramerMotion = () => {
 
         {/* Events */}
         <motion.div
-          className="p-6 pt-20 h-60 w-60 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
+          className="pt-10 h-40 w-40 bg-white border-amber-200 border-4 rounded-3xl shadow-xl text-4xl font-bold text-amber-600"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
