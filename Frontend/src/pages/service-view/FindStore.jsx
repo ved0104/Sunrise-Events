@@ -1,24 +1,30 @@
-import React from 'react'
-import { MapContainer } from 'https://cdn.esm.sh/react-leaflet/MapContainer'
-function MyComponent() {
-  const map = useMap()
-  console.log('map center:', map.getCenter())
-  return null
-}
+import React from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-function MyMapComponent() {
-  return (
-    <MapContainer center={[21.142872, 72.771702]} zoom={13}>
-      <MyComponent />
-    </MapContainer>
-  )
-}
+const position = [21.142872, 72.771702];
+
 const FindStore = () => {
   return (
-    <div className='pt-20'>FindStore
-    <MyMapComponent/>
+    <div className="relative z-10 h-200 w-200 pt-20">
+      <MapContainer
+        center={position}
+        zoom={15}
+        scrollWheelZoom={false}
+        style={{ height: "500px", width: "100%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={position}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
     </div>
-  )
-}
+  );
+};
 
-export default FindStore
+export default FindStore;

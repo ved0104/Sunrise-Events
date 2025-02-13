@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const bookingController = require("../../controller/booking.controller.js");
+const bookingController = require("../../controller/user.booking.controller.js");
 const { isAuthenticated } = require("../../middleware/auth.js");
 
-router.post("/bookings", isAuthenticated, bookingController.createBooking);
+router.post(
+  "/services/:id/bookings",
+  isAuthenticated,
+  bookingController.createBooking
+);
 
 router.get("/bookings/my", isAuthenticated, bookingController.getMyBookings);
 
