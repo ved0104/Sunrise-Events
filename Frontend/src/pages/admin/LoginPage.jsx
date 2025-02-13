@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
-import Input from "../Not-Found/Input";
+import Input from "../../Components/Input";
 import { useAdminAuthStore } from "../../store/adminAuthStore"; // Admin-specific store
 import { toast } from "react-toastify";
 const AdminLoginPage = () => {

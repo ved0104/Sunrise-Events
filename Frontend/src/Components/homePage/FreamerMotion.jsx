@@ -108,7 +108,7 @@ const FramerMotion = () => {
   const [startCounting, setStartCounting] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center h-70 text-center px-4">
+    <div className="flex flex-col items-center justify-center h-70 text-center px-4 bg-[#FFF5ED]">
       {/* Stats Section */}
       <motion.div
         className="flex flex-wrap gap-8"

@@ -3,7 +3,7 @@ const path='../../assets/images/home/end.webp'
 
 export default function EndPart(){
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center bg-[#FFF5ED]">
             <div className="bg-[url('assets/images/home/end.jpg')] h-100 w-250 mb-2">
                 <div className="pt-45 pl-20">
                     <h2 className="text-4xl font-medium">Let us decorate<br/>your venue</h2>

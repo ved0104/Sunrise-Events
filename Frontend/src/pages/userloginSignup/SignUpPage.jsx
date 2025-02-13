@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Input from "../Not-Found/Input";
+import Input from "../../Components/Input";
 import { Loader, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

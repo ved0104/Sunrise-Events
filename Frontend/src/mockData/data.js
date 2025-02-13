@@ -7,7 +7,7 @@ export const NavbarMenu=[
     {
         id:2,
         title:"Services",
-        link:"/services",
+        link:"#",
     },
     {
         id:3,
@@ -16,16 +16,11 @@ export const NavbarMenu=[
     },
     {
         id:4,
-        title:"Booking",
-        link:"/booking",
-    },
-    {
-        id:5,
         title:"Contact",
         link:"/contact-us",
     },    
     {
-        id:6,
+        id:5,
         title:"Find Store",
         link:"/find-store",
     },    

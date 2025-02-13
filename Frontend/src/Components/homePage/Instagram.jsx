@@ -3,7 +3,7 @@ import instaLogo from "../../assets/instagram.png"
 
 export default function Instagram(){
     return (
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center items-center bg-[#FFF5ED]">
             <div>
                 <img className='h-25 w-25' src={instaLogo} />
             </div>

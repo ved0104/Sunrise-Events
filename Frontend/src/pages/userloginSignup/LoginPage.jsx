@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
-import Input from "../Not-Found/Input";
+import Input from "../../Components/Input";
 import { useAuthStore } from "../../store/authStore";
 import { toast } from "react-toastify";
 const LoginPage = () => {

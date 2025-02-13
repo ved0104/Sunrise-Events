@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useAdminAuthStore } from "../../store/adminAuthStore"; // Import adminAuthStore
-import Input from "../../components/Input";
+import Input from "../../Components/Input";
 import { ArrowLeft, Loader, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";

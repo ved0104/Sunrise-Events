@@ -45,12 +45,12 @@ import Services from "./pages/service-view/Services";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (user && !user.isVerified) return <Navigate to="/verify-email" replace />;
-  return children;
-};
+// const ProtectedRoute = ({ children }) => {
+//   const { isAuthenticated, user } = useAuthStore();
+//   if (!isAuthenticated) return <Navigate to="/login" replace />;
+//   if (user && !user.isVerified) return <Navigate to="/verify-email" replace />;
+//   return children;
+// };
 
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
