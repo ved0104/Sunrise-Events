@@ -1,11 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useAuthStore } from "./store/authStore";
-// import Navbar from "./Components/Navbar/navbar";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuthStore } from "./store/authStore";
 import LoadingSpinner from "./components/LoadingSpinner";
-import FloatingShape from "./components/FloatingShape";
 import { Toaster } from "react-hot-toast";
-// Import pages
+import Layout from "./components/Layout"; // Import Layout
 import SignUpPage from "./pages/userloginSignup/SignUpPage";
 import LoginPage from "./pages/userloginSignup/LoginPage";
 import EmailVerificationPage from "./pages/userloginSignup/EmailVerificationPage";
@@ -36,17 +34,32 @@ const ProtectedRoute = ({ children }) => {
 
 
 // Redirect authenticated users to dashboard
-const RedirectAuthenticatedUser = ({ children }) => {
+import Home from "./pages/service-view/Home";
+import UnauthPage from "./pages/un-auth-page/index";
+import NotFound from "./pages/Not-Found/index";
+import Booking from "./pages/service-view/Booking";
+import ContactUs from "./pages/service-view/ContactUs";
+import FindStore from "./pages/service-view/FindStore";
+import Gallery from "./pages/service-view/Gallery";
+import Services from "./pages/service-view/Services";
+import AdminServices from "./pages/admin/AdminServices";
+import AdminBooking from "./pages/admin/AdminBooking";
+
+const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
-
-  if (isAuthenticated && user.isVerified) {
-    return <Navigate to="/" replace />;
-  }
-
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user && !user.isVerified) return <Navigate to="/verify-email" replace />;
   return children;
 };
 
-// Routes Component
+const RedirectAuthenticatedUser = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
+  if (isAuthenticated && user?.isVerified) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
 const AppRoutes = () => {
   const { isCheckingAuth, checkAuth } = useAuthStore();
 
@@ -55,78 +68,27 @@ const AppRoutes = () => {
   }, [checkAuth]);
 
   if (isCheckingAuth) return <LoadingSpinner />;
+  
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex flex-col relative overflow-hidden">
-      {/* Floating Shapes for UI Effects */}
-      <FloatingShape
-        color="bg-green-500"
-        size="w-64 h-64"
-        top="-5%"
-        left="10%"
-        delay={0}
-      />
-      <FloatingShape
-        color="bg-emerald-500"
-        size="w-48 h-48"
-        top="70%"
-        left="80%"
-        delay={5}
-      />
-      <FloatingShape
-        color="bg-lime-500"
-        size="w-32 h-32"
-        top="40%"
-        left="-10%"
-        delay={2}
-      />
-
+    <div className="min-h-screen bg-gradient-to-br flex flex-col relative overflow-hidden">
       <Toaster />
-
-      {/* Routes for different pages */}
-
       <Routes>
-        {/* User Routes */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <RedirectAuthenticatedUser>
-              <SignUpPage />
-            </RedirectAuthenticatedUser>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <RedirectAuthenticatedUser>
-              <LoginPage />
-            </RedirectAuthenticatedUser>
-          }
-        />
+        {/* Wrap all main pages inside Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/find-store" element={<FindStore />} />
+        </Route>
+
+        {/* Authentication Routes (without Layout) */}
+        <Route path="/signup" element={<RedirectAuthenticatedUser><SignUpPage /></RedirectAuthenticatedUser>} />
+        <Route path="/login" element={<RedirectAuthenticatedUser><LoginPage /></RedirectAuthenticatedUser>} />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
-        <Route
-          path="/forgot-password"
-          element={
-            <RedirectAuthenticatedUser>
-              <ForgotPasswordPage />
-            </RedirectAuthenticatedUser>
-          }
-        />
-        <Route
-          path="/reset-password/:token"
-          element={
-            <RedirectAuthenticatedUser>
-              <ResetPasswordPage />
-            </RedirectAuthenticatedUser>
-          }
-        />
+        <Route path="/forgot-password" element={<RedirectAuthenticatedUser><ForgotPasswordPage /></RedirectAuthenticatedUser>} />
+        <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
 
         {/* Admin Routes */}
         <Route
@@ -167,18 +129,13 @@ const AppRoutes = () => {
           }
         />
 
-        {/* User Dashboard */}
-        <Route
-          path="/user/dashboard"
-          element={
-            <RedirectAuthenticatedUser>
-              {/* <Services /> */}
-            </RedirectAuthenticatedUser>
-          }
-        />
 
-        {/* Catch all other routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* User Dashboard */}
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+        {/* Misc Pages */}
+        <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

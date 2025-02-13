@@ -1,129 +1,157 @@
-import StoreLocation from "./StoreLocation";
+// Footer.jsx
+import { Link } from "react-router-dom";
+import qrcode from "../../assets/qrcode.svg";
+import {CiFacebook, CiTwitter ,CiInstagram} from "react-icons/ci";
+import logo from "../../assets/images/logo.svg";
 
 const Footer = () => {
+  const socialIcons = [
+    { icon: CiFacebook, name: "Facebook", url: "#" },
+    { icon: CiInstagram, name: "Instagram", url: "#" },
+    { icon: CiTwitter, name: "Twitter", url: "#" },
+  ];
+
   return (
-    <footer className="bg-black text-white py-10">
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Services & Planning */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Planning & Services</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Wedding Decors
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Reception Setup
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Sangeet Decoration
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Haldi Decoration
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Rental Furniture
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Sitting Arrangements
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Company Info */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Company</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Our Team
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Testimonials
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Gallery
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Customer Support */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Support</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Contact Us
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Booking Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400 transition">
-                Cancellation & Refund
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Social Media & App */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
-          <div className="flex space-x-4 mb-4">
-            <a href="#" className="hover:text-gray-400 transition">
-              Facebook
-            </a>
-            <a href="#" className="hover:text-gray-400 transition">
-              Instagram
-            </a>
-            <a href="#" className="hover:text-gray-400 transition">
-              Twitter
-            </a>
+    <footer className="bg-black text-gray-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header Section */}
+        <div className="grid grid-cols-3 items-center mb-8">
+          <div className="flex justify-start">
+            <img src={logo} alt="Logo" className="h-10 w-auto" />
           </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Get Our App</h3>
-            <img src="qr-code.png" alt="Download App" className="w-24" />
+          <div className="flex justify-center">
+            <h2 className="text-xl text-white">
+              Turning every detail into a masterpiece.
+            </h2>
+          </div>
+          <div className="flex justify-end">
+            {/* Empty spacer */}
+          </div>
+        </div>
+
+        {/* Main Footer Links */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
+          {/* Services & Planning */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Planning &amp; Services
+            </h3>
+            <ul className="space-y-2.5">
+              {[
+                { name: "Wedding Decors", path: "/wedding-decors" },
+                { name: "Reception Setup", path: "/reception-setup" },
+                { name: "Sangeet Decoration", path: "/sangeet-decoration" },
+                { name: "Haldi Decoration", path: "/haldi-decoration" },
+                { name: "Rental Furniture", path: "/rental-furniture" },
+                { name: "Sitting Arrangements", path: "/sitting-arrangements" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="hover:text-amber-400 transition-colors duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Ensure proper spacing and rendering */}
-          <StoreLocation />
-        </div>
-      </div>
+          {/* Company Info */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
+            <ul className="space-y-2.5">
+              {[
+                { name: "About Us", path: "/about" },
+                { name: "Our Team", path: "/team" },
+                { name: "Testimonials", path: "/testimonials" },
+                { name: "Gallery", path: "/gallery" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="hover:text-amber-400 transition-colors duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Footer Bottom Section */}
-      <div className="text-center mt-6 border-t border-gray-600 pt-4">
-        <p className="text-gray-400">
-          © 2025 Sunrise Events. All rights reserved.
-        </p>
+          {/* Customer Support */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
+            <ul className="space-y-2.5">
+              {[
+                { name: "Contact Us", path: "/contact" },
+                { name: "FAQs", path: "/faqs" },
+                { name: "Booking Policy", path: "/booking-policy" },
+                { name: "Cancellation & Refund", path: "/cancellation-refund" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="hover:text-amber-400 transition-colors duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Social Media & App */}
+          <div className="space-y-6">
+
+            <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-white mb-4">
+                One place for wedding decor
+              </h3>
+              <div className="flex items-center space-x-4">
+                <img
+                  src={qrcode}
+                  alt="Download App"
+                  className="w-24 h-24 border-2 border-amber-400 rounded-lg"
+                />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Follow Us
+              </h3>
+              <div className="flex space-x-6">
+                {socialIcons.map(({ icon: Icon, name, url }) => (
+                  <a
+                    key={name}
+                    href={url}
+                    className="hover:text-amber-400 transition-colors duration-300"
+                    aria-label={`Follow us on ${name}`}
+                  >
+                    <Icon size={24} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Optional: Uncomment if you wish to include StoreLocation */}
+            {/* <StoreLocation /> */}
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+          <p className="text-gray-500 text-sm">
+            © 2025. All rights reserved. |{" "}
+            <Link to="/privacy-policy" className="hover:text-amber-400 ml-2">
+              Privacy Policy
+            </Link>{" "}
+            |{" "}
+            <Link to="/terms-of-service" className="hover:text-amber-400 ml-2">
+              Terms of Service
+            </Link>
+          </p>
+        </div>
       </div>
     </footer>
   );

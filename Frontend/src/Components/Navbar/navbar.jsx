@@ -5,6 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="relative z-30 border-b border-gray-200">
+      {/* Updated nav element with fixed positioning */}
+      <nav className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200 bg-white">
         <div className="container flex justify-between items-center pt-5 pb-3 px-6 md:px-12">
           {/* Logo Section */}
           <div className="text-2xl flex items-center gap-2 font-bold uppercase">
@@ -53,17 +55,18 @@ const Navbar = () => {
             <ul className="flex items-center gap-8 text-black-700">
               {NavbarMenu.map((item) => (
                 <li key={item.id} className="relative">
-                  <a
-                    href={item.link}
+                  <Link
+                    to={item.link}
                     className="inline-block py-2 px-4 font-semibold transition duration-200 
                     relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
                     before:bg-black before:transition-all before:duration-300 
                     hover:before:h-[3px]"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              {/* <CiLocationOn /> */}
             </ul>
           </div>
 
