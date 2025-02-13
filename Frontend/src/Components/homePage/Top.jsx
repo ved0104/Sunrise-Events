@@ -33,7 +33,7 @@ export default function TopComponnent() {
                 <button
                   className="btn-union" onClick={() => navigate("/signup")}
                 >
-                  Signup
+                  Login
                 </button>
               </div>
             </form>
