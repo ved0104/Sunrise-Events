@@ -1,31 +1,57 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const BookingCalendar = () => {
+const BookingCalendar = ({ serviceId }) => {
   const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize today’s date
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [user, setUser] = useState(null);
+  const [booking, setBooking] = useState(null);
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   useEffect(() => {
     const fetchUser = async () => {
+      if (!serviceId) return;
+
       try {
-        const userId = "USER_ID"; // Replace with the logged-in user's ID
-        const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
-        setUser(response.data);
+        const bookingResponse = await axios.post(
+          `http://localhost:5000/services/${serviceId}/booking`
+        );
+        console.log("Booking data:", bookingResponse.data);
+        setBooking(bookingResponse.data);
+
+        // Retrieve user details from localStorage
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          if (parsedUser.email && parsedUser.name && parsedUser.phonenumber) {
+            setUser({
+              name: parsedUser.name,
+              email: parsedUser.email,
+              phone: parsedUser.phonenumber,
+            });
+            console.log("User Details:", parsedUser);
+          } else {
+            console.warn("User details incomplete in localStorage");
+          }
+        } else {
+          console.warn("No user found in localStorage");
+        }
       } catch (error) {
         console.error("Error fetching user:", error);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [serviceId]);
 
   const getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
-  const getFirstDayOfMonth = (month, year) => new Date(year, month - 1, 1).getDay();
+  const getFirstDayOfMonth = (month, year) =>
+    new Date(year, month - 1, 1).getDay();
 
   const generateDates = () => {
     const totalDays = getDaysInMonth(selectedMonth, selectedYear);
@@ -37,7 +63,10 @@ const BookingCalendar = () => {
     }
 
     for (let i = 1; i <= totalDays; i++) {
-      let date = `${selectedYear}-${String(selectedMonth).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      let date = `${selectedYear}-${String(selectedMonth).padStart(
+        2,
+        "0"
+      )}-${String(i).padStart(2, "0")}`;
       dates.push(date);
     }
 
@@ -62,13 +91,17 @@ const BookingCalendar = () => {
   };
 
   const handleDateClick = (date) => {
-    if (new Date(date) >= today) {
+    const clickedDate = new Date(date);
+    if (clickedDate >= today) {
       setSelectedDate(date);
     }
   };
 
   const generateWhatsAppInvoice = () => {
-    if (!user || !selectedDate) return;
+    if (!user || !user.name || !user.email || !user.phone || !selectedDate) {
+      console.error("Missing user details or date!");
+      return;
+    }
 
     const invoiceMessage = `Hello ${user.name},\n\nYour booking for Sunrise Events on ${selectedDate} is confirmed!\n\nDetails:\nName: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phone}\n\nThank you for choosing us! 🎉`;
 
@@ -82,63 +115,88 @@ const BookingCalendar = () => {
         <div className="flex flex-col justify-center items-center border-gray-200 border-2 w-200 p-5 bg-gray-50 rounded-xl">
           <div className="bg-[url('assets/images/booking/calender.png')] w-80 h-130 bg-center bg-contain bg-no-repeat text-center pt-50">
             <h2 className="font-bold text-3xl">Sunrise Events</h2>
-            <p className="font-medium text-lg">Decoration Booking<br/>Appointment</p>
+            <p className="font-medium text-lg">
+              Decoration Booking
+              <br />
+              Appointment
+            </p>
           </div>
 
-          <div className="flex flex-col items-center p-5">
-            <h2 className="text-xl font-bold mb-3">Select a Date</h2>
+          {user ? (
+            <div className="flex flex-col items-center p-5">
+              <h2 className="text-xl font-bold mb-3">Select a Date</h2>
 
-            <div className="flex items-center gap-5 mb-5">
-              <button onClick={() => handleMonthChange(-1)} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">◀</button>
-              <span className="text-lg font-semibold">
-                {new Date(selectedYear, selectedMonth - 1).toLocaleString("default", { month: "long", year: "numeric" })}
-              </span>
-              <button onClick={() => handleMonthChange(1)} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">▶</button>
-            </div>
-
-            <div className="grid grid-cols-7 gap-2 mb-2 text-center font-bold">
-              {daysOfWeek.map((day, index) => (
-                <div key={index} className="w-12">{day}</div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
-              {generateDates().map((date, index) => {
-                if (!date) return <div key={index} className="w-12 h-12"></div>;
-
-                let dateObj = new Date(date);
-                let isPastDate = dateObj < today;
-
-                return (
-                  <button
-                    key={index}
-                    className={`w-12 h-12 flex items-center justify-center rounded-full
-                      ${isPastDate ? "bg-white text-gray-500 cursor-not-allowed" : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200 hover:font-extrabold"}
-                      ${selectedDate === date ? "bg-blue-600 text-white hover:bg-blue-600 hover:text-white font-extrabold" : ""}
-                    `}
-                    onClick={() => handleDateClick(date)}
-                    disabled={isPastDate}
-                  >
-                    {parseInt(date.split("-")[2])}
-                  </button>
-                );
-              })}
-            </div>
-
-            {selectedDate && (
-              <>
-                <p className="mt-3 text-lg font-semibold text-green-600">
-                  Selected Date: {selectedDate}
-                </p>
+              <div className="flex items-center gap-5 mb-5">
                 <button
-                  onClick={generateWhatsAppInvoice}
-                  className="mt-3 px-5 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600"
+                  onClick={() => handleMonthChange(-1)}
+                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
                 >
-                  Generate Invoice on WhatsApp
+                  ◀
                 </button>
-              </>
-            )}
-          </div>
+                <span className="text-lg font-semibold">
+                  {new Date(selectedYear, selectedMonth - 1).toLocaleString(
+                    "default",
+                    { month: "long", year: "numeric" }
+                  )}
+                </span>
+                <button
+                  onClick={() => handleMonthChange(1)}
+                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  ▶
+                </button>
+              </div>
+
+              <div className="grid grid-cols-7 gap-2 mb-2 text-center font-bold">
+                {daysOfWeek.map((day, index) => (
+                  <div key={index} className="w-12">
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
+                {generateDates().map((date, index) => {
+                  if (!date) return <div key={index} className="w-12 h-12"></div>;
+
+                  let dateObj = new Date(date);
+                  let isPastDate = dateObj < today;
+
+                  return (
+                    <button
+                      key={index}
+                      className={`w-12 h-12 flex items-center justify-center rounded-full
+                        ${isPastDate ? "bg-white text-gray-500 cursor-not-allowed" : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200"}
+                        ${selectedDate === date ? "bg-blue-600 text-white font-extrabold" : ""}
+                      `}
+                      onClick={() => handleDateClick(date)}
+                      disabled={isPastDate}
+                    >
+                      {parseInt(date.split("-")[2])}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedDate && (
+                <>
+                  <p className="mt-3 text-lg font-semibold text-green-600">
+                    Selected Date: {selectedDate}
+                  </p>
+                  <button
+                    onClick={generateWhatsAppInvoice}
+                    className="mt-3 px-5 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600"
+                  >
+                    Generate Invoice on WhatsApp
+                  </button>
+                </>
+              )}
+            </div>
+          ) : (
+            <p className="text-red-500 text-lg font-semibold mt-5">
+              Please log in to book an appointment.
+            </p>
+          )}
         </div>
       </div>
     </div>

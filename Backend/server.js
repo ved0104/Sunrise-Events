@@ -7,6 +7,8 @@ const app = express();
 const dbConnect = require("./db/dbconnect.js");
 const authRoutes = require("./routes/auth/auth.js");
 const adminRoutes = require("./routes/admin/admin.routes.js");
+const serviceRoutes=require("./routes/auth/service.routes.js")
+const userBookingRoutes=require("./routes/auth/user.booking.routes.js");
 app.use(
   cors({
     origin: "http://localhost:5173", // Set frontend origin explicitly
@@ -19,8 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", adminRoutes);
-app.use("/users", authRoutes);
-app.use("/admin", adminRoutes);
+app.use("/services", serviceRoutes);
+app.use("/booking", userBookingRoutes);
 
 // Database connection
 dbConnect();

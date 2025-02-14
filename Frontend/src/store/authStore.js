@@ -51,12 +51,19 @@ export const useAuthStore = create((set) => ({
         email,
         password,
       });
+  
+      // Store the full user object
+      const userData = response.data.user;
+      console.log(userData)
+      localStorage.setItem("user", JSON.stringify(userData));
+  
       set({
         isAuthenticated: true,
-        user: response.data.user,
+        user: userData, // Store full user details
         error: null,
         isLoading: false,
       });
+  
       return true;
     } catch (error) {
       set({
@@ -66,7 +73,7 @@ export const useAuthStore = create((set) => ({
       return false;
     }
   },
-
+  
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
