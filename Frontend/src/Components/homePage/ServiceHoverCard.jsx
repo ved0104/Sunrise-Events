@@ -9,7 +9,7 @@ const HoverCard = () => {
     navigate("/booking"); // Navigate to Booking page
   };
   return (
-      <div className="flex flex-col items-center bg-[#FFF5ED]">
+      <div className="flex flex-col items-center">
       <h2 className="text-5xl font-bold">Choose what to decorate</h2>
       <div className="flex flex-row justify-center gap-6 my-8">
         <div className="relative w-64 h-32 bg-white rounded-3xl shadow-2xl overflow-hidden group flex items-center justify-center cursor-pointer hover:bg-blue-300 hover:underline" onClick={handleClick}>

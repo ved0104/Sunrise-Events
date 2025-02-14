@@ -20,7 +20,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-30 text-black text-center px-4 bg-[#FFF5ED]">
+    <div className="flex flex-col items-center justify-center h-30 text-black text-center px-4">
       <h1 className="text-4xl sm:text-5xl font-bold">
         <span ref={typedElement} />
       </h1>
