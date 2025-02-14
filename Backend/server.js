@@ -1,12 +1,22 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
 const app = express();
+
 const dbConnect = require("./db/dbconnect.js");
 const authRoutes = require("./routes/auth/auth.js");
 const adminRoutes = require("./routes/admin/admin.routes.js");
+const userBookingRoutes = require("./routes/auth/booking.routes.js");
+const userGalleryRoutes = require("./routes/auth/gallery.routes.js");
+const userServicesRoutes = require("./routes/auth/service.routes.js");
+
+const adminServicesRoutes = require("./routes/admin/service.routes.js");
+const adminGalleryRoutes = require("./routes/admin/gallery.routes.js");
+const adminUserRoutes = require("./routes/admin/user.routes.js");
+const adminBookingRoutes = require("./routes/admin/booking.routes.js");
+
 app.use(
   cors({
     origin: "http://localhost:5173", // Set frontend origin explicitly
@@ -19,8 +29,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", adminRoutes);
-app.use("/users", authRoutes);
+app.use("/users/gallery", userGalleryRoutes);
+app.use("/users/bookings", userBookingRoutes);
+app.use("/users/services", userServicesRoutes);
+app.use("/admin/gallery", adminGalleryRoutes);
+
 app.use("/admin", adminRoutes);
+app.use("/admin/services", adminServicesRoutes);
+app.use("/admin/users", adminUserRoutes);
+app.use("/admin/bookings", adminBookingRoutes);
 
 // Database connection
 dbConnect();

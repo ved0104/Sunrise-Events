@@ -42,7 +42,7 @@ module.exports.signup = async (req, res) => {
     await user.save();
 
     //jwt token and setting cookie
-    generateTokenAndSetCookie(res, user._id);
+    generateTokenAndSetCookie(res, user);
 
     await sendAdminVerificationEmail(user.email, verificationToken);
 
@@ -120,7 +120,7 @@ module.exports.login = async (req, res) => {
         .json({ success: false, message: "Invalid Email or Password" });
     }
 
-    generateTokenAndSetCookie(res, user._id);
+    generateTokenAndSetCookie(res, user);
 
     user.lastlogin = new Date();
     await user.save();
