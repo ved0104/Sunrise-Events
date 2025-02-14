@@ -47,3 +47,7 @@
 .clip-custom {
   clip-path: polygon(0% 0%, 80% 0%, 50% 70%, 0% 100%);
 }
+
+.clip-custom1 {
+  clip-path: polygon(100% 80%, 0% 30%, 0% 20%, 100% 0%);
+}

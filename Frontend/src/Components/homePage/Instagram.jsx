@@ -5,7 +5,7 @@ export default function Instagram(){
     return (
         <div className="flex flex-row justify-center items-center bg-[#FFF5ED]">
             <div>
-                <img className='h-25 w-25' src={instaLogo} />
+                <a href="https://www.instagram.com/sunriseevents.in/" target="_blank"> <img className='h-25 w-25' src={instaLogo} /> </a>
             </div>
             <div>
                 <h2 className="font-thin text-xl">Follow us on</h2>
