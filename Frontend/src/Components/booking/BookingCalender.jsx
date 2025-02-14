@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // To decode the JWT
 
-const BookingCalendar = ({ serviceId }) => {
+const BookingCalendar = () => {
+  const { id: serviceId } = useParams();
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today’s date
+  today.setHours(0, 0, 0, 0);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
@@ -14,41 +17,43 @@ const BookingCalendar = ({ serviceId }) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!serviceId) return;
+    const token = localStorage.getItem("token");
 
+    if (token) {
       try {
-        const bookingResponse = await axios.post(
-          `http://localhost:5000/services/${serviceId}/booking`
-        );
-        console.log("Booking data:", bookingResponse.data);
-        setBooking(bookingResponse.data);
-
-        // Retrieve user details from localStorage
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser);
-          if (parsedUser.email && parsedUser.name && parsedUser.phonenumber) {
-            setUser({
-              name: parsedUser.name,
-              email: parsedUser.email,
-              phone: parsedUser.phonenumber,
-            });
-            console.log("User Details:", parsedUser);
-          } else {
-            console.warn("User details incomplete in localStorage");
-          }
-        } else {
-          console.warn("No user found in localStorage");
-        }
+        const decoded = jwtDecode(token);
+        setUser(decoded);
       } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error("Invalid token:", error);
       }
-    };
+    }
+  }, []);
 
-    fetchUser();
-  }, [serviceId]);
+  useEffect(() => {
+    if (serviceId && selectedDate) {
+      fetchBooking();
+    }
+  }, [serviceId, selectedDate]);
 
+  const fetchBooking = async (req, res) => {
+    setUser(req.params);
+    try {
+      const bookingResponse = await axios.post(
+        `http://localhost:5000/services/${serviceId}/booking`,
+        { date: selectedDate },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Booking data:", bookingResponse.data);
+      setBooking(bookingResponse.data);
+    } catch (error) {
+      console.error("Error fetching booking:", error);
+    }
+  };
   const getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
   const getFirstDayOfMonth = (month, year) =>
     new Date(year, month - 1, 1).getDay();
@@ -157,7 +162,8 @@ const BookingCalendar = ({ serviceId }) => {
 
               <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
                 {generateDates().map((date, index) => {
-                  if (!date) return <div key={index} className="w-12 h-12"></div>;
+                  if (!date)
+                    return <div key={index} className="w-12 h-12"></div>;
 
                   let dateObj = new Date(date);
                   let isPastDate = dateObj < today;
@@ -166,8 +172,16 @@ const BookingCalendar = ({ serviceId }) => {
                     <button
                       key={index}
                       className={`w-12 h-12 flex items-center justify-center rounded-full
-                        ${isPastDate ? "bg-white text-gray-500 cursor-not-allowed" : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200"}
-                        ${selectedDate === date ? "bg-blue-600 text-white font-extrabold" : ""}
+                        ${
+                          isPastDate
+                            ? "bg-white text-gray-500 cursor-not-allowed"
+                            : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200"
+                        }
+                        ${
+                          selectedDate === date
+                            ? "bg-blue-600 text-white font-extrabold"
+                            : ""
+                        }
                       `}
                       onClick={() => handleDateClick(date)}
                       disabled={isPastDate}
