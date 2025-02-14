@@ -1,8 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const serviceController = require("../../controller/service.controller.js");
-const { isAuthenticated } = require("../../middleware/auth.js");
-const bookingController = require("../../controller/user.booking.controller.js");
 
 const {
   signup,
@@ -24,20 +21,3 @@ router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
 
 router.post("/reset-password/:token", resetPassword);
-
-// Get all services
-router.get("/services", serviceController.getAllServices);
-
-//get by id
-router.get("/services/:id", serviceController.getServiceById);
-
-// Get services by category
-router.get(
-  "/services/category/:category",
-  serviceController.getServiceByCategory
-);
-
-// Create booking
-router.post("/services/:id/booking", bookingController.createBooking);
-
-module.exports = router;
