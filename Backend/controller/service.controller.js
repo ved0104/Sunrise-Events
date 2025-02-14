@@ -48,7 +48,8 @@ module.exports.getServiceByCategory = async (req, res) => {
 
 //add a service
 module.exports.addService = async (req, res) => {
-  const { title, description, image, category, price } = req.body;
+  const { title, description, category, price } = req.body;
+
   try {
     if (!title || !category || !description) {
       return res.status(400).json({
@@ -56,13 +57,13 @@ module.exports.addService = async (req, res) => {
         message: "Please provide all required fields.",
       });
     }
-
+    const imageUrl = req.file.path;
     const newservice = new Service({
       title,
       category,
       description,
       price,
-      image,
+      image: imageUrl,
     });
 
     await newservice.save();

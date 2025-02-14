@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -15,8 +14,9 @@ const userServicesRoutes = require("./routes/auth/service.routes.js");
 
 const adminServicesRoutes = require("./routes/admin/service.routes.js");
 const adminGalleryRoutes = require("./routes/admin/gallery.routes.js");
-const addminUserRoutes = require("./routes/admin/user.routes.js");
+const adminUserRoutes = require("./routes/admin/user.routes.js");
 const adminBookingRoutes = require("./routes/admin/booking.routes.js");
+
 app.use(
   cors({
     origin: "http://localhost:5173", // Set frontend origin explicitly
@@ -36,7 +36,7 @@ app.use("/admin/gallery", adminGalleryRoutes);
 
 app.use("/admin", adminRoutes);
 app.use("/admin/services", adminServicesRoutes);
-app.use("/admin/users", addminUserRoutes);
+app.use("/admin/users", adminUserRoutes);
 app.use("/admin/bookings", adminBookingRoutes);
 
 // Database connection

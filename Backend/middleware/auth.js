@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 module.exports.isAuthenticated = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const token = req.cookies.token;
   if (!token) {
     return res
       .status(401)
@@ -10,10 +10,8 @@ module.exports.isAuthenticated = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(
-      token.replace("Bearer ", ""),
-      process.env.JWT_SECRET
-    );
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("decodes ", decoded);
     req.user = decoded;
     next();
   } catch (ex) {

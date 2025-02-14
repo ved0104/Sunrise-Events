@@ -24,6 +24,7 @@ const AppWrapper = () => (
     <App />
     <FloatingButtons/>
     {/* <AllServices/> */}
+    <AddService/>
   </Router>
 );
 
