@@ -79,7 +79,7 @@ const BookingCalendar = () => {
   return (
     <div className="flex justify-center pb-10">
       <div className="flex justify-center border-2 bg-white border-gray-100 p-10 w-210">
-        <div className="flex flex-col justify-center items-center border-gray-200 border-2 w-200 p-5 bg-gray-50 rounded-xl">
+        <div className="flex flex-row justify-center items-center border-gray-200 border-2 w-200 p-5 bg-gray-50 rounded-xl">
           <div className="bg-[url('assets/images/booking/calender.png')] w-80 h-130 bg-center bg-contain bg-no-repeat text-center pt-50">
             <h2 className="font-bold text-3xl">Sunrise Events</h2>
             <p className="font-medium text-lg">Decoration Booking<br/>Appointment</p>

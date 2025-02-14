@@ -9,6 +9,9 @@ import BookingTop from "./Components/booking/BookingTop";
 import BookingCalendar from "./Components/booking/BookingCalender";
 import EndPart from "./Components/homePage/End";
 import BookingDecoration from "./Components/booking/bookingDecoration";
+import ManageServices from "./Components/admin/ManageServices";
+import AddService from "./Components/admin/AddService";
+import AllServices from "./Components/booking/AllServices";
 
 const App = () => {
   return (
@@ -20,6 +23,7 @@ const AppWrapper = () => (
   <Router>
     <App />
     <FloatingButtons/>
+    {/* <AllServices/> */}
   </Router>
 );
 
