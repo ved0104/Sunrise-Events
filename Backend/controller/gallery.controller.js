@@ -39,9 +39,16 @@ module.exports.getGalleryByEventType = async (req, res) => {
 
 //admin gallery functions
 module.exports.createGalleryItem = async (req, res) => {
-  let { title, description, imageUrl, category } = req.body;
+  let { title, description, category } = req.body;
   try {
-    if (!title || !description || !imageUrl || !category) {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({
+        success: false,
+        message: "Please upload an image file.",
+      });
+    }
+    const imageUrl = req.file.path; // This is the Cloudinary URL
+    if (!title || !description || !category) {
       return res
         .status(400)
         .json({ success: false, message: "Please fill all fields" });

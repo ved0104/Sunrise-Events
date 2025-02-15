@@ -34,8 +34,8 @@ app.use("/booking", userBookingRoutes);
 app.use("/users/gallery", userGalleryRoutes);
 app.use("/users/bookings", userBookingRoutes);
 app.use("/users/services", userServicesRoutes);
-app.use("/admin/gallery", adminGalleryRoutes);
 
+app.use("/admin/gallery", adminGalleryRoutes);
 app.use("/admin", adminRoutes);
 app.use("/admin/services", adminServicesRoutes);
 app.use("/admin/users", adminUserRoutes);
