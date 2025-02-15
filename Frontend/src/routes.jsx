@@ -44,6 +44,7 @@ import Gallery from "./pages/service-view/Gallery";
 import Services from "./pages/service-view/Services";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
+import AdminHome from "./pages/admin/AdminHome";
 
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, user } = useAuthStore();
@@ -125,7 +126,7 @@ const AppRoutes = () => {
           path="/admin/dashboard"
           element={
             <RedirectAuthenticatedUser>
-              <AdminDashboardPage />
+              <AdminHome />
             </RedirectAuthenticatedUser>
           }
         />

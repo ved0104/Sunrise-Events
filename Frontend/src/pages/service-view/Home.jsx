@@ -4,8 +4,6 @@ import ServiceComponent from '../../Components/homePage/ServiceComponent'
 import HeroSection from "../../Components/homePage/HeroSection"
 import FramerMotion from "../../Components/homePage/FreamerMotion"
 import HoverCard from '../../Components/homePage/ServiceHoverCard'
-import Instagram from '../../Components/homePage/Instagram'
-import EndPart from '../../Components/homePage/End'
 import Testimonials from '../../Components/homePage/Testimonials'
 
 const home = () => {
@@ -16,8 +14,6 @@ const home = () => {
     <ServiceComponent/>
     <HoverCard/>
     <Testimonials/>
-    <EndPart/>
-    <Instagram/>
 </div>
   )
 }
