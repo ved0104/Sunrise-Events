@@ -51,3 +51,31 @@
 .clip-custom1 {
   clip-path: polygon(100% 80%, 0% 30%, 0% 20%, 100% 0%);
 }
+
+
+
+
+/* Default Swiper Arrow Size */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 50px;
+  height: 50px;
+}
+
+/* Medium Screens */
+@media (max-width: 1024px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Small Screens */
+@media (max-width: 640px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 30px;
+    height: 30px;
+  }
+}
