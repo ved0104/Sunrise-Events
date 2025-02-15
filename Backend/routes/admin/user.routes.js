@@ -10,4 +10,7 @@ router.get("/", isAuthenticated, isAdmin, userController.getAllUsers);
 router.get("/:id", isAuthenticated, isAdmin, userController.getUserById);
 router.put("/:id", isAuthenticated, isAdmin, userController.updateUserRole);
 router.delete("/:id", isAuthenticated, isAdmin, userController.deleteUser);
+// Create a new user
+router.post("/", isAuthenticated, isAdmin, userController.createUser);
+
 module.exports = router;
