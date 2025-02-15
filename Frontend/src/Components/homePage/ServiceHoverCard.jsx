@@ -10,7 +10,7 @@ const HoverCard = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/services");
+        const response = await axios.get("http://localhost:5000/users/services");
         console.log(response.data.services); // Debugging response
         setServices(response.data.services);
       } catch (error) {

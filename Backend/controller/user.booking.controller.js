@@ -4,9 +4,12 @@ const User = require("../models/user.model.js");
 
 // Book a service
 module.exports.createBooking = async (req, res) => {
-  const { id: serviceId } = req.params;
-  const userId = req.user._id;
+  const id  = req.params.id;
+
+  const userId = req.user.userId;
+  // console.log("req.user.UserId: ",req.user.userId)
   const user = await User.findById(userId);
+  // console.log(user)
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -19,22 +22,22 @@ module.exports.createBooking = async (req, res) => {
       return res.status(400).json({ success: false, message: "Event date is required" });
     }
 
-    const service = await Service.findById(serviceId);
+    const service = await Service.findById(id);
     if (!service) {
       return res.status(404).json({ success: false, message: "Service not found" });
     }
 
-    const Booking = new Booking({
+    const newBooking = new Booking({
       user: userId,
-      service: serviceId,
+      service: id,
       date,
     });
 
-    await Booking.save();
-
+    await newBooking.save();
+    const populatedBooking = await Booking.findById(newBooking._id).populate("user", "name email phonenumber");
     res.status(201).json({
       message: "Booking created successfully",
-      Booking,
+      newBooking: populatedBooking,
     });
   } catch (error) {
     console.error("Booking Error:", error);

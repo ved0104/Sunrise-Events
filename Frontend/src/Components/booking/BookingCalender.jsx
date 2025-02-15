@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // To decode the JWT
+
+// Set the owner's phone number here (include country code, e.g., "+1234567890")
+const OWNER_PHONE = "+917970186027";
 
 const BookingCalendar = () => {
-  const { id: serviceId } = useParams();
+  const { id } = useParams();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -16,44 +18,28 @@ const BookingCalendar = () => {
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setUser(decoded);
-      } catch (error) {
-        console.error("Invalid token:", error);
-      }
+  // Booking is created only when user clicks Confirm Booking
+  const confirmBooking = async () => {
+    if (!selectedDate) {
+      alert("Please select a date first");
+      return;
     }
-  }, []);
-
-  useEffect(() => {
-    if (serviceId && selectedDate) {
-      fetchBooking();
-    }
-  }, [serviceId, selectedDate]);
-
-  const fetchBooking = async (req, res) => {
-    setUser(req.params);
     try {
+      console.log("Confirming booking...");
       const bookingResponse = await axios.post(
-        `http://localhost:5000/services/${serviceId}/booking`,
+        `http://localhost:5000/users/services/${id}/booking`,
         { date: selectedDate },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { withCredentials: true }
       );
-
-      console.log("Booking data:", bookingResponse.data);
-      setBooking(bookingResponse.data);
+      console.log("Booking confirmed: ", bookingResponse);
+      // Set both user and booking info from the response
+      setUser(bookingResponse.data.newBooking.user);
+      setBooking(bookingResponse.data.newBooking.service);
     } catch (error) {
-      console.error("Error fetching booking:", error);
+      console.error("Error confirming booking:", error);
     }
   };
+
   const getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
   const getFirstDayOfMonth = (month, year) =>
     new Date(year, month - 1, 1).getDay();
@@ -62,26 +48,19 @@ const BookingCalendar = () => {
     const totalDays = getDaysInMonth(selectedMonth, selectedYear);
     const firstDayIndex = getFirstDayOfMonth(selectedMonth, selectedYear);
     let dates = [];
-
     for (let i = 0; i < firstDayIndex; i++) {
       dates.push(null);
     }
-
     for (let i = 1; i <= totalDays; i++) {
-      let date = `${selectedYear}-${String(selectedMonth).padStart(
-        2,
-        "0"
-      )}-${String(i).padStart(2, "0")}`;
+      let date = `${selectedYear}-${String(selectedMonth).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
       dates.push(date);
     }
-
     return dates;
   };
 
   const handleMonthChange = (step) => {
     let newMonth = selectedMonth + step;
     let newYear = selectedYear;
-
     if (newMonth === 0) {
       newMonth = 12;
       newYear -= 1;
@@ -89,29 +68,33 @@ const BookingCalendar = () => {
       newMonth = 1;
       newYear += 1;
     }
-
     setSelectedMonth(newMonth);
     setSelectedYear(newYear);
     setSelectedDate(null);
+    // Reset booking info when the month changes
+    setBooking(null);
+    setUser(null);
   };
 
   const handleDateClick = (date) => {
     const clickedDate = new Date(date);
     if (clickedDate >= today) {
       setSelectedDate(date);
+      // Clear any previous booking info when a new date is selected
+      setBooking(null);
+      setUser(null);
     }
   };
 
+  // Use the owner's phone number to generate the WhatsApp invoice
   const generateWhatsAppInvoice = () => {
-    if (!user || !user.name || !user.email || !user.phone || !selectedDate) {
-      console.error("Missing user details or date!");
+    if (!user) {
+      console.error("User info is not available");
       return;
     }
-
-    const invoiceMessage = `Hello ${user.name},\n\nYour booking for Sunrise Events on ${selectedDate} is confirmed!\n\nDetails:\nName: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phone}\n\nThank you for choosing us! 🎉`;
-
+    const invoiceMessage = `Hello ${user.name},\n\nYour booking for Sunrise Events on ${selectedDate} is confirmed!\n\nDetails:\nName: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phonenumber}\n\nThank you for choosing us! 🎉`;
     const encodedMessage = encodeURIComponent(invoiceMessage);
-    window.open(`https://wa.me/${user.phone}?text=${encodedMessage}`, "_blank");
+    window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedMessage}`, "_blank");
   };
 
   return (
@@ -127,90 +110,92 @@ const BookingCalendar = () => {
             </p>
           </div>
 
-          {user ? (
-            <div className="flex flex-col items-center p-5">
-              <h2 className="text-xl font-bold mb-3">Select a Date</h2>
+          {/* Always render the calendar */}
+          <div className="flex flex-col items-center p-5">
+            <h2 className="text-xl font-bold mb-3">Select a Date</h2>
 
-              <div className="flex items-center gap-5 mb-5">
-                <button
-                  onClick={() => handleMonthChange(-1)}
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  ◀
-                </button>
-                <span className="text-lg font-semibold">
-                  {new Date(selectedYear, selectedMonth - 1).toLocaleString(
-                    "default",
-                    { month: "long", year: "numeric" }
-                  )}
-                </span>
-                <button
-                  onClick={() => handleMonthChange(1)}
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  ▶
-                </button>
-              </div>
-
-              <div className="grid grid-cols-7 gap-2 mb-2 text-center font-bold">
-                {daysOfWeek.map((day, index) => (
-                  <div key={index} className="w-12">
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
-                {generateDates().map((date, index) => {
-                  if (!date)
-                    return <div key={index} className="w-12 h-12"></div>;
-
-                  let dateObj = new Date(date);
-                  let isPastDate = dateObj < today;
-
-                  return (
-                    <button
-                      key={index}
-                      className={`w-12 h-12 flex items-center justify-center rounded-full
-                        ${
-                          isPastDate
-                            ? "bg-white text-gray-500 cursor-not-allowed"
-                            : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200"
-                        }
-                        ${
-                          selectedDate === date
-                            ? "bg-blue-600 text-white font-extrabold"
-                            : ""
-                        }
-                      `}
-                      onClick={() => handleDateClick(date)}
-                      disabled={isPastDate}
-                    >
-                      {parseInt(date.split("-")[2])}
-                    </button>
-                  );
+            <div className="flex items-center gap-5 mb-5">
+              <button
+                onClick={() => handleMonthChange(-1)}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                ◀
+              </button>
+              <span className="text-lg font-semibold">
+                {new Date(selectedYear, selectedMonth - 1).toLocaleString("default", {
+                  month: "long",
+                  year: "numeric",
                 })}
-              </div>
+              </span>
+              <button
+                onClick={() => handleMonthChange(1)}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                ▶
+              </button>
+            </div>
 
-              {selectedDate && (
-                <>
-                  <p className="mt-3 text-lg font-semibold text-green-600">
-                    Selected Date: {selectedDate}
-                  </p>
+            <div className="grid grid-cols-7 gap-2 mb-2 text-center font-bold">
+              {daysOfWeek.map((day, index) => (
+                <div key={index} className="w-12">
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
+              {generateDates().map((date, index) => {
+                if (!date)
+                  return <div key={index} className="w-12 h-12"></div>;
+                let dateObj = new Date(date);
+                let isPastDate = dateObj < today;
+                return (
+                  <button
+                    key={index}
+                    className={`w-12 h-12 flex items-center justify-center rounded-full ${
+                      isPastDate
+                        ? "bg-white text-gray-500 cursor-not-allowed"
+                        : "bg-blue-100 text-blue-600 font-bold hover:bg-blue-200"
+                    } ${
+                      selectedDate === date
+                        ? "bg-blue-600 text-white font-extrabold"
+                        : ""
+                    }`}
+                    onClick={() => handleDateClick(date)}
+                    disabled={isPastDate}
+                  >
+                    {parseInt(date.split("-")[2])}
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedDate && (
+              <>
+                <p className="mt-3 text-lg font-semibold text-green-600">
+                  Selected Date: {selectedDate}
+                </p>
+                {/* If booking is not confirmed yet, show the Confirm Booking button */}
+                {!booking && (
+                  <button
+                    onClick={confirmBooking}
+                    className="mt-3 px-5 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
+                  >
+                    Confirm Booking
+                  </button>
+                )}
+                {/* Once booking is confirmed, show the Generate Invoice button */}
+                {booking && user && (
                   <button
                     onClick={generateWhatsAppInvoice}
                     className="mt-3 px-5 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600"
                   >
                     Generate Invoice on WhatsApp
                   </button>
-                </>
-              )}
-            </div>
-          ) : (
-            <p className="text-red-500 text-lg font-semibold mt-5">
-              Please log in to book an appointment.
-            </p>
-          )}
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
