@@ -8,13 +8,11 @@ module.exports.getAllBookings = async (req, res) => {
       .populate("service", "title price")
       .sort({ date: -1 });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "booking retrieved successfully",
-        bookings,
-      });
+    res.status(200).json({
+      success: true,
+      message: "booking retrieved successfully",
+      bookings,
+    });
   } catch (error) {
     res
       .status(500)
@@ -25,8 +23,8 @@ module.exports.getAllBookings = async (req, res) => {
 //get booking by id
 module.exports.getBookingById = async (req, res) => {
   try {
-    const { bookingId } = req.params;
-    const booking = await Booking.findById(bookingId)
+    const { id } = req.params;
+    const booking = await Booking.findById(id)
       .populate("user", "name email phonenumber")
       .populate("service", "title price");
 
@@ -45,9 +43,9 @@ module.exports.getBookingById = async (req, res) => {
 //delete booking
 module.exports.deleteBooking = async (req, res) => {
   try {
-    const { bookingId } = req.params;
+    const { id } = req.params;
 
-    const booking = await Booking.findByIdAndDelete(bookingId);
+    const booking = await Booking.findByIdAndDelete(id);
 
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
@@ -57,6 +55,7 @@ module.exports.deleteBooking = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Booking deleted successfully" });
   } catch (error) {
+    console.log("error is deleting booking ", error);
     res.status(500).json({ message: "Failed to delete booking", error });
   }
 };
@@ -64,7 +63,7 @@ module.exports.deleteBooking = async (req, res) => {
 //update booking
 module.exports.updateBookingStatus = async (req, res) => {
   try {
-    const { bookingId } = req.params;
+    const { id } = req.params;
     const { status } = req.body;
 
     // Validate status input
@@ -72,7 +71,7 @@ module.exports.updateBookingStatus = async (req, res) => {
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Invalid status value" });
     }
-    const booking = await Booking.findById(bookingId);
+    const booking = await Booking.findById(id);
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }

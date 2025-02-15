@@ -6,16 +6,19 @@ import FramerMotion from "../../Components/homePage/FreamerMotion"
 import HoverCard from '../../Components/homePage/ServiceHoverCard'
 import Instagram from '../../Components/homePage/Instagram'
 import EndPart from '../../Components/homePage/End'
+import Testimonials from '../../Components/homePage/Testimonials'
+
 const home = () => {
-  return (<>
+  return (<div className='bg-[#FFF5ED]'>
     <TopComponnent/>
     <HeroSection/>
     <FramerMotion/>
     <ServiceComponent/>
     <HoverCard/>
+    <Testimonials/>
     <EndPart/>
     <Instagram/>
-</>
+</div>
   )
 }
 
