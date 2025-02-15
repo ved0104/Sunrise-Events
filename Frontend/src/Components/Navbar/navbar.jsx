@@ -51,7 +51,7 @@ const Navbar = () => {
     };
   }, []);
 
-  // Logout function
+  // Logout function (same for admin and regular users)
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("user"); // Remove user data
@@ -99,7 +99,7 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
-              {/* Add admin options if user is admin */}
+              {/* Render admin options if user is admin */}
               {isAdmin && (
                 <>
                   <li>
@@ -123,17 +123,6 @@ const Navbar = () => {
                     >
                       Manage Users
                     </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                      className="inline-block py-2 px-4 font-semibold transition duration-200 
-                        relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
-                        before:bg-red-500 before:transition-all before:duration-300 
-                        hover:before:h-[3px]"
-                    >
-                      Admin Logout
-                    </button>
                   </li>
                 </>
               )}
@@ -163,7 +152,7 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              // Show Logout if authenticated
+              // Show Logout for authenticated users (admin or regular)
               <button
                 className="hover:bg-red-500 text-red-500 font-semibold hover:text-white rounded-md border-2 border-red-500 px-6 py-2 transition duration-200 hidden md:block"
                 onClick={handleLogout}
