@@ -78,7 +78,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/gallery" element={<Gallery />} />
-          {/* <Route path="/booking" element={<Booking />} /> */}
+          
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/find-store" element={<FindStore />} />
         </Route>
@@ -90,6 +90,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<RedirectAuthenticatedUser><ForgotPasswordPage /></RedirectAuthenticatedUser>} />
         <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
 
+        <Route path="/booking/:serviceId" element={<RedirectAuthenticatedUser><Booking /></RedirectAuthenticatedUser>} />
         {/* Admin Routes */}
         <Route
           path="/admin/signup"

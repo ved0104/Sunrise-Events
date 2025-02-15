@@ -28,6 +28,7 @@ const AppWrapper = () => (
     {/* <ManageServices/>
     <AddService/> */}
     {/* <AdminUserManagement/> */}
+    {/* <AllServices/> */}
   </Router>
 );
 
