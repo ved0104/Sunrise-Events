@@ -18,10 +18,5 @@ export const NavbarMenu=[
         id:4,
         title:"Contact",
         link:"/contact-us",
-    },    
-    {
-        id:5,
-        title:"Find Store",
-        link:"/find-store",
-    },    
+    }, 
 ]

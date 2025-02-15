@@ -23,6 +23,8 @@ import LoginPage from "./pages/admin/LoginPage";
 import ResetPasswordPage from "./pages/admin/ResetPasswordPage";
 import SignUpPage from "./pages/admin/SignUpPage";
 
+import AdminUserManagement from "./components/admin/ManageUsers";
+import ManageGallery from "./components/admin/ManageGallery"
 const App = () => {
   return (
     <AppRoutes/>

@@ -44,6 +44,7 @@ import Gallery from "./pages/service-view/Gallery";
 import Services from "./pages/service-view/Services";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
+import AdminHome from "./pages/admin/AdminHome";
 
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, user } = useAuthStore();
@@ -78,7 +79,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/gallery" element={<Gallery />} />
-          {/* <Route path="/booking" element={<Booking />} /> */}
+          
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/find-store" element={<FindStore />} />
         </Route>
@@ -90,6 +91,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<RedirectAuthenticatedUser><ForgotPasswordPage /></RedirectAuthenticatedUser>} />
         <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
 
+        <Route path="/booking/:serviceId" element={<RedirectAuthenticatedUser><Booking /></RedirectAuthenticatedUser>} />
         {/* Admin Routes */}
         <Route
           path="/admin/signup"
@@ -124,7 +126,7 @@ const AppRoutes = () => {
           path="/admin/dashboard"
           element={
             <RedirectAuthenticatedUser>
-              <AdminDashboardPage />
+              <AdminHome />
             </RedirectAuthenticatedUser>
           }
         />
@@ -135,7 +137,7 @@ const AppRoutes = () => {
 
         {/*booking routes */}
         
-        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking/:id" element={<Booking />} />
         
 
 

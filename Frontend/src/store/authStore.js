@@ -51,12 +51,23 @@ export const useAuthStore = create((set) => ({
         email,
         password,
       });
+
+      // Store the full user object
+      const userData = response.data.user;
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        console.log("Token saved:", response.data.token);
+      }
+      console.log(userData)
+      localStorage.setItem("user", JSON.stringify(userData));
+
       set({
         isAuthenticated: true,
-        user: response.data.user,
+        user: userData, // Store full user details
         error: null,
         isLoading: false,
       });
+
       return true;
     } catch (error) {
       set({

@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { NavbarMenu } from "../../mockData/data";
 import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
+  const [isAdmin, setIsAdmin] = useState(false); // Track admin status
   const navigate = useNavigate();
   const { logout } = useAuthStore();
+
   // Check if user is logged in on component mount
   useEffect(() => {
     const checkUser = () => {
-      const user = localStorage.getItem("user");
-      setIsAuthenticated(!!user);
+      const userString = localStorage.getItem("user");
+      if (userString) {
+        try {
+          const userObj = JSON.parse(userString);
+          setIsAuthenticated(true);
+          // Check if user role is admin
+          if (userObj.role && userObj.role.toLowerCase() === "admin") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        } catch (error) {
+          console.error("Error parsing user from localStorage", error);
+          setIsAuthenticated(false);
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
     };
 
     checkUser();
@@ -32,12 +51,13 @@ const Navbar = () => {
     };
   }, []);
 
-  // Logout function
-  const handleLogout = async() => {
+  // Logout function (same for admin and regular users)
+  const handleLogout = async () => {
     await logout();
     localStorage.removeItem("user"); // Remove user data
     window.dispatchEvent(new Event("userAuthenticated")); // Notify all components
     setIsAuthenticated(false);
+    setIsAdmin(false);
     navigate("/"); // Redirect to home
   };
 
@@ -71,14 +91,41 @@ const Navbar = () => {
                   <Link
                     to={item.link}
                     className="inline-block py-2 px-4 font-semibold transition duration-200 
-                    relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
-                    before:bg-black before:transition-all before:duration-300 
-                    hover:before:h-[3px]"
+                      relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
+                      before:bg-black before:transition-all before:duration-300 
+                      hover:before:h-[3px]"
                   >
                     {item.title}
                   </Link>
                 </li>
               ))}
+              {/* Render admin options if user is admin */}
+              {isAdmin && (
+                <>
+                  <li>
+                    <Link
+                      to="/admin/dashboard"
+                      className="inline-block py-2 px-4 font-semibold transition duration-200 
+                        relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
+                        before:bg-red-500 before:transition-all before:duration-300 
+                        hover:before:h-[3px]"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/admin/users"
+                      className="inline-block py-2 px-4 font-semibold transition duration-200 
+                        relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
+                        before:bg-red-500 before:transition-all before:duration-300 
+                        hover:before:h-[3px]"
+                    >
+                      Manage Users
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -105,7 +152,7 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              // Show Logout if authenticated
+              // Show Logout for authenticated users (admin or regular)
               <button
                 className="hover:bg-red-500 text-red-500 font-semibold hover:text-white rounded-md border-2 border-red-500 px-6 py-2 transition duration-200 hidden md:block"
                 onClick={handleLogout}

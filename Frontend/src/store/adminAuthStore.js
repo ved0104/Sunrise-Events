@@ -44,7 +44,7 @@ export const useAdminAuthStore = create((set) => ({
         error: error.response?.data?.message || "Error signing up",
         isLoading: false,
       });
-      return { success: false, message: errorMessage }; // ✅ Return error response
+      return { success: false, message: error }; // ✅ Return error response
     }
   },
 

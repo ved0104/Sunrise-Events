@@ -12,7 +12,7 @@ module.exports.generateTokenAndSetCookie = (res, user) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    samesite: "strict",
+    sameSite: "Lax",
     maxAge: 7 * 27 * 60 * 60 * 1000,
   });
   return token;

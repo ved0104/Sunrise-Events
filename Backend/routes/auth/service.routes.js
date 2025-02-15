@@ -3,7 +3,6 @@ const router = express.Router();
 const serviceController = require("../../controller/service.controller.js");
 const { isAuthenticated } = require("../../middleware/auth.js");
 const bookingController = require("../../controller/user.booking.controller.js");
-
 // Get all services
 router.get("/", serviceController.getAllServices);
 

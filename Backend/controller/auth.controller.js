@@ -103,8 +103,8 @@ module.exports.login = async (req, res) => {
         .json({ success: false, message: "Invalid Email or Password" });
     }
 
-    const isPasswordvalid = await bcryptjs.compare(password, user.password);
-    if (!isPasswordvalid) {
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid Email or Password" });
@@ -112,22 +112,24 @@ module.exports.login = async (req, res) => {
 
     generateTokenAndSetCookie(res, user);
 
+    // Update last login
     user.lastlogin = new Date();
     await user.save();
 
+    // Send user details (excluding password)
+    const { password: _, ...userData } = user._doc; // Exclude password
+
     res.status(200).json({
       success: true,
-      message: "logged in Successfully",
-      user: {
-        ...user._doc,
-        password: undefined,
-      },
+      message: "Logged in successfully",
+      user: userData, // Send full user details
     });
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 
 module.exports.logout = async (req, res) => {
   res.clearCookie("token");
