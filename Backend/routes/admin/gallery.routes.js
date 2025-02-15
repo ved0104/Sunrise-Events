@@ -4,6 +4,8 @@ const { isAuthenticated } = require("../../middleware/auth.js");
 const { isAdmin } = require("../../middleware/admin.js");
 const galleryController = require("../../controller/gallery.controller.js");
 
+const upload = require("../../middleware/multerCloudinary.js"); // Adjust path if different
+
 //gallery routes
 router.get("/", galleryController.getAllGalleryItems);
 
@@ -15,6 +17,7 @@ router.put(
   "/:id",
   isAuthenticated,
   isAdmin,
+  upload.single("image"),
   galleryController.updateGalleryItem
 );
 

@@ -7,19 +7,23 @@ export default function AdminGalleryPage() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const [newImageFile, setNewImageFile] = useState(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
   useEffect(() => {
     fetchGalleryItems();
   }, []);
 
   const fetchGalleryItems = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/gallery");
-      setGalleryItems(response.data);
-      setFilteredItems(response.data);
+      const response = await axios.get("http://localhost:5000/admin/gallery");
+      setGalleryItems(response.data.galleryItems);
+      setFilteredItems(response.data.galleryItems);
 
-      // Extract unique categories from data
       const uniqueCategories = [
-        ...new Set(response.data.map((item) => item.category)),
+        ...new Set(response.data.galleryItems.map((item) => item.category)),
       ];
       setCategories(uniqueCategories);
     } catch (error) {
@@ -41,28 +45,58 @@ export default function AdminGalleryPage() {
 
   const handleDeleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/gallery/${id}`, {
+      await axios.delete(`http://localhost:5000/admin/gallery/${id}`, {
         withCredentials: true,
       });
-      fetchGalleryItems(); // Refresh data after deletion
+      fetchGalleryItems();
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
   };
 
   const handleUpdateItem = async (id) => {
-    const updatedImage = prompt("Enter new image URL:");
-    if (!updatedImage) return;
+    const updatedImageUrl = prompt("Enter new image URL:");
+    if (!updatedImageUrl) return;
 
     try {
       await axios.put(
-        `http://localhost:5000/gallery/${id}`,
-        { image: updatedImage },
+        `http://localhost:5000/admin/gallery/${id}`,
+        { imageUrl: updatedImageUrl },
         { withCredentials: true }
       );
-      fetchGalleryItems(); // Refresh after update
+      fetchGalleryItems();
     } catch (error) {
       console.error("Failed to update item:", error);
+    }
+  };
+
+  const handleAddItem = async () => {
+    if (!newImageFile || !newTitle || !newCategory || !newDescription) {
+      alert("Please fill out all fields and select an image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", newImageFile);
+    formData.append("title", newTitle);
+    formData.append("description", newDescription);
+    formData.append("category", newCategory);
+
+    try {
+      await axios.post("http://localhost:5000/admin/gallery", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setNewImageFile(null);
+      setNewTitle("");
+      setNewDescription("");
+      setNewCategory("");
+      fetchGalleryItems();
+    } catch (error) {
+      console.error("Failed to add item:", error);
     }
   };
 
@@ -72,8 +106,48 @@ export default function AdminGalleryPage() {
         Admin Gallery Management
       </h1>
 
+      {/* Add New Image Section */}
+      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Add New Image</h2>
+        <div className="flex flex-col md:flex-row gap-4">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setNewImageFile(e.target.files[0])}
+            className="border border-gray-300 p-2 rounded w-full"
+          />
+          <input
+            type="text"
+            placeholder="Title"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            className="border border-gray-300 p-2 rounded w-full"
+          />
+          <input
+            type="text"
+            placeholder="Category"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            className="border border-gray-300 p-2 rounded w-full"
+          />
+          <input
+            type="text"
+            placeholder="Description"
+            value={newDescription}
+            onChange={(e) => setNewDescription(e.target.value)}
+            className="border border-gray-300 p-2 rounded w-full"
+          />
+          <button
+            onClick={handleAddItem}
+            className="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600"
+          >
+            Add Image
+          </button>
+        </div>
+      </div>
+
       {/* Category Filter */}
-      <div className="flex justify-center gap-4 mb-6">
+      <div className="flex justify-center gap-4 mb-6 flex-wrap">
         <button
           onClick={() => handleCategoryChange("All")}
           className={`px-4 py-2 rounded-lg ${
@@ -107,12 +181,11 @@ export default function AdminGalleryPage() {
             className="relative bg-white rounded-lg shadow-lg overflow-hidden group"
           >
             <img
-              src={item.image}
-              alt={item.name}
+              src={item.imageUrl}
+              alt={item.title}
               className="w-full h-48 object-cover transform transition-transform group-hover:scale-105"
             />
 
-            {/* Hover Overlay with Update & Delete */}
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => handleUpdateItem(item._id)}
@@ -129,8 +202,9 @@ export default function AdminGalleryPage() {
             </div>
 
             <div className="p-4">
-              <h3 className="font-semibold text-lg">{item.name}</h3>
+              <h3 className="font-semibold text-lg">{item.title}</h3>
               <p className="text-sm text-gray-600">{item.category}</p>
+              <p className="text-xs text-gray-500">{item.description}</p>
             </div>
           </div>
         ))}

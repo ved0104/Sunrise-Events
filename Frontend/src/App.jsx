@@ -13,7 +13,7 @@ import ManageServices from "./Components/admin/ManageServices";
 import AddService from "./Components/admin/AddService";
 import AllServices from "./Components/booking/AllServices";
 import AdminUserManagement from "./components/admin/ManageUsers";
-
+import ManageGallery from "./components/admin/ManageGallery"
 const App = () => {
   return (
     <AppRoutes/>
@@ -29,6 +29,7 @@ const AppWrapper = () => (
     <AddService/> */}
     {/* <AdminUserManagement/> */}
     {/* <AllServices/> */}
+    <ManageGallery/>
   </Router>
 );
 
