@@ -12,6 +12,7 @@ import BookingDecoration from "./Components/booking/bookingDecoration";
 import ManageServices from "./Components/admin/ManageServices";
 import AddService from "./Components/admin/AddService";
 import AllServices from "./Components/booking/AllServices";
+import AdminUserManagement from "./components/admin/ManageUsers";
 
 const App = () => {
   return (
@@ -24,8 +25,9 @@ const AppWrapper = () => (
     <App />
     <FloatingButtons/>
     <AllServices/>
-    <ManageServices/>
-    <AddService/>
+    {/* <ManageServices/>
+    <AddService/> */}
+    {/* <AdminUserManagement/> */}
   </Router>
 );
 
