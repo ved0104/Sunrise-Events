@@ -46,7 +46,9 @@ import AdminBooking from "./pages/admin/AdminBooking";
 import AdminHome from "./pages/admin/AdminHome";
 import AllServices from "./Components/booking/AllServices";
 import PrivacyPolicy from "./pages/service-view/PrivacyPolicy";
-
+import ManageUsers from "./Components/admin/ManageUsers"
+import ManageServices from "./Components/admin/ManageServices";
+import ManageGallery from "./Components/admin/ManageGallery";
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, user } = useAuthStore();
 //   if (!isAuthenticated) return <Navigate to="/login" replace />;
@@ -145,6 +147,22 @@ const AppRoutes = () => {
           }
         />
         <Route
+          path="/admin/manage-users"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageUsers />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/admin/manage-services"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageServices />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
           path="/admin/verify-email"
           element={<AdminEmailVerificationPage />}
         />
@@ -162,6 +180,14 @@ const AppRoutes = () => {
           element={
             <RedirectAuthenticatedUser>
               <AdminHome />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/admin/manage-gallery"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageGallery/>
             </RedirectAuthenticatedUser>
           }
         />

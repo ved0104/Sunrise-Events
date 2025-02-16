@@ -5,13 +5,12 @@ import AddService from '../../Components/admin/AddService'
 import ManageServices from '../../Components/admin/ManageServices'
 import AllServices from '../../Components/booking/AllServices'
 import ManageUsers from "../../Components/admin/ManageUsers"
+import AdminDashboardPage from './DashboardPage'
 const AdminHome = () => {
   return (
-    <div className='pt-20'>
+    <div className='pt-20 pb-20'>
     <Navbar/>
-    <AddService/>
-    <ManageServices/>
-    <ManageUsers/>
+    <AdminDashboardPage/>
     {/* <AllServices/> */}
     <Footer/>
     </div>
