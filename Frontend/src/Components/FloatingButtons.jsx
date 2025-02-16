@@ -5,7 +5,7 @@ const FloatingButtons = () => {
   const [showCall, setShowCall] = useState(false);
 
   return (
-    <div className="fixed bottom-5 right-5 flex flex-col items-end gap-3">
+    <div className="fixed bottom-5 right-5 flex flex-col items-end gap-3 z-11">
       {/* WhatsApp Pop-up */}
       {showWhatsApp && (
         <a

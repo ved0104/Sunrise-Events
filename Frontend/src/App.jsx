@@ -16,7 +16,6 @@ import Gallery from "./Components/gallery/Gallery";
 import ContactUs from "./Components/other/ContactUs";
 import PolicyPage from "./Components/other/PolicyPage";
 import EmailVerificationPage from "./pages/admin/EmailVerificationPage";
-import Navbar from "./components/Navbar/navbar";
 import Instagram from "./Components/homePage/Instagram";
 import ForgotPasswordPage from "./pages/admin/ForgotPasswordPage";
 import LoginPage from "./pages/admin/LoginPage";
@@ -36,6 +35,8 @@ const AppWrapper = () => (
   <Router>
     <App />
     <FloatingButtons/>
+
+    
     
     
 
