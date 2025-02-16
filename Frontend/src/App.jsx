@@ -22,7 +22,6 @@ const AppWrapper = () => (
     <App />
     <FloatingButtons/>
     
-    <Gallery/>
 
  </>
 );
