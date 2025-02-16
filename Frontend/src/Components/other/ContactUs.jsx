@@ -4,7 +4,7 @@ import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Linkedin } fr
 
 const ContactUs = () => {
     return (
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 py-12 pt-20">
             {/* Heading Section */}
             <div className='flex flex-col items-center'>
                 <div className="text-center mb-16">
