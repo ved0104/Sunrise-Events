@@ -61,60 +61,62 @@ const AdminLoginPage = () => {
 
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.5 }}
-			className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
-		>
-			<div className='p-8'>
-				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-indigo-500 text-transparent bg-clip-text'>
-					Admin Portal
-				</h2>
+		<div className="flex min-h-screen justify-center items-center">
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+				className='max-w-md w-full bg-amber-50 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
+			>
+				<div className='p-8'>
+					<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-amber-300 to-amber-500 text-transparent bg-clip-text'>
+						Admin Portal
+					</h2>
 
-				<form onSubmit={handleLogin}>
-					<Input
-						icon={Mail}
-						type='email'
-						placeholder='Admin Email'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
+					<form onSubmit={handleLogin}>
+						<Input
+							icon={Mail}
+							type='email'
+							placeholder='Admin Email'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
 
-					<Input
-						icon={Lock}
-						type='password'
-						placeholder='Admin Password'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
+						<Input
+							icon={Lock}
+							type='password'
+							placeholder='Admin Password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
 
-					<div className='flex items-center mb-6'>
-						<Link to='/admin/forgot-password' className='text-sm text-blue-400 hover:underline'>
-							Forgot password?
+						<div className='flex items-center mb-6'>
+							<Link to='/admin/forgot-password' className='text-sm text-black hover:underline hover:font-medium'>
+								Forgot password?
+							</Link>
+						</div>
+
+						<motion.button
+							whileHover={{ scale: 1.02 }}
+							whileTap={{ scale: 0.98 }}
+							className='w-full py-3 px-4 bg-gradient-to-r from-amber-200 to-amber-400 text-white font-bold rounded-lg shadow-lg hover:from-amber-300 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-gray-200 transition duration-200'
+							type='submit'
+							disabled={isLoading}
+						>
+							{isLoading ? <Loader className='w-6 h-6 animate-spin mx-auto' /> : "Admin Login"}
+						</motion.button>
+					</form>
+				</div>
+				<div className='px-8 py-4 bg-amber-200 bg-opacity-50 flex justify-center'>
+					<p className='text-sm text-black'>
+						Not an admin?{" "}
+						<Link to='/login' className='text-black hover:underline hover:font-bold'>
+							User Login
 						</Link>
-					</div>
-
-					<motion.button
-						whileHover={{ scale: 1.02 }}
-						whileTap={{ scale: 0.98 }}
-						className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200'
-						type='submit'
-						disabled={isLoading}
-					>
-						{isLoading ? <Loader className='w-6 h-6 animate-spin mx-auto' /> : "Admin Login"}
-					</motion.button>
-				</form>
-			</div>
-			<div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
-				<p className='text-sm text-gray-400'>
-					Not an admin?{" "}
-					<Link to='/login' className='text-blue-400 hover:underline'>
-						User Login
-					</Link>
-				</p>
-			</div>
-		</motion.div>
+					</p>
+				</div>
+			</motion.div>
+		</div>
 	);
 };
 export default AdminLoginPage;

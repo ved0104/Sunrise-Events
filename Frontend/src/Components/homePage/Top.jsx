@@ -15,7 +15,7 @@ export default function TopComponnent() {
           <div>
             <p className="text-center font-bold mb-0.5">Sign up today!</p>
             <p className="mb-0.5 font-thin">
-              By clicking ‘Sign up’, you agree to The Knot's Privacy Policy and
+              By clicking ‘Sign up’, you agree to the Privacy Policy and
               Terms of Use.
             </p>
             <form>

@@ -38,15 +38,15 @@ export default function AddService() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <h2 className="font-bold text-4xl h-[8vh] text-center">Add a service</h2>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
+      <h2 className="font-bold text-4xl h-[8vh] w-[90vh] py-[5vh] text-center bg-amber-50 rounded-t-4xl">Add a service</h2>
+      <form className="flex flex-col items-center w-[90vh] py-[5vh] bg-amber-50 rounded-b-4xl shadow-2xl shadow-gray-300" onSubmit={handleSubmit}>
         <label className="font-bold text-xl h-[5vh]">Title</label>
         <input
           type="text"
           placeholder="Enter title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border-2 border-gray-400 h-[6vh] w-[50vh] mb-5 pl-2"
+          className="border-4 border-gray-400 h-[6vh] w-[50vh] mb-5 pl-2 bg-white shadow-2xl shadow-gray-200"
         />
 
         <label className="font-bold text-xl h-[5vh]">Price</label>
@@ -55,7 +55,7 @@ export default function AddService() {
           placeholder="Enter price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="border-2 border-gray-400 h-[6vh] w-[30vh] mb-5 pl-2"
+          className="border-4 border-gray-400 h-[6vh] w-[30vh] mb-5 pl-2 bg-white shadow-2xl shadow-gray-200"
         />
 
         <label className="font-bold text-xl h-[5vh]">Description</label>
@@ -63,7 +63,7 @@ export default function AddService() {
           placeholder="Write a description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border-2 border-gray-400 h-[20vh] w-[80vh] mb-5 pl-2 pt-2"
+          className="border-4 border-gray-400 h-[20vh] w-[80vh] mb-5 pl-2 pt-2 bg-white shadow-2xl shadow-gray-200"
         />
 
         <label className="font-bold text-xl h-[5vh]">Category</label>
@@ -72,19 +72,19 @@ export default function AddService() {
           placeholder="Enter category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border-2 border-gray-400 h-[6vh] w-[50vh] mb-5 pl-2"
+          className="border-4 border-gray-400 h-[6vh] w-[50vh] mb-5 pl-2 bg-white shadow-2xl  shadow-gray-200"
         />
 
         <label className="font-bold text-xl h-[5vh]">Upload image</label>
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
-          className="border-2 border-gray-400 mb-5 pl-2 w-[30vh]"
+          className="border-4 border-gray-400 mb-5 pl-2 w-[30vh] bg-white shadow-2xl  shadow-gray-200"
         />
 
         <div className="flex flex-row justify-center">
           <button
-            className="bg-blue-500 text-white font-medium h-[5vh] w-[13vh] rounded-lg hover:bg-blue-600 hover:font-bold cursor-pointer"
+            className="bg-blue-500 text-white font-medium h-[5vh] w-[13vh] mt-[2vh] rounded-lg hover:bg-amber-400 hover:font-bold cursor-pointer"
             type="submit"
           >
             Upload

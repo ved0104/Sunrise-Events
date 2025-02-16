@@ -12,11 +12,23 @@ import BookingDecoration from "./Components/booking/bookingDecoration";
 import ManageServices from "./Components/admin/ManageServices";
 import AddService from "./Components/admin/AddService";
 import AllServices from "./Components/booking/AllServices";
+import Gallery from "./Components/gallery/Gallery";
+import ContactUs from "./Components/other/ContactUs";
+import PolicyPage from "./Components/other/PolicyPage";
+import EmailVerificationPage from "./pages/admin/EmailVerificationPage";
+import Navbar from "./components/Navbar/navbar";
+import Instagram from "./Components/homePage/Instagram";
+import ForgotPasswordPage from "./pages/admin/ForgotPasswordPage";
+import LoginPage from "./pages/admin/LoginPage";
+import ResetPasswordPage from "./pages/admin/ResetPasswordPage";
+import SignUpPage from "./pages/admin/SignUpPage";
+
 import AdminUserManagement from "./components/admin/ManageUsers";
 import ManageGallery from "./components/admin/ManageGallery"
 const App = () => {
   return (
     <AppRoutes/>
+    // <PolicyPage/>
   );
 };
 
@@ -24,12 +36,6 @@ const AppWrapper = () => (
   <Router>
     <App />
     <FloatingButtons/>
-    {/* <AllServices/> */}
-    {/* <ManageServices/>
-    <AddService/> */}
-    {/* <AdminUserManagement/> */}
-    {/* <AllServices/> */}
-    {/* <ManageGallery/> */}
   </Router>
 );
 
