@@ -45,6 +45,7 @@ import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
 import AdminHome from "./pages/admin/AdminHome";
 import AllServices from "./Components/booking/AllServices";
+import PrivacyPolicy from "./pages/service-view/PrivacyPolicy";
 
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, user } = useAuthStore();
@@ -180,6 +181,8 @@ const AppRoutes = () => {
 
         {/* Misc Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
