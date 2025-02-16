@@ -12,6 +12,7 @@ import {
   ArrowRightOnRectangleIcon,
   CalendarIcon,
 } from "@heroicons/react/24/outline";
+import AddService from "../../Components/admin/AddService";
 
 // Mapping for icons and background colors based on the stat title
 const statMappings = {
@@ -209,6 +210,7 @@ const AdminDashboardPage = () => {
             </table>
           </div>
         </div>
+		<AddService/>
       </div>
     </motion.div>
   );
