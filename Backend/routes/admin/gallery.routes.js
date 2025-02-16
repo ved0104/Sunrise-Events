@@ -18,7 +18,13 @@ router.post(
   upload.single("image"),
   galleryController.createGalleryItem
 );
-
+router.post(
+  "/multiple",
+  isAuthenticated,
+  isAdmin,
+  upload.array("images", 10),
+  galleryController.createMultipleGalleryItems
+);
 router.put(
   "/:id",
   isAuthenticated,

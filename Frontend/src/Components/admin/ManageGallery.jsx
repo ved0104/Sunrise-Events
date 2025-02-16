@@ -1,138 +1,108 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import {  toast } from 'react-toastify'
-
-
-// Option 1: Set globally (do this once, e.g., in your app entry point)
-// axios.defaults.withCredentials = true
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const toastOptions = {
-  position: 'top-right',
+  position: "top-right",
   autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,
-  theme: 'dark'
-}
+  theme: "dark",
+};
 
 const ManageGallery = () => {
-  const [galleryItems, setGalleryItems] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [currentItem, setCurrentItem] = useState(null)
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: '',
-    image: null
-  })
+    category: "",
+    images: [],
+    uploadType: "single", // 'single' or 'multiple'
+  });
 
-  // Fetch gallery items
   useEffect(() => {
-    fetchGalleryItems()
-  }, [])
+    fetchGalleryItems();
+  }, []);
 
   const fetchGalleryItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/gallery', {
-        withCredentials: true
-      })
-      setGalleryItems(response.data.galleryItems)
+      const response = await axios.get("http://localhost:5000/admin/gallery", {
+        withCredentials: true,
+      });
+      setGalleryItems(response.data.galleryItems);
     } catch (error) {
-      console.error('Error fetching gallery items:', error)
-      toast.error('Error fetching gallery items', toastOptions)
+      console.error("Error fetching gallery items:", error);
+      toast.error("Error fetching gallery items", toastOptions);
     }
-  }
+  };
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  // Handle file input
   const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
     setFormData({
       ...formData,
-      image: e.target.files[0]
-    })
-  }
+      images: files,
+    });
+  };
 
-  // Open modal for editing
-  const openEditModal = (item) => {
-    setIsEditing(true)
-    setCurrentItem(item)
-    setFormData({
-      title: item.title,
-      description: item.description,
-      category: item.category,
-      image: null
-    })
-    setIsModalOpen(true)
-  }
-
-  // Close modal and reset form
   const closeModal = () => {
-    setIsModalOpen(false)
-    setIsEditing(false)
-    setCurrentItem(null)
+    setIsModalOpen(false);
     setFormData({
-      title: '',
-      description: '',
-      category: '',
-      image: null
-    })
-  }
+      category: "",
+      images: [],
+      uploadType: "single",
+    });
+  };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const data = new FormData()
-    data.append('title', formData.title)
-    data.append('description', formData.description)
-    data.append('category', formData.category)
-    if (formData.image) {
-      data.append('image', formData.image)
+    e.preventDefault();
+    const data = new FormData();
+    data.append("category", formData.category);
+
+    if (formData.uploadType === "single") {
+      data.append("image", formData.images[0]);
+    } else {
+      formData.images.forEach((image) => data.append("images", image));
     }
 
     try {
-      if (isEditing) {
-        await axios.put(`http://localhost:5000/admin/gallery/${currentItem._id}`, data, {
-          withCredentials: true
-        })
-        toast.success('Gallery item updated successfully', toastOptions)
-      } else {
-        await axios.post('http://localhost:5000/admin/gallery', data, {
-          withCredentials: true
-        })
-        toast.success('Gallery item created successfully', toastOptions)
-      }
-      fetchGalleryItems()
-      closeModal()
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      toast.error('Error submitting form', toastOptions)
-    }
-  }
+      const endpoint =
+        formData.uploadType === "single"
+          ? "http://localhost:5000/admin/gallery"
+          : "http://localhost:5000/admin/gallery/multiple";
 
-  // Handle delete
+      await axios.post(endpoint, data, { withCredentials: true });
+
+      toast.success("Images uploaded successfully!", toastOptions);
+      fetchGalleryItems();
+      closeModal();
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      toast.error("Error uploading images", toastOptions);
+    }
+  };
+
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (window.confirm("Are you sure you want to delete this item?")) {
       try {
         await axios.delete(`http://localhost:5000/admin/gallery/${id}`, {
-          withCredentials: true
-        })
-        toast.success('Gallery item deleted successfully', toastOptions)
-        fetchGalleryItems()
+          withCredentials: true,
+        });
+        toast.success("Gallery item deleted successfully", toastOptions);
+        fetchGalleryItems();
       } catch (error) {
-        console.error('Error deleting item:', error)
-        toast.error('Error deleting item', toastOptions)
+        console.error("Error deleting item:", error);
+        toast.error("Error deleting item", toastOptions);
       }
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -142,32 +112,26 @@ const ManageGallery = () => {
           onClick={() => setIsModalOpen(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Add New Item
+          Add New Images
         </button>
       </div>
 
-      {/* Gallery Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {galleryItems.map((item) => (
-          <div key={item._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div
+            key={item._id}
+            className="bg-white rounded-lg shadow-md overflow-hidden"
+          >
             <img
               src={item.imageUrl}
-              alt={item.title}
+              alt="Gallery"
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-600 mb-2">{item.description}</p>
               <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
                 {item.category}
               </span>
-              <div className="mt-4 flex space-x-2">
-                <button
-                  onClick={() => openEditModal(item)}
-                  className="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                >
-                  Edit
-                </button>
+              <div className="mt-4">
                 <button
                   onClick={() => handleDelete(item._id)}
                   className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -180,14 +144,11 @@ const ManageGallery = () => {
         ))}
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-md p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">
-                {isEditing ? 'Edit Item' : 'Add New Item'}
-              </h2>
+              <h2 className="text-2xl font-bold">Upload Images</h2>
               <button
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700"
@@ -198,29 +159,6 @@ const ManageGallery = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Title</label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border rounded"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Description</label>
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border rounded"
-                    required
-                  />
-                </div>
-
                 <div>
                   <label className="block text-sm font-medium mb-1">Category</label>
                   <input
@@ -234,15 +172,27 @@ const ManageGallery = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">
-                    {isEditing ? 'New Image (optional)' : 'Image'}
-                  </label>
+                  <label className="block text-sm font-medium mb-1">Upload Type</label>
+                  <select
+                    name="uploadType"
+                    value={formData.uploadType}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  >
+                    <option value="single">Single Image</option>
+                    <option value="multiple">Multiple Images</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Images</label>
                   <input
                     type="file"
                     accept="image/*"
+                    multiple={formData.uploadType === "multiple"}
                     onChange={handleFileChange}
                     className="w-full"
-                    required={!isEditing}
+                    required
                   />
                 </div>
 
@@ -258,7 +208,7 @@ const ManageGallery = () => {
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                   >
-                    {isEditing ? 'Update' : 'Create'}
+                    Upload
                   </button>
                 </div>
               </div>
@@ -267,7 +217,7 @@ const ManageGallery = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ManageGallery
+export default ManageGallery;

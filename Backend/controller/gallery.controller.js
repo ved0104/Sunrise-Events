@@ -39,7 +39,7 @@ module.exports.getGalleryByEventType = async (req, res) => {
 
 //admin gallery functions
 module.exports.createGalleryItem = async (req, res) => {
-  let { title, description, category } = req.body;
+  let { category } = req.body;
   console.log("comming", req.body);
   try {
     if (!req.file || !req.file.path) {
@@ -49,14 +49,12 @@ module.exports.createGalleryItem = async (req, res) => {
       });
     }
     const imageUrl = req.file.path; // This is the Cloudinary URL
-    if (!title || !description || !category) {
+    if (!category) {
       return res
         .status(400)
         .json({ success: false, message: "Please fill all fields" });
     }
     const galleryItem = await new Gallery({
-      title,
-      description,
       imageUrl,
       category,
     });
@@ -76,12 +74,36 @@ module.exports.createGalleryItem = async (req, res) => {
   }
 };
 
+module.exports.createMultipleGalleryItems = async (req, res) => {
+  try {
+    const { category } = req.body;
+    const imageUrls = req.files.map((file) => file.path);
+
+    const galleryItems = imageUrls.map((url) => ({
+      category,
+      imageUrl: url,
+    }));
+
+    await Gallery.insertMany(galleryItems);
+
+    res.status(201).json({
+      message: "Images uploaded successfully",
+      galleryItems,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 module.exports.updateGalleryItem = async (req, res) => {
-  const { title, description, category } = req.body;
+  const { category } = req.body;
   const { id } = req.params;
 
   // Validate required text fields
-  if (!title || !description || !category) {
+  if (!category) {
     return res.status(400).json({
       success: false,
       message: "Please fill all fields",
@@ -109,7 +131,7 @@ module.exports.updateGalleryItem = async (req, res) => {
     // Update the gallery item with the new values
     const galleryItem = await Gallery.findByIdAndUpdate(
       id,
-      { title, description, category, imageUrl },
+      { category, imageUrl },
       { new: true }
     );
 
