@@ -3,27 +3,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes"
 import FloatingButtons from "./Components/FloatingButtons";
 
+import EmailVerificationPage from "./pages/userloginSignup/EmailVerificationPage";
 
 
-import BookingTop from "./Components/booking/BookingTop";
-import BookingCalendar from "./Components/booking/BookingCalender";
-import EndPart from "./Components/homePage/End";
-import BookingDecoration from "./Components/booking/bookingDecoration";
-import ManageServices from "./Components/admin/ManageServices";
-import AddService from "./Components/admin/AddService";
-import AllServices from "./Components/booking/AllServices";
-import Gallery from "./Components/gallery/Gallery";
-import ContactUs from "./Components/other/ContactUs";
-import PolicyPage from "./Components/other/PolicyPage";
-import EmailVerificationPage from "./pages/admin/EmailVerificationPage";
-import Instagram from "./Components/homePage/Instagram";
-import ForgotPasswordPage from "./pages/admin/ForgotPasswordPage";
-import LoginPage from "./pages/admin/LoginPage";
-import ResetPasswordPage from "./pages/admin/ResetPasswordPage";
-import SignUpPage from "./pages/admin/SignUpPage";
-
-import AdminUserManagement from "./components/admin/ManageUsers";
-import ManageGallery from "./components/admin/ManageGallery"
+import Booking from "./pages/service-view/Booking";
+import Gallery from "./pages/service-view/Gallery";
 const App = () => {
   return (
     <Router>
@@ -34,14 +18,13 @@ const App = () => {
 };
 
 const AppWrapper = () => (
+  <>
     <App />
     <FloatingButtons/>
+    
+    <Gallery/>
 
-    
-    
-    
-
-  </Router>
+ </>
 );
 
 export default AppWrapper;
