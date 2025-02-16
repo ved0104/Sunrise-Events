@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { NavbarMenu } from "../../mockData/data";
-import { CiSearch } from "react-icons/ci";
 import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
@@ -16,8 +15,11 @@ const Navbar = () => {
   const { user, isAuthenticated, logout: userLogout } = useAuthStore();
 
   // Admin Store
-  const { user: adminUser, isAuthenticated: isAdminAuthenticated, logout: adminLogout } =
-    useAdminAuthStore();
+  const {
+    user: adminUser,
+    isAuthenticated: isAdminAuthenticated,
+    logout: adminLogout,
+  } = useAdminAuthStore();
 
   // Determine if Admin is logged in
   const isAdmin = adminUser && isAdminAuthenticated;
@@ -107,9 +109,6 @@ const Navbar = () => {
 
           {/* Icons Section */}
           <div className="flex items-center gap-6">
-            <button className="text-2xl hover:bg-pink-500 hover:text-white rounded-full p-2 transition duration-200">
-              <CiSearch />
-            </button>
 
             {/* Show Login/Signup if not authenticated */}
             {!isAuthenticated && !isAdmin ? (
@@ -129,12 +128,19 @@ const Navbar = () => {
               </>
             ) : (
               // Show Logout for authenticated users (admin or regular)
-              <button
-                className="hover:bg-red-500 text-red-500 font-semibold hover:text-white rounded-md border-2 border-red-500 px-6 py-2 transition duration-200 hidden md:block"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <div className="flex items-center gap-10">
+                <button
+                  className="hover:bg-red-500 text-red-500 font-semibold hover:text-white rounded-md border-2 border-red-500 px-6 py-2 transition duration-200 hidden md:block"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+                <img
+                  src={user?.profilePicture || "https://via.placeholder.com/40"} // Default placeholder
+                  alt="Profile"
+                  className="h-10 w-10 rounded-full border-2 border-gray-300 object-cover"
+                />
+              </div>
             )}
           </div>
 
@@ -152,7 +158,9 @@ const Navbar = () => {
       </nav>
 
       {/* Background overlay when menu is open */}
-      {open && <div className="fixed inset-0 bg-black bg-opacity-50 z-10"></div>}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
+      )}
 
       {/* Mobile Sidebar Menu */}
       <ResponsiveMenu open={open} setOpen={setOpen} />
