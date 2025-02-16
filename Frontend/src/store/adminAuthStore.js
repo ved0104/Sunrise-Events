@@ -177,14 +177,17 @@ export const useAdminAuthStore = create((set) => ({
     set({ isCheckingAuth: true, error: null });
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
-      set({
-        user: response.data.user,
-        isAuthenticated: true,
-        isCheckingAuth: false,
-      });
+      if (response.data.user?.role === "admin") {
+        set({
+          user: response.data.user,
+          isAuthenticated: true,
+          isCheckingAuth: false,
+        });
+      } else {
+        set({ user: null, isAuthenticated: false, isCheckingAuth: false });
+      }
     } catch (error) {
       set({ user: null, isAuthenticated: false, isCheckingAuth: false });
-      localStorage.removeItem("adminToken");
     }
   },
 

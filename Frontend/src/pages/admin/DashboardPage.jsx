@@ -210,6 +210,7 @@ const AdminDashboardPage = () => {
             </table>
           </div>
         </div>
+		<AddService/>
       </div>
     </motion.div>
   );

@@ -2,6 +2,7 @@ const Booking = require("../models/booking.model.js");
 const User = require("../models/user.model.js");
 const { sendSMS } = require("../utils/smsSending.js");
 const { formatDate } = require("../utils/formatDate.js");
+const { sendBookingStatusEmail } = require("../mailtrap/emails.js");
 //get all booking
 module.exports.getAllBookings = async (req, res) => {
   try {
@@ -95,10 +96,15 @@ module.exports.updateBookingStatus = async (req, res) => {
       }
 
       // Construct the SMS message using the provided template
-      const message = `Hello ${user.name}, thank you for choosing Sunrise Events to create unforgettable experiences! Your booking on ${eventDate} has been "${booking.status}". For any inquiries, please call us at ${contactNumber}. We look forward to making your event truly memorable. – The Sunrise Events Team`;
+      // const message = `Hello ${user.name}, thank you for choosing Sunrise Events to create unforgettable experiences! Your booking on ${eventDate} has been "${booking.status}". For any inquiries, please call us at ${contactNumber}. We look forward to making your event truly memorable. – The Sunrise Events Team`;
 
-      // Send the SMS message
-      await sendSMS(phone, message);
+      // // Send the SMS message
+      // await sendSMS(phone, message);
+    }
+
+    // Send booking status update email
+    if (user && user.email) {
+      await sendBookingStatusEmail(user.email, booking);
     }
 
     res.status(200).json({
