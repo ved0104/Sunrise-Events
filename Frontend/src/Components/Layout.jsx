@@ -6,7 +6,7 @@ import EndPart from "./homePage/End";
 
 const Layout = () => {
   return (
-    <>
+    <div className="bg-[#FFF5ED]">
       <Navbar />
       <main className="flex-grow">
         <Outlet /> {/* This will change dynamically with the routed pages */}
@@ -14,7 +14,7 @@ const Layout = () => {
       <EndPart/>
       <Instagram/>
       <Footer />
-    </>
+    </div>
   );
 };
 
