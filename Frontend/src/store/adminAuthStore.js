@@ -30,21 +30,28 @@ export const useAdminAuthStore = create((set) => ({
         phonenumber,
       });
 
-      console.log("Signup response:", response);
-
-      set({
-        user: response.data.user,
-        isAuthenticated: true,
-        isLoading: false,
-      });
+      // Check if the user is verified
+      if (response.data.user.isVerified) {
+        set({
+          user: response.data.user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+      } else {
+        // User not verified – do not mark as authenticated
+        set({
+          user: response.data.user,
+          isAuthenticated: false,
+          isLoading: false,
+        });
+      }
       return { success: true, data: response.data };
     } catch (error) {
-      console.error("Signup failed:", error.response?.data); // 🔴 Log exact error message
       set({
         error: error.response?.data?.message || "Error signing up",
         isLoading: false,
       });
-      return { success: false, message: error }; // ✅ Return error response
+      return { success: false, message: error };
     }
   },
 
