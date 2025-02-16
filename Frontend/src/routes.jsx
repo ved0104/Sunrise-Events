@@ -28,7 +28,7 @@ import Home from "./pages/service-view/Home";
 import UnauthPage from "./pages/un-auth-page/index";
 import NotFound from "./pages/Not-Found/index";
 import Booking from "./pages/service-view/Booking";
-import ContactUs from "./pages/service-view/ContactUs";
+import ContactUs from "./Components/other/ContactUs";
 import Gallery from "./pages/service-view/Gallery";
 import AllServices from "./Components/booking/AllServices";
 import PrivacyPolicy from "./pages/service-view/PrivacyPolicy";
@@ -40,6 +40,7 @@ import ManageUsers from "./Components/admin/ManageUsers";
 import ManageServices from "./Components/admin/ManageServices";
 import ManageGallery from "./Components/admin/ManageGallery";
 import ManageBookings from "./components/admin/ManageBooking";
+import PolicyPage from "./Components/other/PolicyPage";
 
 
 // ---------------------------
@@ -245,7 +246,8 @@ const AppRoutes = () => {
 
         {/* Miscellaneous Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/privacy-policy" element={<PolicyPage />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

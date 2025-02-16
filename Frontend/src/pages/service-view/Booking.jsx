@@ -10,7 +10,8 @@ const Booking = () => {
   return(
         <>
          <Navbar/>
-        <div className="flex flex-col justify-center items-center mt-15">
+        <div className="flex flex-col justify-center items-ce
+        nter mt-15">
           <div className="bg-amber-50 w-300 my-12 rounded-3xl border-2 border-amber-100">
             <BookingTop/>
             <BookingCalendar/>
