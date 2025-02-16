@@ -62,7 +62,7 @@ module.exports.deleteBooking = async (req, res) => {
   }
 };
 
-//update booking
+// update booking
 module.exports.updateBookingStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -88,10 +88,17 @@ module.exports.updateBookingStatus = async (req, res) => {
       const contactNumber =
         process.env.SUNRISE_CONTACT_NUMBER || "your-contact-number";
 
+      // Format the user's phone number: if it doesn't start with '+91', prepend it.
+      let phone = user.phonenumber.trim();
+      if (!phone.startsWith("+91")) {
+        phone = `+91${phone}`;
+      }
+
       // Construct the SMS message using the provided template
       const message = `Hello ${user.name}, thank you for choosing Sunrise Events to create unforgettable experiences! Your booking on ${eventDate} has been "${booking.status}". For any inquiries, please call us at ${contactNumber}. We look forward to making your event truly memorable. – The Sunrise Events Team`;
-      // Optionally, if sendSMS returns a promise, you can await it:
-      await sendSMS(user.phonenumber, message);
+
+      // Send the SMS message
+      await sendSMS(phone, message);
     }
 
     res.status(200).json({
