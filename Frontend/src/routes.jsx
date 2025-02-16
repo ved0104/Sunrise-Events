@@ -39,10 +39,8 @@ import AdminHome from "./pages/admin/AdminHome";
 import ManageUsers from "./Components/admin/ManageUsers";
 import ManageServices from "./Components/admin/ManageServices";
 import ManageGallery from "./Components/admin/ManageGallery";
-<<<<<<< HEAD
-=======
 import ManageBookings from "./components/admin/ManageBooking";
->>>>>>> 9a4e490e0fc781610b0aadfab0adec5a6ab92e65
+
 
 // ---------------------------
 // User Protected Route Wrapper

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Trash2, Search, UserPlus } from "lucide-react";
+import { Trash2, Search, UserPlus, X } from "lucide-react";
 
 const AdminUserManagement = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -24,7 +26,7 @@ const AdminUserManagement = () => {
       const res = await axios.get("http://localhost:5000/admin/users");
       if (Array.isArray(res.data)) {
         setUsers(res.data);
-        setFilteredUsers(res.data); // Always keep both users and filteredUsers in sync
+        setFilteredUsers(res.data);
       } else if (Array.isArray(res.data.users)) {
         setUsers(res.data.users);
         setFilteredUsers(res.data.users);
@@ -39,29 +41,17 @@ const AdminUserManagement = () => {
       setFilteredUsers([]);
     }
   };
-  
 
-  const fetchUserById = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/admin/users/${searchId}`);
-      setUsers([res.data]);
-    } catch (error) {
-      console.error("Failed to fetch user by ID:", error);
+  const fetchUserByName = () => {
+    if (!searchName.trim()) {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter((user) =>
+        user.name.toLowerCase().includes(searchName.toLowerCase())
+      );
+      setFilteredUsers(filtered);
     }
   };
-
-  
-
-    const fetchUserByName = () => {
-    if (!searchName.trim()) {
-        setFilteredUsers(users); // If search is empty, reset to all users
-    }else {
-        const filtered = users.filter((user) =>
-          user.name.toLowerCase().includes(searchName.toLowerCase())
-        );
-        setFilteredUsers(filtered);
-      }
-    }
 
   const updateUserRole = async (id, newRole) => {
     try {
@@ -82,25 +72,29 @@ const AdminUserManagement = () => {
   };
 
   const addUser = async () => {
-  try {
-    await axios.post("http://localhost:5000/admin/users", newUser);
-    setAddModalOpen(false);
-    setNewUser({ name: "", email: "", password: "", phonenumber: "", role: "user" });
-    fetchUsers();
-  } catch (error) {
-    console.error("Failed to add user:", error.response?.data || error.message);
-  }
-};
-
+    try {
+      await axios.post("http://localhost:5000/admin/users", newUser);
+      setAddModalOpen(false);
+      setNewUser({ name: "", email: "", password: "", phonenumber: "", role: "user" });
+      fetchUsers();
+    } catch (error) {
+      console.error("Failed to add user:", error.response?.data || error.message);
+    }
+  };
 
   return (
-    <div className="p-6 bg-[#fff8f6] rounded-xl shadow-lg">
+    <div className="p-6 bg-[#fff8f6] rounded-xl shadow-lg relative">
+      {/* Close Button */}
+      <button onClick={() => navigate(-1)} className="absolute top-4 right-4 text-red-600">
+        <X size={24} />
+      </button>
+      
       <h1 className="text-3xl font-bold text-[#5e3a3a] mb-4">Manage Users</h1>
 
       <div className="flex gap-3 mb-4">
         <input
           type="text"
-          placeholder="Search User by ID"
+          placeholder="Search User by Name"
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
           className="border p-2 rounded"
@@ -132,20 +126,15 @@ const AdminUserManagement = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>
-                <select
-                    value={user.role.trim()} // Handle extra spaces
+                  <select
+                    value={user.role.trim()}
                     onChange={(e) => updateUserRole(user._id, e.target.value)}
                     className="border p-1 rounded"
-                >
+                  >
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
-                </select>
-            </td>
-
-
-
-
-
+                  </select>
+                </td>
                 <td>
                   <button onClick={() => deleteUser(user._id)} className="text-red-600">
                     <Trash2 size={18} />
@@ -156,59 +145,6 @@ const AdminUserManagement = () => {
           </tbody>
         </table>
       </div>
-
-      {addModalOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div className="bg-white p-6 rounded-lg w-[300px]">
-      <h2 className="text-lg mb-3 font-semibold">Add New User</h2>
-      <input
-        type="text"
-        placeholder="Name"
-        value={newUser.name}
-        onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-        className="border p-2 rounded w-full mb-2"
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={newUser.email}
-        onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-        className="border p-2 rounded w-full mb-2"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={newUser.password}
-        onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-        className="border p-2 rounded w-full mb-2"
-      />
-      <input
-        type="text"
-        placeholder="Phone Number"
-        value={newUser.phonenumber}
-        onChange={(e) => setNewUser({ ...newUser, phonenumber: e.target.value })}
-        className="border p-2 rounded w-full mb-2"
-      />
-      <select
-        value={newUser.role}
-        onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-        className="border p-2 rounded w-full mb-4"
-      >
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-      </select>
-      <div className="flex justify-end gap-2">
-        <button onClick={() => setAddModalOpen(false)} className="bg-gray-300 p-2 rounded">
-          Cancel
-        </button>
-        <button onClick={addUser} className="bg-[#f6e5df] p-2 rounded">
-          Add User
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
     </div>
   );
 };

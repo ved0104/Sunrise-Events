@@ -13,18 +13,10 @@ const Navbar = () => {
 
   // Get user data from both stores
   const { user, isAuthenticated, logout: userLogout } = useAuthStore();
-<<<<<<< HEAD
 
   // Admin Store
-  const {
-    user: adminUser,
-    isAuthenticated: isAdminAuthenticated,
-    logout: adminLogout,
-  } = useAdminAuthStore();
-=======
   const { user: adminUser, isAuthenticated: isAdminAuthenticated, logout: adminLogout } =
     useAdminAuthStore();
->>>>>>> 9a4e490e0fc781610b0aadfab0adec5a6ab92e65
 
   // Check if the user from the user store is an admin
   const isUserAdmin = user && user.role === "admin";
