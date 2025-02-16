@@ -12,6 +12,18 @@ const AdminDashboardPage = () => {
 		navigate("/admin/login"); 
 	};
 
+	const handleManageUsers = () => {
+		navigate("/admin/manage-users");
+	};
+
+	const handleManageServices = () => {
+		navigate("/admin/manage-services");
+	};
+
+	const handleManageGallery = () => {
+		navigate("/admin/manage-gallery");
+	};
+
 	return (
 		<motion.div
 			initial={{ opacity: 0, scale: 0.9 }}
@@ -46,11 +58,6 @@ const AdminDashboardPage = () => {
 					<h3 className='text-xl font-semibold text-blue-400 mb-3'>Account Activity</h3>
 					<p className='text-gray-300'>
 						<span className='font-bold'>Joined: </span>
-						{/* {new Date(admin.createdAt).toLocaleDateString("en-US", {
-							year: "numeric",
-							month: "long",
-							day: "numeric",
-						})} */}
 						{new Date(admin.createdAt).toLocaleDateString("en-US")}
 					</p>
 					<p className='text-gray-300'>
@@ -60,23 +67,48 @@ const AdminDashboardPage = () => {
 				</motion.div>
 			</div>
 
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.6 }}
-				className='mt-4'
-			>
+			{/* Buttons Section */}
+			<div className='mt-6 space-y-4'>
+				<motion.button
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+					onClick={handleManageUsers}
+					className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-teal-600 text-white 
+					font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-teal-700'
+				>
+					Manage Users
+				</motion.button>
+
+				<motion.button
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+					onClick={handleManageServices}
+					className='w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white 
+					font-bold rounded-lg shadow-lg hover:from-purple-600 hover:to-pink-700'
+				>
+					Manage Services
+				</motion.button>
+
+				<motion.button
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+					onClick={handleManageGallery}
+					className='w-full py-3 px-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white 
+					font-bold rounded-lg shadow-lg hover:from-yellow-600 hover:to-orange-700'
+				>
+					Manage Gallery
+				</motion.button>
+
 				<motion.button
 					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.95 }}
 					onClick={handleLogout}
 					className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
-				font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700
-				 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900'
+					font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700'
 				>
 					Logout
 				</motion.button>
-			</motion.div>
+			</div>
 		</motion.div>
 	);
 };

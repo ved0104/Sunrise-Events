@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import toast from "react-hot-toast";
 // Set the owner's phone number here (include country code, e.g., "+1234567890")
 const OWNER_PHONE = "+917970186027";
 
@@ -21,7 +21,16 @@ const BookingCalendar = () => {
   // Booking is created only when user clicks Confirm Booking
   const confirmBooking = async () => {
     if (!selectedDate) {
-      alert("Please select a date first");
+      toast.warning("Please select a date first!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
     try {
@@ -35,8 +44,28 @@ const BookingCalendar = () => {
       // Set both user and booking info from the response
       setUser(bookingResponse.data.newBooking.user);
       setBooking(bookingResponse.data.newBooking.service);
+      toast.success("Booking confirmed successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
       console.error("Error confirming booking:", error);
+      toast.error("Failed to confirm booking. Please log in first!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -52,7 +81,10 @@ const BookingCalendar = () => {
       dates.push(null);
     }
     for (let i = 1; i <= totalDays; i++) {
-      let date = `${selectedYear}-${String(selectedMonth).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      let date = `${selectedYear}-${String(selectedMonth).padStart(
+        2,
+        "0"
+      )}-${String(i).padStart(2, "0")}`;
       dates.push(date);
     }
     return dates;
@@ -94,7 +126,10 @@ const BookingCalendar = () => {
     }
     const invoiceMessage = `Hello ${user.name},\n\nYour booking for Sunrise Events on ${selectedDate} is confirmed!\n\nDetails:\nName: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phonenumber}\n\nThank you for choosing us! 🎉`;
     const encodedMessage = encodeURIComponent(invoiceMessage);
-    window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedMessage}`, "_blank");
+    window.open(
+      `https://wa.me/${OWNER_PHONE}?text=${encodedMessage}`,
+      "_blank"
+    );
   };
 
   return (
@@ -122,10 +157,13 @@ const BookingCalendar = () => {
                 ◀
               </button>
               <span className="text-lg font-semibold">
-                {new Date(selectedYear, selectedMonth - 1).toLocaleString("default", {
-                  month: "long",
-                  year: "numeric",
-                })}
+                {new Date(selectedYear, selectedMonth - 1).toLocaleString(
+                  "default",
+                  {
+                    month: "long",
+                    year: "numeric",
+                  }
+                )}
               </span>
               <button
                 onClick={() => handleMonthChange(1)}
@@ -145,8 +183,7 @@ const BookingCalendar = () => {
 
             <div className="grid grid-cols-7 gap-2 border p-4 rounded-md">
               {generateDates().map((date, index) => {
-                if (!date)
-                  return <div key={index} className="w-12 h-12"></div>;
+                if (!date) return <div key={index} className="w-12 h-12"></div>;
                 let dateObj = new Date(date);
                 let isPastDate = dateObj < today;
                 return (

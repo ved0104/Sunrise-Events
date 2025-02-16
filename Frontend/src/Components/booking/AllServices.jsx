@@ -16,6 +16,7 @@ export default function AllServices() {
   const fetchServices = async () => {
     try {
       const response = await axios.get("http://localhost:5000/users/services"); // Your backend API
+      console.log("data coming from backend",response)
       setServices(response.data.services); // Assuming response.data is an array of services
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -48,16 +49,14 @@ export default function AllServices() {
             <p className="text-sm px-2">{service.description}</p>
             <div className="flex flex-row mt-2 justify-center items-center">
               <button className="bg-amber-400 rounded-lg h-[5vh] w-[15vh] font-bold text-white hover:bg-amber-500 hover:font-extrabold cursor-pointer" onClick={() => handleBookNow(service._id)}>
-                Book Now
+                Booking
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Footer />
-      <EndPart />
-      <Instagram />
+      
     </>
   );
 }

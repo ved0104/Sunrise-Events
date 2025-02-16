@@ -32,7 +32,6 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-
 // Redirect authenticated users to dashboard
 import Home from "./pages/service-view/Home";
 import UnauthPage from "./pages/un-auth-page/index";
@@ -45,7 +44,11 @@ import Services from "./pages/service-view/Services";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminBooking from "./pages/admin/AdminBooking";
 import AdminHome from "./pages/admin/AdminHome";
-
+import AllServices from "./Components/booking/AllServices";
+import PrivacyPolicy from "./pages/service-view/PrivacyPolicy";
+import ManageUsers from "./Components/admin/ManageUsers"
+import ManageServices from "./Components/admin/ManageServices";
+import ManageGallery from "./Components/admin/ManageGallery";
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, user } = useAuthStore();
 //   if (!isAuthenticated) return <Navigate to="/login" replace />;
@@ -69,7 +72,7 @@ const AppRoutes = () => {
   }, [checkAuth]);
 
   if (isCheckingAuth) return <LoadingSpinner />;
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br flex flex-col relative overflow-hidden">
       <Toaster />
@@ -77,21 +80,55 @@ const AppRoutes = () => {
         {/* Wrap all main pages inside Layout */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/services" element={<AllServices />} />
           <Route path="/gallery" element={<Gallery />} />
-          
+
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/find-store" element={<FindStore />} />
         </Route>
 
         {/* Authentication Routes (without Layout) */}
-        <Route path="/signup" element={<RedirectAuthenticatedUser><SignUpPage /></RedirectAuthenticatedUser>} />
-        <Route path="/login" element={<RedirectAuthenticatedUser><LoginPage /></RedirectAuthenticatedUser>} />
+        <Route
+          path="/signup"
+          element={
+            <RedirectAuthenticatedUser>
+              <SignUpPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RedirectAuthenticatedUser>
+              <LoginPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
-        <Route path="/forgot-password" element={<RedirectAuthenticatedUser><ForgotPasswordPage /></RedirectAuthenticatedUser>} />
-        <Route path="/reset-password/:token" element={<RedirectAuthenticatedUser><ResetPasswordPage /></RedirectAuthenticatedUser>} />
+        <Route
+          path="/forgot-password"
+          element={
+            <RedirectAuthenticatedUser>
+              <ForgotPasswordPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/reset-password/:token"
+          element={
+            <RedirectAuthenticatedUser>
+              <ResetPasswordPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
 
-        <Route path="/booking/:serviceId" element={<RedirectAuthenticatedUser><Booking /></RedirectAuthenticatedUser>} />
+        <Route
+          path="/booking/:id"
+          element={
+            
+              <Booking />
+            
+          }
+        />
         {/* Admin Routes */}
         <Route
           path="/admin/signup"
@@ -110,17 +147,33 @@ const AppRoutes = () => {
           }
         />
         <Route
+          path="/admin/manage-users"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageUsers />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
+          path="/admin/manage-services"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageServices />
+            </RedirectAuthenticatedUser>
+          }
+        />
+        <Route
           path="/admin/verify-email"
           element={<AdminEmailVerificationPage />}
         />
         <Route
-  path="/admin/forgot-password"
-  element={
-    <RedirectAuthenticatedUser>
-      <AdminForgotPasswordPage />
-    </RedirectAuthenticatedUser>
-  }
-/>
+          path="/admin/forgot-password"
+          element={
+            <RedirectAuthenticatedUser>
+              <AdminForgotPasswordPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
 
         <Route
           path="/admin/dashboard"
@@ -130,19 +183,32 @@ const AppRoutes = () => {
             </RedirectAuthenticatedUser>
           }
         />
-
+        <Route
+          path="/admin/manage-gallery"
+          element={
+            <RedirectAuthenticatedUser>
+              <ManageGallery/>
+            </RedirectAuthenticatedUser>
+          }
+        />
 
         {/* User Dashboard */}
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/*booking routes */}
         
-        <Route path="/booking/:id" element={<Booking />} />
-        
-
 
         {/* Misc Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

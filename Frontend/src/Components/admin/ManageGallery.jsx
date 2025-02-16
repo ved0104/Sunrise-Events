@@ -1,220 +1,321 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function AdminGalleryPage() {
+const ManageGallery = () => {
   const [galleryItems, setGalleryItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [newImageFile, setNewImageFile] = useState(null);
-  const [newTitle, setNewTitle] = useState("");
-  const [newCategory, setNewCategory] = useState("");
-  const [newDescription, setNewDescription] = useState("");
+  // State for new gallery item form
+  const [newItem, setNewItem] = useState({
+    title: "",
+    description: "",
+    category: "",
+    image: null,
+  });
 
+  // State for editing an item
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    title: "",
+    description: "",
+    category: "",
+    image: null,
+  });
+
+  // Fetch gallery items on component mount
   useEffect(() => {
     fetchGalleryItems();
   }, []);
 
   const fetchGalleryItems = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/gallery");
-      setGalleryItems(response.data.galleryItems);
-      setFilteredItems(response.data.galleryItems);
-
-      const uniqueCategories = [
-        ...new Set(response.data.galleryItems.map((item) => item.category)),
-      ];
-      setCategories(uniqueCategories);
-    } catch (error) {
-      console.error("Error fetching gallery items:", error);
+      setIsLoading(true);
+      const res = await axios.get("http://localhost:5000/admin/gallery");
+      if (res.data.success) {
+        setGalleryItems(res.data.galleryItems);
+      } else {
+        setError("Error fetching gallery items");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching gallery items");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    if (category === "All") {
-      setFilteredItems(galleryItems);
+  // Handle new item form changes
+  const handleNewItemChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setNewItem({ ...newItem, image: files[0] });
     } else {
-      const filtered = galleryItems.filter(
-        (item) => item.category === category
-      );
-      setFilteredItems(filtered);
+      setNewItem({ ...newItem, [name]: value });
     }
   };
 
-  const handleDeleteItem = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/admin/gallery/${id}`, {
-        withCredentials: true,
-      });
-      fetchGalleryItems();
-    } catch (error) {
-      console.error("Failed to delete item:", error);
-    }
-  };
-
-  const handleUpdateItem = async (id) => {
-    const updatedImageUrl = prompt("Enter new image URL:");
-    if (!updatedImageUrl) return;
-
-    try {
-      await axios.put(
-        `http://localhost:5000/admin/gallery/${id}`,
-        { imageUrl: updatedImageUrl },
-        { withCredentials: true }
-      );
-      fetchGalleryItems();
-    } catch (error) {
-      console.error("Failed to update item:", error);
-    }
-  };
-
-  const handleAddItem = async () => {
-    if (!newImageFile || !newTitle || !newCategory || !newDescription) {
-      alert("Please fill out all fields and select an image.");
+  // Submit new gallery item
+  const handleNewItemSubmit = async (e) => {
+    e.preventDefault();
+    if (!newItem.title || !newItem.description || !newItem.category || !newItem.image) {
+      alert("Please fill in all fields and select an image.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("image", newImageFile);
-    formData.append("title", newTitle);
-    formData.append("description", newDescription);
-    formData.append("category", newCategory);
-
     try {
-      await axios.post("http://localhost:5000/admin/gallery", formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const formData = new FormData();
+      formData.append("title", newItem.title);
+      formData.append("description", newItem.description);
+      formData.append("category", newItem.category);
+      formData.append("image", newItem.image);
 
-      setNewImageFile(null);
-      setNewTitle("");
-      setNewDescription("");
-      setNewCategory("");
-      fetchGalleryItems();
-    } catch (error) {
-      console.error("Failed to add item:", error);
+      const res = await axios.post("http://localhost:5000/admin/gallery", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success) {
+        alert("Gallery item created successfully");
+        setGalleryItems([...galleryItems, res.data.galleryItem]);
+        // Reset the form
+        setNewItem({
+          title: "",
+          description: "",
+          category: "",
+          image: null,
+        });
+      } else {
+        alert("Error creating gallery item");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error creating gallery item");
+    }
+  };
+
+  // Handle delete gallery item
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this gallery item?")) {
+      try {
+        const res = await axios.delete(`http://localhost:5000/admin/gallery/${id}`);
+        if (res.data.success) {
+          alert("Gallery item deleted successfully");
+          setGalleryItems(galleryItems.filter((item) => item._id !== id));
+        } else {
+          alert("Error deleting gallery item");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error deleting gallery item");
+      }
+    }
+  };
+
+  // Begin editing a gallery item
+  const handleEditClick = (item) => {
+    setEditingItemId(item._id);
+    setEditForm({
+      title: item.title,
+      description: item.description,
+      category: item.category,
+      image: null, // Allow new image upload (optional)
+    });
+  };
+
+  // Handle changes for the edit form
+  const handleEditChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setEditForm({ ...editForm, image: files[0] });
+    } else {
+      setEditForm({ ...editForm, [name]: value });
+    }
+  };
+
+  // Submit the edited gallery item
+  const handleEditSubmit = async (e, id) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("title", editForm.title);
+      formData.append("description", editForm.description);
+      formData.append("category", editForm.category);
+      // If a new image is provided, append it.
+      // Otherwise, the backend should use the existing image URL (sent as "imageUrl")
+      if (editForm.image) {
+        formData.append("image", editForm.image);
+      } else {
+        // Find the current image URL for this item and send it as "imageUrl"
+        const currentItem = galleryItems.find((item) => item._id === id);
+        formData.append("imageUrl", currentItem.imageUrl);
+      }
+
+      const res = await axios.put(`/admin/gallery/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success) {
+        alert("Gallery item updated successfully");
+        // Update the item in the state
+        const updatedItem = res.data.galleryItem;
+        setGalleryItems(
+          galleryItems.map((item) => (item._id === id ? updatedItem : item))
+        );
+        setEditingItemId(null);
+      } else {
+        alert("Error updating gallery item");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error updating gallery item");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-        Admin Gallery Management
-      </h1>
-
-      {/* Add New Image Section */}
-      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Add New Image</h2>
-        <div className="flex flex-col md:flex-row gap-4">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setNewImageFile(e.target.files[0])}
-            className="border border-gray-300 p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            placeholder="Title"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            className="border border-gray-300 p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            className="border border-gray-300 p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={newDescription}
-            onChange={(e) => setNewDescription(e.target.value)}
-            className="border border-gray-300 p-2 rounded w-full"
-          />
-          <button
-            onClick={handleAddItem}
-            className="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600"
-          >
-            Add Image
-          </button>
-        </div>
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex justify-center gap-4 mb-6 flex-wrap">
-        <button
-          onClick={() => handleCategoryChange("All")}
-          className={`px-4 py-2 rounded-lg ${
-            selectedCategory === "All"
-              ? "bg-amber-500 text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
-          }`}
-        >
-          All
-        </button>
-        {categories.map((category) => (
-          <button
-            key={category}
-            onClick={() => handleCategoryChange(category)}
-            className={`px-4 py-2 rounded-lg ${
-              selectedCategory === category
-                ? "bg-amber-500 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
-            }`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      {/* Gallery Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredItems.map((item) => (
-          <div
-            key={item._id}
-            className="relative bg-white rounded-lg shadow-lg overflow-hidden group"
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              className="w-full h-48 object-cover transform transition-transform group-hover:scale-105"
-            />
-
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => handleUpdateItem(item._id)}
-                className="bg-blue-500 text-white px-3 py-1 rounded mb-2 hover:bg-blue-600"
-              >
-                Update Image
-              </button>
-              <button
-                onClick={() => handleDeleteItem(item._id)}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              >
-                Delete
-              </button>
+    <div className="manage-gallery container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Manage Gallery</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      {isLoading ? (
+        <p>Loading gallery items...</p>
+      ) : (
+        <>
+          {/* Form to create a new gallery item */}
+          <form onSubmit={handleNewItemSubmit} className="mb-8 border p-4 rounded shadow">
+            <h3 className="text-xl font-semibold mb-2">Add New Gallery Item</h3>
+            <div className="mb-4">
+              <label className="block mb-1">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={newItem.title}
+                onChange={handleNewItemChange}
+                className="border p-2 w-full"
+              />
             </div>
-
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.category}</p>
-              <p className="text-xs text-gray-500">{item.description}</p>
+            <div className="mb-4">
+              <label className="block mb-1">Description</label>
+              <textarea
+                name="description"
+                value={newItem.description}
+                onChange={handleNewItemChange}
+                className="border p-2 w-full"
+              ></textarea>
             </div>
+            <div className="mb-4">
+              <label className="block mb-1">Category</label>
+              <input
+                type="text"
+                name="category"
+                value={newItem.category}
+                onChange={handleNewItemChange}
+                className="border p-2 w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1">Image</label>
+              <input type="file" name="image" accept="image/*" onChange={handleNewItemChange} />
+            </div>
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+              Add Gallery Item
+            </button>
+          </form>
+
+          {/* Display gallery items */}
+          <h3 className="text-xl font-semibold mb-2">Gallery Items</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {galleryItems.map((item) => (
+              <div key={item._id} className="border p-4 rounded shadow">
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full h-48 object-cover mb-2"
+                />
+                {editingItemId === item._id ? (
+                  // Edit form for this item
+                  <form onSubmit={(e) => handleEditSubmit(e, item._id)}>
+                    <div className="mb-2">
+                      <label className="block mb-1">Title</label>
+                      <input
+                        type="text"
+                        name="title"
+                        value={editForm.title}
+                        onChange={handleEditChange}
+                        className="border p-2 w-full"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <label className="block mb-1">Description</label>
+                      <textarea
+                        name="description"
+                        value={editForm.description}
+                        onChange={handleEditChange}
+                        className="border p-2 w-full"
+                      ></textarea>
+                    </div>
+                    <div className="mb-2">
+                      <label className="block mb-1">Category</label>
+                      <input
+                        type="text"
+                        name="category"
+                        value={editForm.category}
+                        onChange={handleEditChange}
+                        className="border p-2 w-full"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <label className="block mb-1">Image (optional)</label>
+                      <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleEditChange}
+                        className="w-full"
+                      />
+                    </div>
+                    <div className="flex space-x-2">
+                      <button
+                        type="submit"
+                        className="bg-green-500 text-white px-4 py-2 rounded"
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingItemId(null)}
+                        className="bg-gray-500 text-white px-4 py-2 rounded"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  // Display gallery item details
+                  <>
+                    <h4 className="text-lg font-bold">{item.title}</h4>
+                    <p>{item.description}</p>
+                    <p>
+                      <strong>Category:</strong> {item.category}
+                    </p>
+                    <div className="flex space-x-2 mt-2">
+                      <button
+                        onClick={() => handleEditClick(item)}
+                        className="bg-yellow-500 text-white px-3 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {filteredItems.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">
-          No items available in this category.
-        </p>
+        </>
       )}
     </div>
   );
-}
+};
+
+export default ManageGallery;
