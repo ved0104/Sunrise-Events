@@ -6,12 +6,10 @@ const HoverCard = () => {
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
 
-  // Fetch services from backend
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get("http://localhost:5000/users/services");
-        console.log(response.data.services); // Debugging response
         setServices(response.data.services);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -20,9 +18,8 @@ const HoverCard = () => {
     fetchServices();
   }, []);
 
-  // Handle navigation when a service is clicked
-  const handleClick = (serviceId) => {
-    navigate(`/booking/${serviceId}`);
+  const handleClick = (service) => {
+    navigate(`/booking/${service._id}`, { state: { service } });
   };
 
   return (
