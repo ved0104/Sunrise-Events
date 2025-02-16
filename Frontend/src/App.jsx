@@ -26,12 +26,14 @@ import AdminUserManagement from "./components/admin/ManageUsers";
 import ManageGallery from "./components/admin/ManageGallery"
 const App = () => {
   return (
-    <AppRoutes/>
+    <Router>
+      <AppRoutes/>
+    </Router>
+    
   );
 };
 
 const AppWrapper = () => (
-  <Router>
     <App />
     <FloatingButtons/>
 

@@ -12,20 +12,27 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  // User Store (Regular User)
+  // Get user data from both stores
   const { user, isAuthenticated, logout: userLogout } = useAuthStore();
-
-  // Admin Store
   const { user: adminUser, isAuthenticated: isAdminAuthenticated, logout: adminLogout } =
     useAdminAuthStore();
 
-  // Determine if Admin is logged in
-  const isAdmin = adminUser && isAdminAuthenticated;
+  // Check if the user from the user store is an admin
+  const isUserAdmin = user && user.role === "admin";
+  // Check if the admin store indicates an authenticated admin
+  const isAdminFromStore = adminUser && isAdminAuthenticated;
+  // Consider admin if either condition is true
+  const isAdmin = isAdminFromStore || isUserAdmin;
 
   const handleLogout = async () => {
     try {
       if (isAdmin) {
-        await adminLogout();
+        // Prefer using admin logout if available, otherwise fallback to user logout
+        if (isAdminFromStore) {
+          await adminLogout();
+        } else {
+          await userLogout();
+        }
       } else {
         await userLogout();
       }
@@ -75,7 +82,7 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
-              {/* Render admin options if user is admin */}
+              {/* Render admin options if admin is detected */}
               {isAdmin && (
                 <>
                   <li>
@@ -89,17 +96,9 @@ const Navbar = () => {
                       Admin Dashboard
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to="/admin/users"
-                      className="inline-block py-2 px-4 font-semibold transition duration-200 
-                        relative before:absolute before:left-0 before:bottom-[-6px] before:w-full before:h-0 
-                        before:bg-red-500 before:transition-all before:duration-300 
-                        hover:before:h-[3px]"
-                    >
-                      Manage Users
-                    </Link>
-                  </li>
+                  
+                  
+                  
                 </>
               )}
             </ul>
@@ -112,7 +111,7 @@ const Navbar = () => {
             </button>
 
             {/* Show Login/Signup if not authenticated */}
-            {!isAuthenticated && !isAdmin ? (
+            {(!isAuthenticated && !isAdmin) ? (
               <>
                 <button
                   className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block"
