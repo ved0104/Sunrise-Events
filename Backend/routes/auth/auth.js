@@ -1,51 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Service = require('../models/Service');
-const Gallery = require('../models/Gallery');
 
-// Get all services
-router.get('/services', async (req, res) => {
-  try {
-    const services = await Service.find();
-    res.json(services);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+const {
+  signup,
+  login,
+  logout,
+  verifyEmail,
+  forgotPassword,
+  resetPassword,
+  checkAuth,
+} = require("../../controller/auth.controller.js");
+const { verifyToken } = require("../../middleware/verifyToken.js");
 
-// Get services by category
-router.get('/services/:category', async (req, res) => {
-  try {
-    const services = await Service.find({ category: req.params.category });
-    res.json(services);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.get("/check-auth", verifyToken, checkAuth);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
-// Create booking
-router.post('/bookings', async (req, res) => {
-  // Check date availability
-  const existingBooking = await Booking.findOne({ 
-    date: req.body.date,
-    service: req.body.service
-  });
-  
-  if (existingBooking) {
-    return res.status(400).json({ message: 'Date already booked' });
-  }
+router.post("/verify-email", verifyEmail);
+router.post("/forgot-password", forgotPassword);
 
-  const booking = new Booking({
-    ...req.body,
-    user: req.user.id // From JWT
-  });
-
-  try {
-    const newBooking = await booking.save();
-    res.status(201).json(newBooking);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
+router.post("/reset-password/:token", resetPassword);
 module.exports = router;

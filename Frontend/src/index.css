@@ -1,8 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@300..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap");
 @import "tailwindcss";
+/* Define global variables using :root */
+:root {
+  --font-display: "Oswald", "Roboto", -apple-system, system-ui,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
 
-.glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+/* Import Google Fonts */
+
+/* Apply font styles */
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+/* Button styles */
+.btn-union {
+  --tkww-union-spinner-color: var(
+    --tkww-union-buttons-primary-spinner-color,
+    var(--tkww-union-color-neutral-white, #fff)
+  );
+  background-color: var(
+    --tkww-union-buttons-primary-background-color,
+    var(--tkww-union-color-cta-default, var(--tkww-union-color-primary-300, #ff44cb))
+  );
+  border-color: var(
+    --tkww-union-buttons-primary-border-color,
+    var(--tkww-union-color-cta-default, var(--tkww-union-color-primary-300, #ff44cb))
+  );
+  color: var(
+    --tkww-union-buttons-primary-color,
+    var(--tkww-union-color-text-on-dark-default, var(--tkww-union-color-neutral-white, #fff))
+  );
+  text-decoration: var(--tkww-union-buttons-primary-decoration, none);
+
+  /* Tailwind-like styles */
+  @apply px-4 py-2 rounded-lg font-bold text-lg border;
+
+  cursor: pointer;
+}
+
+.btn-union:hover {
+  background-color: #c5299c;
+  border-color: #c5299c;
+}
+
+.clip-custom {
+  clip-path: polygon(0% 0%, 80% 0%, 50% 70%, 0% 100%);
+}
+
+.clip-custom1 {
+  clip-path: polygon(100% 80%, 0% 30%, 0% 20%, 100% 0%);
+}
+
+
+
+
+/* Default Swiper Arrow Size */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 50px;
+  height: 50px;
+}
+
+/* Medium Screens */
+@media (max-width: 1024px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 40px;
+    height: 40px;
   }
+}
+
+/* Small Screens */
+@media (max-width: 640px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 30px;
+    height: 30px;
+  }
+}
