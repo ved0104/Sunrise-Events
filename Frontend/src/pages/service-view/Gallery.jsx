@@ -20,7 +20,7 @@ const Gallery = () => {
   useEffect(() => {
     const importMedia = async () => {
       const mediaModules = import.meta.glob(
-        "/src/assets/galleryImages/galleryImages/*.{jpg,jpeg,png,webp,mp4,mov,avi}"
+        "/src/assets/images/thereImages/*.{jpg,jpeg,png,webp,mp4,mov,avi}"
       );
       console.log("Media modules found:", Object.keys(mediaModules));
 

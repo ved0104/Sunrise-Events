@@ -13,8 +13,11 @@ const App = () => {
 };
 
 const AppWrapper = () => (
-    <App />
-    // {/* <FloatingButtons/>
+  <>
+  <App />
+  <FloatingButtons/>
+  </>
+    
     // <ManageBooking/> */}
   
 );
