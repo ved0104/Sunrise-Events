@@ -6,59 +6,35 @@ import { MdMenu } from "react-icons/md";
 import ResponsiveMenu from "./ResponsiveMenu";
 import logo from "../../assets/logo.png";
 import { useAuthStore } from "../../store/authStore";
+import { useAdminAuthStore } from "../../store/adminAuthStore";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login state
-  const [isAdmin, setIsAdmin] = useState(false); // Track admin status
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
 
-  // Check if user is logged in on component mount
-  useEffect(() => {
-    const checkUser = () => {
-      const userString = localStorage.getItem("user");
-      if (userString) {
-        try {
-          const userObj = JSON.parse(userString);
-          setIsAuthenticated(true);
-          // Check if user role is admin
-          if (userObj.role && userObj.role.toLowerCase() === "admin") {
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(false);
-          }
-        } catch (error) {
-          console.error("Error parsing user from localStorage", error);
-          setIsAuthenticated(false);
-          setIsAdmin(false);
-        }
-      } else {
-        setIsAuthenticated(false);
-        setIsAdmin(false);
-      }
-    };
+  // User Store (Regular User)
+  const { user, isAuthenticated, logout: userLogout } = useAuthStore();
 
-    checkUser();
+  // Admin Store
+  const { user: adminUser, isAuthenticated: isAdminAuthenticated, logout: adminLogout } =
+    useAdminAuthStore();
 
-    // Listen for login/logout updates across components
-    window.addEventListener("userAuthenticated", checkUser);
-    window.addEventListener("storage", checkUser); // Sync across browser tabs
+  // Determine if Admin is logged in
+  const isAdmin = adminUser && isAdminAuthenticated;
 
-    return () => {
-      window.removeEventListener("userAuthenticated", checkUser);
-      window.removeEventListener("storage", checkUser);
-    };
-  }, []);
-
-  // Logout function (same for admin and regular users)
   const handleLogout = async () => {
-    await logout();
-    localStorage.removeItem("user"); // Remove user data
-    window.dispatchEvent(new Event("userAuthenticated")); // Notify all components
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-    navigate("/"); // Redirect to home
+    try {
+      if (isAdmin) {
+        await adminLogout();
+      } else {
+        await userLogout();
+      }
+      localStorage.removeItem("user");
+      window.dispatchEvent(new Event("userAuthenticated"));
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   // Close menu when clicking outside
@@ -136,7 +112,7 @@ const Navbar = () => {
             </button>
 
             {/* Show Login/Signup if not authenticated */}
-            {!isAuthenticated ? (
+            {!isAuthenticated && !isAdmin ? (
               <>
                 <button
                   className="hover:bg-black text-black font-semibold hover:text-white rounded-md border-2 border-black px-6 py-2 transition duration-200 hidden md:block"
