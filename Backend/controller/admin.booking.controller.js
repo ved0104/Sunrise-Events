@@ -1,5 +1,7 @@
-const Booking = require("../models/booking.model");
-
+const Booking = require("../models/booking.model.js");
+const User = require("../models/user.model.js");
+const { sendSMS } = require("../utils/smsSending.js");
+const { formatDate } = require("../utils/formatDate.js");
 //get all booking
 module.exports.getAllBookings = async (req, res) => {
   try {
@@ -79,6 +81,18 @@ module.exports.updateBookingStatus = async (req, res) => {
     // Update the booking status
     booking.status = status;
     await booking.save();
+
+    const user = await User.findById(booking.user);
+    if (user && user.phonenumber) {
+      const eventDate = booking.date ? formatDate(booking.date) : "N/A";
+      const contactNumber =
+        process.env.SUNRISE_CONTACT_NUMBER || "your-contact-number";
+
+      // Construct the SMS message using the provided template
+      const message = `Hello ${user.name}, thank you for choosing Sunrise Events to create unforgettable experiences! Your booking on ${eventDate} has been "${booking.status}". For any inquiries, please call us at ${contactNumber}. We look forward to making your event truly memorable. – The Sunrise Events Team`;
+      // Optionally, if sendSMS returns a promise, you can await it:
+      await sendSMS(user.phonenumber, message);
+    }
 
     res.status(200).json({
       success: true,

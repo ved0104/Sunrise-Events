@@ -16,6 +16,7 @@ const adminServicesRoutes = require("./routes/admin/service.routes.js");
 const adminGalleryRoutes = require("./routes/admin/gallery.routes.js");
 const adminUserRoutes = require("./routes/admin/user.routes.js");
 const adminBookingRoutes = require("./routes/admin/booking.routes.js");
+const adminDashboardRoutes = require("./routes/admin/admin.dashboard.routes.js");
 
 app.use(
   cors({
@@ -35,6 +36,7 @@ app.use("/users/gallery", userGalleryRoutes);
 app.use("/users/bookings", userBookingRoutes);
 app.use("/users/services", userServicesRoutes);
 
+app.use("/admin", adminDashboardRoutes);
 app.use("/admin/gallery", adminGalleryRoutes);
 app.use("/admin", adminRoutes);
 app.use("/admin/services", adminServicesRoutes);

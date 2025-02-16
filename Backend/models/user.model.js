@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const { parsePhoneNumber } = require("libphonenumber-js");
 const UserSchema = new mongoose.Schema(
   {
     email: {
@@ -22,8 +22,20 @@ const UserSchema = new mongoose.Schema(
     },
     phonenumber: {
       type: String,
-      minlength: 10,
       required: true,
+      validate: {
+        validator: function (phone) {
+          try {
+            const phoneNumber = parsePhoneNumber(phone, "IN");
+            return (
+              phoneNumber.isValid() && phoneNumber.number.startsWith("+91")
+            );
+          } catch (err) {
+            return false;
+          }
+        },
+        message: "Invalid phone number. Please use the format +91XXXXXXXXXX.",
+      },
     },
     profilePicture: {
       type: String,
