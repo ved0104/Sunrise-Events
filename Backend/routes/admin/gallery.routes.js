@@ -11,8 +11,20 @@ router.get("/", galleryController.getAllGalleryItems);
 
 router.get("/:category", galleryController.getGalleryByEventType);
 
-router.post("/", isAuthenticated, isAdmin, galleryController.createGalleryItem);
-
+router.post(
+  "/",
+  isAuthenticated,
+  isAdmin,
+  upload.single("image"),
+  galleryController.createGalleryItem
+);
+router.post(
+  "/multiple",
+  isAuthenticated,
+  isAdmin,
+  upload.array("images", 10),
+  galleryController.createMultipleGalleryItems
+);
 router.put(
   "/:id",
   isAuthenticated,

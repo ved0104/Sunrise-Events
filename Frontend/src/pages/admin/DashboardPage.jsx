@@ -1,116 +1,217 @@
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAdminAuthStore } from "../../store/adminAuthStore";
 import { formatDate } from "../../utils/date";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  ChartBarIcon,
+  UsersIcon,
+  PhotoIcon,
+  Cog6ToothIcon,
+  ArrowRightOnRectangleIcon,
+  CalendarIcon,
+} from "@heroicons/react/24/outline";
+
+// Mapping for icons and background colors based on the stat title
+const statMappings = {
+  "Total Users": { icon: UsersIcon, color: "bg-pink-100" },
+  "Active Services": { icon: Cog6ToothIcon, color: "bg-purple-100" },
+  "Gallery Items": { icon: PhotoIcon, color: "bg-blue-100" },
+  "Monthly Bookings": { icon: CalendarIcon, color: "bg-teal-100" },
+};
 
 const AdminDashboardPage = () => {
-	const { user: admin, logout } = useAdminAuthStore();
-	const navigate = useNavigate();
+  const { user: admin, logout } = useAdminAuthStore();
+  const navigate = useNavigate();
 
-	const handleLogout = () => {
-		logout();
-		navigate("/admin/login"); 
-	};
+  const [stats, setStats] = useState([]);
+  const [recentActivities, setRecentActivities] = useState([]);
 
-	const handleManageUsers = () => {
-		navigate("/admin/manage-users");
-	};
+  // Fetch dashboard stats and recent activities dynamically
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const statsResponse = await axios.get("http://localhost:5000/admin/dashboard-stats");
+        const activitiesResponse = await axios.get("http://localhost:5000/admin/recent-activities");
 
-	const handleManageServices = () => {
-		navigate("/admin/manage-services");
-	};
+        // Map stats with corresponding icons and colors
+        const mappedStats = statsResponse.data.stats.map((stat) => {
+          const mapping = statMappings[stat.title] || {};
+          return {
+            ...stat,
+            icon: mapping.icon,
+            color: mapping.color || "bg-gray-100",
+          };
+        });
 
-	const handleManageGallery = () => {
-		navigate("/admin/manage-gallery");
-	};
+        setStats(mappedStats);
+        setRecentActivities(activitiesResponse.data.activities);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
 
-	return (
-		<motion.div
-			initial={{ opacity: 0, scale: 0.9 }}
-			animate={{ opacity: 1, scale: 1 }}
-			exit={{ opacity: 0, scale: 0.9 }}
-			transition={{ duration: 0.5 }}
-			className='max-w-md w-full mx-auto mt-10 p-8 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-800'
-		>
-			<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-indigo-600 text-transparent bg-clip-text'>
-				Admin Dashboard
-			</h2>
+    fetchDashboardData();
+  }, []);
 
-			<div className='space-y-6'>
-				<motion.div
-					className='p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700'
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.2 }}
-				>
-					<h3 className='text-xl font-semibold text-blue-400 mb-3'>Admin Information</h3>
-					<p className='text-gray-300'>Name: {admin?.name}</p>
-					<p className='text-gray-300'>Email: {admin?.email}</p>
-					<p className='text-gray-300 font-bold'>Role: Super Admin</p>
-				</motion.div>
+  // Handlers for quick actions
+  const handleManageUsers = () => navigate("/admin/manage-users");
+  const handleManageServices = () => navigate("/admin/manage-services");
+  const handleManageGallery = () => navigate("/admin/manage-gallery");
+  const handleManageBookings = () => navigate("/admin/manage-bookings");
 
-				<motion.div
-					className='p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700'
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.4 }}
-				>
-					<h3 className='text-xl font-semibold text-blue-400 mb-3'>Account Activity</h3>
-					<p className='text-gray-300'>
-						<span className='font-bold'>Joined: </span>
-						{new Date(admin.createdAt).toLocaleDateString("en-US")}
-					</p>
-					<p className='text-gray-300'>
-						<span className='font-bold'>Last Login: </span>
-						{formatDate(admin.lastLogin)}
-					</p>
-				</motion.div>
-			</div>
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-pink-50 p-8"
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">
+              Welcome back, {admin?.name}
+            </h1>
+            <p className="text-gray-600">{formatDate(new Date())}</p>
+          </div>
+          <button
+            onClick={() => {
+              logout();
+              navigate("/admin/login");
+            }}
+            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-pink-100 rounded-lg transition-colors"
+          >
+            <ArrowRightOnRectangleIcon className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </div>
 
-			{/* Buttons Section */}
-			<div className='mt-6 space-y-4'>
-				<motion.button
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={handleManageUsers}
-					className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-teal-600 text-white 
-					font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-teal-700'
-				>
-					Manage Users
-				</motion.button>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-gray-500 text-sm mb-1">{stat.title}</p>
+                    <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+                  </div>
+                  <div className={`${stat.color} p-3 rounded-lg`}>
+                    {Icon && <Icon className="w-6 h-6 text-gray-700" />}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
 
-				<motion.button
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={handleManageServices}
-					className='w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white 
-					font-bold rounded-lg shadow-lg hover:from-purple-600 hover:to-pink-700'
-				>
-					Manage Services
-				</motion.button>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={handleManageUsers}
+            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-left hover:border-pink-200 transition-colors"
+          >
+            <UsersIcon className="w-8 h-8 text-pink-500 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Manage Users
+            </h3>
+            <p className="text-gray-600 text-sm">
+              View, edit, and manage user accounts and permissions.
+            </p>
+          </motion.button>
 
-				<motion.button
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={handleManageGallery}
-					className='w-full py-3 px-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white 
-					font-bold rounded-lg shadow-lg hover:from-yellow-600 hover:to-orange-700'
-				>
-					Manage Gallery
-				</motion.button>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={handleManageServices}
+            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-left hover:border-purple-200 transition-colors"
+          >
+            <Cog6ToothIcon className="w-8 h-8 text-purple-500 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Manage Services
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Update service offerings and manage service categories.
+            </p>
+          </motion.button>
 
-				<motion.button
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={handleLogout}
-					className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
-					font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700'
-				>
-					Logout
-				</motion.button>
-			</div>
-		</motion.div>
-	);
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={handleManageGallery}
+            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-left hover:border-blue-200 transition-colors"
+          >
+            <PhotoIcon className="w-8 h-8 text-blue-500 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Manage Gallery
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Organize and manage gallery images and media content.
+            </p>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={handleManageBookings}
+            className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-left hover:border-teal-200 transition-colors"
+          >
+            <CalendarIcon className="w-8 h-8 text-teal-500 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Manage Bookings
+            </h3>
+            <p className="text-gray-600 text-sm">
+              View and manage customer bookings and appointments.
+            </p>
+          </motion.button>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Recent Activity
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left text-gray-600 border-b border-gray-200">
+                  <th className="pb-3">Action</th>
+                  <th className="pb-3">Date</th>
+                  <th className="pb-3">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentActivities.map((activity) => (
+                  <tr key={activity.id} className="border-b border-gray-100 last:border-0">
+                    <td className="py-4 text-gray-800">{activity.action}</td>
+                    <td className="py-4 text-gray-600">{formatDate(activity.date)}</td>
+                    <td className="py-4">
+                      <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                        {activity.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {recentActivities.length === 0 && (
+                  <tr>
+                    <td colSpan="3" className="py-4 text-center text-gray-500">
+                      No recent activity.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
 export default AdminDashboardPage;
