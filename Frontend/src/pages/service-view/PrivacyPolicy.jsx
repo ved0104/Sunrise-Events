@@ -4,7 +4,7 @@ import Footer from "../../components/Footer/Footer";
 
 const PrivacyPolicy = () => {
   return (<>
-    <Navbar/>
+    <Layout>
     <div className="max-w-4xl mx-auto px-6 py-12 bg-white text-gray-900 pt-20">
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
       
@@ -46,7 +46,7 @@ const PrivacyPolicy = () => {
         <p className="text-gray-700">If you have any questions, contact us at <span className="font-semibold">[your-email@example.com]</span>.</p>
       </section>
     </div>
-    <Footer/>
+    </Layout>
     </>
   );
 };

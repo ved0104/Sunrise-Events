@@ -31,7 +31,6 @@ import Booking from "./pages/service-view/Booking";
 
 import Gallery from "./pages/service-view/Gallery";
 import AllServices from "./Components/booking/AllServices";
-import PrivacyPolicy from "./pages/service-view/PrivacyPolicy";
 
 // ===========================
 // Admin Protected Pages
@@ -40,6 +39,8 @@ import ManageUsers from "./Components/admin/ManageUsers";
 import ManageServices from "./Components/admin/ManageServices";
 import ManageGallery from "./Components/admin/ManageGallery";
 import ManageBookings from "./components/admin/ManageBooking";
+import ContactUs from "./Components/other/ContactUs";
+import PolicyPage from "./Components/other/PolicyPage";
 
 
 // ---------------------------
@@ -245,7 +246,8 @@ const AppRoutes = () => {
 
         {/* Miscellaneous Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/contact-us" element={<ContactUs/>} />
+        <Route path="/privacy-policy" element={<PolicyPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

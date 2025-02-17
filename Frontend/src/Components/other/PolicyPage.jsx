@@ -6,7 +6,7 @@ import {
   UserCircleIcon,
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
-
+import Layout from '../Layout';
 // -------------------------
 // Main Page Component
 // -------------------------
@@ -64,6 +64,7 @@ const PolicyPage = () => {
   };
 
   return (
+    // <Layout>
     <div className="min-h-screen bg-gray-50">
       {/* Sticky Navigation */}
       <nav className="sticky top-0 bg-white shadow-sm z-20">
@@ -312,6 +313,7 @@ const PolicyPage = () => {
         </AnimatePresence>
       </main>
     </div>
+    // </Layout>
   );
 };
 

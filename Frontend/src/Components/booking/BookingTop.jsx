@@ -1,6 +1,8 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 export default function BookingTop({ selectedService }) {
+  const { id } = useParams();
   return (
     <div>
       <div className="text-center h-40 pt-15 mt">
