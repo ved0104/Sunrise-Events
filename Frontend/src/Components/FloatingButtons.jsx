@@ -48,7 +48,7 @@ const FloatingButtons = () => {
         <img
           src="https://cdn-icons-png.flaticon.com/512/724/724664.png"
           alt="Call"
-          className="w-13 h-13"
+          className="w-13 h-13 lg:hidden"
         />
       </button>
     </div>
