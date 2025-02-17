@@ -6,10 +6,13 @@ const cloudinary = require("cloudinary").v2;
 const Gallery = require("../models/gallery.model.js"); // adjust the path as needed
 
 // Connect to your MongoDB database
-mongoose.connect("mongodb://localhost:27017/gwocSunrise", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://vedangdubey:qGd5n255O6gDUoMR@cluster0.9dxwe.mongodb.net/finalGwoc",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 // Configure Cloudinary (same as your middleware)
 cloudinary.config({

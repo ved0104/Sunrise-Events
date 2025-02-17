@@ -93,3 +93,76 @@ module.exports.PASSWORD_RESET_REQUEST_TEMPLATE = `
 </body>
 </html>
 `;
+
+module.exports.BOOKING_STATUS_UPDATE_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Status Update</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <!-- Header -->
+  <div style="background: linear-gradient(to right, #FF7E5F, #feb47b); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Booking Status Update</h1>
+  </div>
+  
+  <!-- Main Content -->
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello,</p>
+    <p>We are writing to inform you that the status of your booking has been updated. Please find the details below:</p>
+    
+    <p><strong>Booking ID:</strong> {bookingId}</p>
+    <p><strong>New Status:</strong> {newStatus}</p>
+    
+    <p>If you have any questions or require further assistance, please do not hesitate to contact us at <a href="mailto:support@sunriseevents.com" style="color: #FF7E5F;">support@sunriseevents.com</a> or call us at (123) 456-7890.</p>
+    
+    <p>Thank you for choosing Sunrise Events. We look forward to making your event unforgettable!</p>
+    
+    <p>Best regards,<br>
+    The Sunrise Events Team</p>
+  </div>
+  
+  <!-- Footer -->
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+    <p>&copy; ${new Date().getFullYear()} Sunrise Events. All rights reserved.</p>
+  </div>
+</body>
+</html>
+`;
+
+module.exports.WELCOME_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Sunrise Events</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <!-- Header -->
+  <div style="background: linear-gradient(to right, #FF7E5F, #feb47b); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Welcome to Sunrise Events</h1>
+  </div>
+  
+  <!-- Main Content -->
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello {name},</p>
+    <p>We're thrilled to have you on board! Thank you for joining the Sunrise Events family—where unforgettable experiences begin.</p>
+    <p>At Sunrise Events, we specialize in creating magical moments for every occasion, from weddings, receptions, sangeet, and haldi celebrations to bespoke events designed just for you.</p>
+    <p>Explore our range of services, check out our gallery for inspiration, and feel free to reach out if you have any questions or need assistance planning your event.</p>
+    <p>Once again, welcome to Sunrise Events! We look forward to making your events extraordinary.</p>
+    <p>Best regards,<br>
+    The Sunrise Events Team</p>
+  </div>
+  
+  <!-- Footer -->
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message. Please do not reply to this email.</p>
+    <p>&copy; ${new Date().getFullYear()} Sunrise Events. All rights reserved.</p>
+  </div>
+</body>
+</html>
+`;
