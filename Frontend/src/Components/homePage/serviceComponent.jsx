@@ -5,38 +5,38 @@ import haldiGif from "../../assets/images/home/haldi.gif";
 
 const services = [
   {
-    title: "Wedding Decoration",
+    title: "Wedding",
     description: "Transform your venue with elegant decor",
     image: furniture,
     type: "standard"
   },
   {
-    title: "Haldi Decoration",
+    title: "Haldi",
     description: "Brighten your ceremony with vivid haldi decor",
     background: haldiGif,
     type: "full-bleed"
   },
   {
-    title: "Reception Setup",
+    title: "Reception",
     description: "Style your reception for a grand celebration",
     image: furniture,
     type: "standard"
   },
   {
-    title: "Sangeet Decoration",
+    title: "Sangeet",
     description: "Set the stage for a vibrant musical evening",
     background: haldiGif,
     type: "full-bleed"
   },
   {
-    title: "Rental Furniture",
+    title: "Rental",
     description: "Furnish your event with premium rentals",
     image: furniture,
     type: "standard"
   },
   {
-    title: "Sitting Arrangements",
-    description: "Comfortable seating for all your guests",
+    title: "Birthday",
+    description: "Lavish birthday decor",
     background: haldiGif,
     type: "full-bleed"
   }

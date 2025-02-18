@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { X, Edit, Trash } from "lucide-react";
 import AddService from "./AddService";
+import { toast } from "react-toastify";
 
 export default function ManageServices() {
   const [services, setServices] = useState([]);
@@ -25,7 +26,16 @@ export default function ManageServices() {
       setServices(response.data.services);
     } catch (error) {
       console.error("Failed to fetch services:", error.response?.data);
-      alert("Failed to load services");
+      toast.error("Failed to load services", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      
     }
   };
 
@@ -34,11 +44,27 @@ export default function ManageServices() {
       await axios.delete(`http://localhost:5000/admin/services/${serviceId}`, {
         withCredentials: true,
       });
-      alert("Service deleted successfully");
+      toast.success("Service deleted successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
       fetchServices();
     } catch (error) {
       console.error("Failed to delete service:", error.response?.data);
-      alert(error.response?.data?.message || "Failed to delete service");
+      toast.error(error.response?.data?.message || "Failed to delete service", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     }
   };
 
@@ -66,12 +92,28 @@ export default function ManageServices() {
         { title: editTitle, description: editDescription, price: editPrice, category: editCategory, image: imageUrl },
         { withCredentials: true }
       );
-      alert("Service updated successfully");
+      toast.success("Service updated successfully", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "dark",
+            });
       setEditingService(null);
       fetchServices();
     } catch (error) {
       console.error("Failed to update service:", error.response?.data);
-      alert("Failed to update service");
+      toast.error("Failed to update service", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     }
   };
 
