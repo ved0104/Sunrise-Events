@@ -14,4 +14,11 @@ router.get("/category/:category", serviceController.getServiceByCategory);
 
 // booking a service
 router.post("/:id/booking", isAuthenticated, bookingController.createBooking);
+
+router.post(
+  "/custom-service",
+  isAuthenticated,
+  serviceController.createCustomService
+);
+
 module.exports = router;
