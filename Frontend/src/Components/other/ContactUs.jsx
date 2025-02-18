@@ -1,9 +1,13 @@
 import React from 'react';
 import contactImage from '/src/assets/images/galleryImages/contactImage.jpg';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import Layout from '../Layout';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/navbar';
 
 const ContactUs = () => {
-    return (
+    return (<>
+        <Navbar/>
         <div className="max-w-7xl mx-auto px-4 py-12 pt-20">
             {/* Heading Section */}
             <div className='flex flex-col items-center'>
@@ -185,6 +189,8 @@ const ContactUs = () => {
                 </div>
             </div>
         </div>
+        <Footer/>
+        </>
     );
 };
 

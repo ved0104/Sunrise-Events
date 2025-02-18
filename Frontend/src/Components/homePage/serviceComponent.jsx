@@ -47,6 +47,7 @@ export default function ServiceComponent() {
 
   const handleServiceClick = (serviceTitle) => {
     navigate(`/gallery?category=${encodeURIComponent(serviceTitle.toLowerCase())}`);
+    console.log("Navigating :",`/gallery?category=${encodeURIComponent(serviceTitle.toLowerCase())}`)
   };
 
   return (
