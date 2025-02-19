@@ -18,7 +18,6 @@ const AppWrapper = () => (
   <>
     <App />
     <FloatingButtons/>
-    <CustomBookingForm/>
     </>
 );
 
