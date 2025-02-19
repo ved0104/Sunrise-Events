@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import contactImage from "/src/assets/images/galleryImages/contactImage.jpg";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   MapPin,
   Phone,
@@ -34,6 +36,19 @@ const ContactUs = () => {
     e.preventDefault(); // Prevent page reload
     console.log("Form Data:", formData);
   };
+
+  const location=useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
+
   return (
     <div className="bg-[#fff5ed]">
       <Navbar />
@@ -62,7 +77,7 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Content Grid */}
-        <div className="grid md:grid-cols-2 gap-12 mb-16">
+        <div id="calltoaction" className="grid md:grid-cols-2 gap-12 mb-16">
           {/* Left Side - Contact Form */}
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">

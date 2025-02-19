@@ -9,6 +9,9 @@ import {
 import Layout from "../Layout";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/navbar";
+
+import { useLocation } from "react-router-dom";
+import EndPart from "../homePage/End";
 // -------------------------
 // Main Page Component
 // -------------------------
@@ -65,16 +68,28 @@ const PolicyPage = () => {
     });
   };
 
+  const location=useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
+
   return (
     // <Layout>
-    <>
+    <div className="bg-[#fff5ed]">
       <Navbar />
-      <div className="min-h-screen bg-[#fff5ed] mt-15">
+      <div className="min-h-screen mt-15">
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* About Us Section */}
           <section
-            id="about"
+            id="aboutus"
             ref={sections.about}
             className="scroll-mt-24 mb-20"
           >
@@ -192,7 +207,7 @@ const PolicyPage = () => {
           <div className="grid lg:grid-cols-2 gap-8 mb-10">
             {/* Booking Policy */}
             <section
-              id="booking"
+              id="bookingpolicy"
               ref={sections.booking}
               className="scroll-mt-24"
             >
@@ -230,7 +245,7 @@ const PolicyPage = () => {
 
             {/* Cancellation & Refund */}
             <section
-              id="cancellation"
+              id="cancellationrefund"
               ref={sections.cancellation}
               className="scroll-mt-24"
             >
@@ -277,8 +292,9 @@ const PolicyPage = () => {
           </div>
         </main>
       </div>
+      <EndPart/>
       <Footer />
-    </>
+    </div>
     // </Layout>
   );
 };
