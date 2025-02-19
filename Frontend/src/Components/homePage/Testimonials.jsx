@@ -22,7 +22,7 @@ export default function Testimonials() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-[85vw] sm:max-w-[75vw] lg:max-w-[65vw] h-auto min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex justify-center items-center text-white">
                 <div
-                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background2.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
+                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background3.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
                 ></div>
                 <div className="absolute inset-0 bg-black opacity-65"></div>
                 <div className="relative z-10 text-center px-4 sm:px-8">
@@ -40,7 +40,7 @@ export default function Testimonials() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-[85vw] sm:max-w-[75vw] lg:max-w-[65vw] h-auto min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex justify-center items-center text-white">
                 <div
-                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background2.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
+                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background4.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
                 ></div>
                 <div className="absolute inset-0 bg-black opacity-65"></div>
                 <div className="relative z-10 text-center px-4 sm:px-8">
@@ -58,7 +58,7 @@ export default function Testimonials() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-[85vw] sm:max-w-[75vw] lg:max-w-[65vw] h-auto min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex justify-center items-center text-white">
                 <div
-                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background2.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
+                  className="absolute inset-0 bg-[url('/src/assets/images/testinomials/background5.jpg')] bg-cover bg-right sm:bg-center bg-no-repeat"
                 ></div>
                 <div className="absolute inset-0 bg-black opacity-65"></div>
                 <div className="relative z-10 text-center px-4 sm:px-8">
