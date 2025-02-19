@@ -1,6 +1,7 @@
 const Booking = require("../models/booking.model.js");
 const Service = require("../models/service.model.js");
 const User = require("../models/user.model.js");
+const { sendBookingConfirmationEmail } = require("../mailtrap/emails.js");
 
 // Book a service
 module.exports.createBooking = async (req, res) => {
@@ -36,10 +37,13 @@ module.exports.createBooking = async (req, res) => {
     });
 
     await newBooking.save();
-    const populatedBooking = await Booking.findById(newBooking._id).populate(
-      "user",
-      "name email phonenumber"
-    );
+
+    const populatedBooking = await Booking.findById(newBooking._id)
+      .populate("user", "name email phonenumber")
+      .populate("service", "title  price");
+
+    await sendBookingConfirmationEmail(user.email, populatedBooking);
+
     res.status(201).json({
       message: "Booking created successfully",
       newBooking: populatedBooking,
