@@ -15,7 +15,7 @@ export default function AllServices() {
   const fetchServices = async () => {
     try {
       const response = await axios.get("http://localhost:5000/users/services"); // Your backend API
-      console.log("data coming from backend", response);
+      
       setServices(response.data.services); // Assuming response.data is an array of services
     } catch (error) {
       console.error("Error fetching services:", error);

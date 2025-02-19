@@ -28,7 +28,7 @@ export default function AddService() {
         }
       );
 
-      console.log(response.data);
+     
       toast.success("Service Added successfully", {
               position: "top-right",
               autoClose: 2000,

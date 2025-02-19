@@ -18,7 +18,7 @@ const AdminSignUpPage = () => {
 const handleSignUp = async (e) => {
   e.preventDefault();
   
-  console.log("Signing up admin with:", { email, password, name, phonenumber });
+ 
   if (!name || !email || !password || !phonenumber) {
     toast.error("All fields are required!", {
       position: "top-right",
@@ -34,7 +34,7 @@ const handleSignUp = async (e) => {
 
   try {
     const response = await signup(email, password, name, phonenumber);
-    console.log("Signup successful:", response);
+    
     
     if (response.success) {
       toast.success("Admin account created successfully! Redirecting...", {

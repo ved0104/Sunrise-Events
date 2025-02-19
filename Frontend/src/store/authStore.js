@@ -20,7 +20,7 @@ export const useAuthStore = create((set) => ({
   signup: async (email, password, name, phonenumber) => {
     set({ isLoading: true, error: null });
     const userData = { email, password, name, phonenumber };
-    console.log("Sending signup data:", userData); // ✅ Debugging
+
     try {
       const response = await axios.post(`${API_URL}/signup`, {
         email,
@@ -28,7 +28,7 @@ export const useAuthStore = create((set) => ({
         name,
         phonenumber,
       });
-      console.log("response:", response);
+
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -56,9 +56,8 @@ export const useAuthStore = create((set) => ({
       const userData = response.data.user;
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
-        console.log("Token saved:", response.data.token);
       }
-      console.log(userData)
+
       localStorage.setItem("user", JSON.stringify(userData));
 
       set({
@@ -113,24 +112,45 @@ export const useAuthStore = create((set) => ({
   },
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
+
     try {
-      const response = await axios.get(`${API_URL}/check-auth`);
+      const response = await axios.get(`${API_URL}/check-auth`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Send token if stored
+        },
+        withCredentials: true, // If using cookies
+      });
+
       set({
         user: response.data.user,
         isAuthenticated: true,
         isCheckingAuth: false,
       });
     } catch (error) {
-      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      if (error.response?.status === 401) {
+        console.log("User not authenticated");
+        set({
+          user: null,
+          isAuthenticated: false,
+          isCheckingAuth: false,
+        });
+      } else {
+        console.error("Error checking auth:", error);
+        set({
+          error: "Failed to check authentication",
+          isCheckingAuth: false,
+        });
+      }
     }
   },
+
   forgotPassword: async (email) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/forgot-password`, {
         email,
       });
-      console.log(response);
+
       set({ message: response.data.message, isLoading: false });
       return { success: true, message: response.data.message };
     } catch (error) {

@@ -70,7 +70,6 @@ module.exports.sendWelcomeEmail = async (email, name) => {
 
 module.exports.sendForgotPasswordEmail = async (email, resetURL) => {
   try {
-    console.log(resetURL);
     const response = await transporter.sendMail({
       from: '"Sunrise Event " <allinoneatharv07@gmail.com>"',
       to: email,
@@ -110,7 +109,6 @@ module.exports.sendResetSuccessEmail = async (email) => {
 
 module.exports.sendBookingConfirmationEmail = async (email, booking) => {
   try {
-    console.log("booking", booking);
     // Extract values from the booking document
     const bookingId = booking._id;
     const serviceTitle = booking.service;

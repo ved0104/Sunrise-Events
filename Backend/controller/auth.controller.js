@@ -14,13 +14,11 @@ const {
 } = require("../mailtrap/emails.js");
 
 module.exports.signup = async (req, res) => {
-  console.log("signup body", req.body);
   const { email, password, name, phonenumber } = req.body;
   try {
     if (!email || !password || !name || !phonenumber) {
       throw new Error("All Fields are required");
     }
-    console.log(email);
     const userAlreadyExist = await User.findOne({ email });
     if (userAlreadyExist) {
       throw new Error("User Already Exists");
@@ -155,7 +153,6 @@ module.exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    console.log(process.env.CLIENT_URL);
     //send email
     await sendForgotPasswordEmail(
       user.email,
