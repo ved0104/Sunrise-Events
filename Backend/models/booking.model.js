@@ -10,7 +10,11 @@ const bookingSchema = new mongoose.Schema(
     service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
-      required: true,
+      required: false,
+    },
+    customServiceDetails: {
+      eventType: { type: String }, // E.g., Birthday, Baby Shower
+      description: { type: String },
     },
     date: {
       type: Date,

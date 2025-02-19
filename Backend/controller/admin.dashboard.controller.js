@@ -49,13 +49,18 @@ module.exports.getRecentActivities = async (req, res) => {
       .populate("service", "title")
       .lean();
 
-    // Map bookings into activity objects
-    const activities = bookings.map((booking) => ({
-      id: booking._id,
-      action: `Booking created for "${booking.service.title}" by ${booking.user.name}`,
-      date: booking.createdAt,
-      status: booking.status, // e.g., "pending", "approved", or "rejected"
-    }));
+    // Map bookings into activity objects, ensuring `service` exists before trying to access `title`
+    const activities = bookings.map((booking) => {
+      const serviceTitle = booking.service
+        ? booking.service.title
+        : "No service available";
+      return {
+        id: booking._id,
+        action: `Booking created for "${serviceTitle}" by ${booking.user.name}`,
+        date: booking.createdAt,
+        status: booking.status, // e.g., "pending", "approved", or "rejected"
+      };
+    });
 
     return res.json({ success: true, activities });
   } catch (error) {

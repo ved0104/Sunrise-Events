@@ -1,6 +1,10 @@
 const Service = require("../models/service.model.js");
-const mongoose=require('mongoose')
-
+const Booking = require("../models/booking.model.js");
+const mongoose = require("mongoose");
+const {
+  sendBookingConfirmationEmail,
+  sendCustomBookingAdminEmail,
+} = require("../mailtrap/emails.js");
 module.exports.getAllServices = async (req, res) => {
   try {
     const services = await Service.find();
@@ -12,7 +16,7 @@ module.exports.getAllServices = async (req, res) => {
 };
 
 //get service by id
-module.exports.getServiceById = async (req, res) => { 
+module.exports.getServiceById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -48,6 +52,48 @@ module.exports.getServiceByCategory = async (req, res) => {
   } catch (error) {
     console.error("Error fetching service by category:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.createCustomService = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const { eventType, description, date } = req.body;
+
+    if (!eventType || !description || !date) {
+      return res.status(400).json({
+        error: "All the fields are required for custom bookings.",
+      });
+    }
+
+    const booking = await Booking.create({
+      user: userId,
+      customServiceDetails: {
+        eventType,
+        description,
+      },
+      date,
+    });
+    // Populate user to get the name in email
+    await booking.populate("user");
+    await sendCustomBookingAdminEmail(booking);
+
+    // Send email
+    await sendBookingConfirmationEmail(booking.user.email, booking);
+
+    return res.status(201).json({
+      success: true,
+      message: "Custom service booking created successfully.",
+      booking,
+    });
+  } catch (error) {
+    console.log("error in creating custom service ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error,
+    });
   }
 };
 
