@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Play, Video } from "lucide-react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const shuffleArray = (array) => {
   const shuffled = [...array];
@@ -15,7 +16,14 @@ const shuffleArray = (array) => {
 const filterItems = (items, category) => {
   if (category === "all") return items;
   if (category === "others") {
-    const mainCats = ["birthday", "reception", "wedding", "rental", "sangeet", "haldi"];
+    const mainCats = [
+      "birthday",
+      "reception",
+      "wedding",
+      "rental",
+      "sangeet",
+      "haldi",
+    ];
     return items.filter(
       (item) => !mainCats.includes(item.category.toLowerCase())
     );
@@ -26,6 +34,7 @@ const filterItems = (items, category) => {
 };
 
 const Gallery = () => {
+  const [searchParams] = useSearchParams();
   const [allItems, setAllItems] = useState([]);
   const [initialImages, setInitialImages] = useState([]);
   const [additionalMedia, setAdditionalMedia] = useState([]);
@@ -39,7 +48,9 @@ const Gallery = () => {
       try {
         const response = await axios.get("http://localhost:5000/admin/gallery");
         const items = response.data.galleryItems.map((item) => {
-          const type = item.imageUrl.match(/\.(mp4|mov|avi)$/i) ? "video" : "image";
+          const type = item.imageUrl.match(/\.(mp4|mov|avi)$/i)
+            ? "video"
+            : "image";
           return {
             src: item.imageUrl,
             type,
@@ -54,6 +65,13 @@ const Gallery = () => {
 
     fetchGallery();
   }, []);
+
+  useEffect(() => {
+    const categoryFromURL = searchParams.get("category");
+    if (categoryFromURL) {
+      setSelectedCategory(categoryFromURL.toLowerCase().replace("%20", " "));
+    }
+  }, [searchParams]);
 
   // Recalculate groups when allItems or selectedCategory changes
   useEffect(() => {
@@ -89,6 +107,7 @@ const Gallery = () => {
     "rental",
     "sangeet",
     "haldi",
+    "seating",
     "others",
   ];
 
@@ -99,11 +118,13 @@ const Gallery = () => {
     featuredVideo;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 pt-20">
+    <div className="max-w-6xl mx-auto px-4 py-8 pt-28">
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold">A Luxe Ensemble of Elegance</h1>
-        <p className="text-lg text-gray-600">Simple serenity with a touch of splendor.</p>
+        <p className="text-lg text-gray-600">
+          Simple serenity with a touch of splendor.
+        </p>
       </div>
 
       {/* Sort/Filter Buttons (always visible) */}
@@ -113,7 +134,9 @@ const Gallery = () => {
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             className={`px-4 py-2 rounded-full border ${
-              selectedCategory === cat ? "bg-blue-600 text-white" : "bg-white text-gray-600"
+              selectedCategory === cat
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-600"
             }`}
           >
             {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -172,7 +195,11 @@ const Gallery = () => {
                         className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform"
                         onClick={() => setZoomedMedia(media)}
                       >
-                        {media.type === "video" ? <Video size={20} /> : <ZoomIn size={20} />}
+                        {media.type === "video" ? (
+                          <Video size={20} />
+                        ) : (
+                          <ZoomIn size={20} />
+                        )}
                       </button>
                     </div>
                   ))}
@@ -200,10 +227,16 @@ const Gallery = () => {
               {initialImages.length >= 3 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <div className="md:col-span-1 flex flex-col justify-center text-center md:text-left">
-                    <h2 className="text-3xl font-bold uppercase">Representing</h2>
-                    <p className="text-lg text-gray-600">Style, Elegance, & Class</p>
+                    <h2 className="text-3xl font-bold uppercase">
+                      Representing
+                    </h2>
+                    <p className="text-lg text-gray-600">
+                      Style, Elegance, & Class
+                    </p>
                     <p className="mt-2 text-gray-700">
-                      When a traditional mandap in full regalia meets modern floral artistry. A union that's decadent but still delightfully delicate.
+                      When a traditional mandap in full regalia meets modern
+                      floral artistry. A union that's decadent but still
+                      delightfully delicate.
                     </p>
                   </div>
                   {[1, 2].map((index) => (
@@ -244,10 +277,17 @@ const Gallery = () => {
                     </button>
                   </div>
                   <div className="flex flex-col justify-center text-center md:text-left">
-                    <h2 className="text-3xl font-bold uppercase">Hand Carved to Perfection</h2>
-                    <p className="text-lg text-gray-600">The Art of Craftsmanship</p>
+                    <h2 className="text-3xl font-bold uppercase">
+                      Hand Carved to Perfection
+                    </h2>
+                    <p className="text-lg text-gray-600">
+                      The Art of Craftsmanship
+                    </p>
                     <p className="mt-2 text-gray-700">
-                      This exquisite wooden masterpiece was hand-carved by India's finest artisans. Intricate details are bestowed upon each pillar. Delicate archways and double-pillared platforms give rise to a regal ambiance.
+                      This exquisite wooden masterpiece was hand-carved by
+                      India's finest artisans. Intricate details are bestowed
+                      upon each pillar. Delicate archways and double-pillared
+                      platforms give rise to a regal ambiance.
                     </p>
                   </div>
                 </div>
@@ -307,7 +347,11 @@ const Gallery = () => {
                     className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform"
                     onClick={() => setZoomedMedia(media)}
                   >
-                    {media.type === "video" ? <Video size={20} /> : <ZoomIn size={20} />}
+                    {media.type === "video" ? (
+                      <Video size={20} />
+                    ) : (
+                      <ZoomIn size={20} />
+                    )}
                   </button>
                 </div>
               ))}

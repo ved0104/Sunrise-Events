@@ -4,7 +4,7 @@ import { useAuthStore } from "./store/authStore"; // User auth store
 import { useAdminAuthStore } from "./store/adminAuthStore"; // Admin auth store
 import LoadingSpinner from "./components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
-import Layout from "./components/Layout";
+import Layout from "./Components/Layout";
 
 // ===========================
 // User Authentication Pages
@@ -41,6 +41,7 @@ import ManageGallery from "./Components/admin/ManageGallery";
 import ManageBookings from "./components/admin/ManageBooking";
 import ContactUs from "./Components/other/ContactUs";
 import PolicyPage from "./Components/other/PolicyPage";
+import CustomBookingForm from "./Components/booking/CustomService";
 
 
 // ---------------------------
@@ -240,6 +241,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/request-booking"
+          element={
+            <ProtectedRoute>
+              <CustomBookingForm />
             </ProtectedRoute>
           }
         />

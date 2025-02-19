@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "../../components/Navbar/navbar";
-import Footer from "../../components/Footer/Footer";
+import Navbar from "../../Components/Navbar/navbar";
+import Footer from "../../Components/Footer/Footer";
 
 const PrivacyPolicy = () => {
   return (<>
     <Layout>
-    <div className="max-w-4xl mx-auto px-6 py-12 bg-white text-gray-900 pt-20">
+    <div className="max-w-4xl mx-auto px-6 py-12 text-gray-900 pt-20">
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
       
       <section className="mb-6">

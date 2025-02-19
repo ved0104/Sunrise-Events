@@ -7,9 +7,9 @@ import { formatDate } from "../../utils/date";
 const ManageBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null); // Store booking to be deleted
   const navigate = useNavigate();
 
-  // Fetch all bookings from the backend
   const fetchBookings = async () => {
     setLoading(true);
     try {
@@ -30,7 +30,6 @@ const ManageBookings = () => {
     fetchBookings();
   }, []);
 
-  // Update booking status
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
       const response = await axios.put(
@@ -53,30 +52,31 @@ const ManageBookings = () => {
     }
   };
 
-  // Delete a booking
-  const handleDelete = async (bookingId) => {
-    if (!window.confirm("Are you sure you want to delete this booking?")) {
-      return;
-    }
+  const handleDeleteConfirm = async () => {
+    if (!selectedBooking) return;
+
     try {
       const response = await axios.delete(
-        `http://localhost:5000/admin/bookings/${bookingId}`
+        `http://localhost:5000/admin/bookings/${selectedBooking._id}`
       );
       if (response.data.success) {
         toast.success("Booking deleted successfully");
-        setBookings((prev) => prev.filter((b) => b._id !== bookingId));
+        setBookings((prev) =>
+          prev.filter((b) => b._id !== selectedBooking._id)
+        );
       } else {
         toast.error("Failed to delete booking");
       }
     } catch (error) {
       console.error("Error deleting booking", error);
       toast.error("Error deleting booking");
+    } finally {
+      setSelectedBooking(null); // Close the modal
     }
   };
 
   return (
     <div className="p-8 relative">
-      {/* Close button */}
       <button
         onClick={() => navigate(-1)}
         className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
@@ -113,7 +113,10 @@ const ManageBookings = () => {
                     {booking.user?.name || "N/A"}
                   </td>
                   <td className="px-4 py-2 border-b text-sm text-gray-600">
-                    {booking.service?.title || "N/A"}
+                    {booking.service?.title ||
+                      (booking.customServiceDetails
+                        ? "Custom Service"
+                        : "N/A")}
                   </td>
                   <td className="px-4 py-2 border-b text-sm text-gray-600">
                     {formatDate(booking.date)}
@@ -133,7 +136,7 @@ const ManageBookings = () => {
                   </td>
                   <td className="px-4 py-2 border-b text-sm text-gray-600">
                     <button
-                      onClick={() => handleDelete(booking._id)}
+                      onClick={() => setSelectedBooking(booking)}
                       className="text-red-500 hover:text-red-700 transition-colors"
                     >
                       Delete
@@ -155,6 +158,41 @@ const ManageBookings = () => {
           </table>
         </div>
       )}
+
+    {/* Delete Confirmation Modal */}
+{selectedBooking && (
+  <div className="fixed inset-0 bg-white bg-opacity-30 backdrop-blur-md flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-2xl border border-gray-200 max-w-md w-full">
+      <h3 className="text-lg font-bold mb-4 text-gray-800">Confirm Delete</h3>
+      <p className="text-gray-700">
+        Are you sure you want to delete the booking for{" "}
+        <strong className="text-gray-900">
+          {selectedBooking.service?.title ||
+            (selectedBooking.customServiceDetails
+              ? "Custom Service"
+              : "N/A")}
+        </strong>{" "}
+        on <strong className="text-gray-900">{formatDate(selectedBooking.date)}</strong>?
+      </p>
+      <div className="flex justify-end mt-6">
+        <button
+          className="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded mr-3 transition"
+          onClick={() => setSelectedBooking(null)}
+        >
+          Cancel
+        </button>
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition"
+          onClick={handleDeleteConfirm}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };
