@@ -113,6 +113,7 @@ module.exports.sendBookingConfirmationEmail = async (email, booking) => {
     console.log(booking);
     const bookingId = booking._id;
     const serviceTitle = booking.service?.title || "Custom Service";
+    console.log(serviceTitle);
     console.log(bookingId, "   ", booking.service, " ", email)
       ? booking.service.title // If service exists, use its title
       : "Custom Service"; // If no service, assume it's custom
