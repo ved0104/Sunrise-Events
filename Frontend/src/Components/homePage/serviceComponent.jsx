@@ -60,6 +60,7 @@ export default function ServiceComponent() {
 
   const handleServiceClick = (serviceTitle) => {
     navigate(`/gallery?category=${encodeURIComponent(serviceTitle.toLowerCase())}`);
+    console.log("Navigating :",`/gallery?category=${encodeURIComponent(serviceTitle.toLowerCase())}`)
   };
 
   return (
@@ -98,7 +99,7 @@ export default function ServiceComponent() {
                       src={service.image} 
                       className="rounded-lg w-20 h-12 md:w-40 md:h-27" 
                       alt={service.title} 
-                    />
+                     />
                   </div>
                 )}
                 <button className="mt-3 px-3 py-1 border border-black rounded-full text-black hover:bg-black hover:text-white transition">

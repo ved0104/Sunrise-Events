@@ -38,7 +38,7 @@ const FramerMotion = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Counter end={650} duration={4} startCounting={startCounting} />+ <br /> Clients
+          <Counter end={500} duration={4} startCounting={startCounting} />+ <br /> Events
         </motion.div>
 
         {/* Years */}
@@ -49,7 +49,7 @@ const FramerMotion = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <Counter end={12} duration={4} startCounting={startCounting} />+ <br /> Years
+          <Counter end={8} duration={4} startCounting={startCounting} />+ <br /> Years
         </motion.div>
 
         {/* Events */}
@@ -60,7 +60,7 @@ const FramerMotion = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          <Counter end={1000} duration={1} startCounting={startCounting} />+ <br /> Events
+          <Counter end={650} duration={1} startCounting={startCounting} />+ <br /> Clients
         </motion.div>
       </motion.div>
     </div>

@@ -68,7 +68,7 @@ const PolicyPage = () => {
     });
   };
 
-  const location=useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     if (location.hash) {
@@ -78,7 +78,6 @@ const PolicyPage = () => {
       }
     }
   }, [location]);
-
 
   return (
     // <Layout>
@@ -100,7 +99,7 @@ const PolicyPage = () => {
             >
               <div className="bg-white rounded-2xl shadow-lg p-8">
                 <h2 className="text-4xl font-bold text-gray-900 mb-8">
-                  Crafting Unforgettable Moments Since 2012
+                  Crafting Unforgettable Moments Since 2017
                 </h2>
                 <div className="grid md:grid-cols-2 gap-12">
                   <div className="space-y-6">
@@ -109,12 +108,17 @@ const PolicyPage = () => {
                       a personal touch. Whether it’s selecting the perfect
                       venue, designing stunning décor, coordinating
                       entertainment, or managing logistics, we work closely with
-                      our clients to bring their dream events to life. <br /><br /> Our
-                      dedication to excellence and customer satisfaction sets us
-                      apart, making us a trusted partner for all your event
-                      needs. <br /> <br /> Let us turn your special moments into cherished
-                      memories that last a lifetime.
+                      our clients to bring their dream events to life.
+                      <br />
+                      <br />
+                      <b>
+                        <i>
+                          CEO : Mr vaseem akram <br /> Started in 2017 <br /> Mission: To grow
+                          this to Pan India Production Level
+                        </i>
+                      </b>
                     </p>
+
                     <div className="bg-blue-50 rounded-xl p-6 mt-10">
                       <h3 className="text-xl font-semibold mb-4">
                         Why Choose Us?
@@ -126,15 +130,15 @@ const PolicyPage = () => {
                         </li>
                         <li className="flex items-center space-x-3">
                           <CheckCircleIcon className="h-6 w-6 text-blue-600" />
-                          <span>40+ Awards</span>
+                          <span>80+ Weddings</span>
                         </li>
                         <li className="flex items-center space-x-3">
                           <CheckCircleIcon className="h-6 w-6 text-blue-600" />
-                          <span>ISO-Certified Processes</span>
+                          <span>100+ Big themes birthday parties</span>
                         </li>
                         <li className="flex items-center space-x-3">
                           <CheckCircleIcon className="h-6 w-6 text-blue-600" />
-                          <span>24/7 Client Support</span>
+                          <span>150+ Engagements</span>
                         </li>
                       </ul>
                     </div>
@@ -292,7 +296,7 @@ const PolicyPage = () => {
           </div>
         </main>
       </div>
-      <EndPart/>
+      <EndPart />
       <Footer />
     </div>
     // </Layout>
