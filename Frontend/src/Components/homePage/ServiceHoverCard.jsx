@@ -24,7 +24,7 @@ const HoverCard = () => {
     navigate(`/booking/${service}`, { state: { service } });
   };
   const handleClickCustomizable = () => {
-    console.log("Customizable Events");
+    navigate("/request-booking")
   };
   const handleClickOthers=()=>{
     console.log("Others")
@@ -39,7 +39,7 @@ const HoverCard = () => {
 
       {/* Responsive Grid for Services */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-        {services.map((service) => (
+        {services.slice(0, 6).map((service) => (
           <div
             key={service._id}
             className="relative w-full h-24 sm:h-32 md:h-40 bg-white rounded-3xl overflow-hidden group flex items-center justify-center cursor-pointer hover:bg-blue-300 hover:underline transition-all duration-300"
