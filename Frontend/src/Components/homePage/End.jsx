@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function EndPart() {
     return (
@@ -11,7 +12,9 @@ export default function EndPart() {
                         Let us decorate<br />your venue
                     </h2>
                     <button className="bg-black rounded-2xl mt-3 h-10 w-32 text-white hover:bg-amber-200 hover:text-black hover:border-black hover:border-2 hover:font-bold cursor-pointer">
-                        Call to Action
+                        <Link to='/contact-us#calltoaction'>
+                            Call to Action
+                        </Link>
                     </button>
                 </div>
             </div>

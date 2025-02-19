@@ -5,19 +5,20 @@ import haldiGif from "../../assets/images/home/haldi.gif";
 import { color } from "framer-motion";
 
 const services = [
+  
+  {
+    title: "Sangeet",
+    description: "Set the stage for a vibrant musical evening",
+    image: furniture,
+    type: "standard",
+    
+  },
   {
     title: "Wedding",
     description: "Transform your venue with elegant decor",
-    image: furniture,
-    type: "standard",
-  
-  },
-  {
-    title: "Haldi",
-    description: "Brighten your ceremony with vivid haldi decor",
     background: haldiGif,
     type: "full-bleed",
-    
+  
   },
   {
     title: "Reception",
@@ -27,8 +28,8 @@ const services = [
    
   },
   {
-    title: "Sangeet",
-    description: "Set the stage for a vibrant musical evening",
+    title: "Haldi",
+    description: "Brighten your ceremony with vivid haldi decor",
     background: haldiGif,
     type: "full-bleed",
     

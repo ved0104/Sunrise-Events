@@ -1,17 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@300..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap");
+:root {
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
 @import "tailwindcss";
 /* Define global variables using :root */
-:root {
+/* :root {
   --font-display: "Oswald", "Roboto", -apple-system, system-ui,
     BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-}
+} */
 
 /* Import Google Fonts */
 
 /* Apply font styles */
-.font-inter {
+/* .font-inter {
   font-family: "Inter", sans-serif;
-}
+} */
 
 /* Button styles */
 .btn-union {

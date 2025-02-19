@@ -53,7 +53,7 @@ export default function BookingDecoration() {
   `;
   return (
     <div className="flex justify-center pb-20">
-      <div className="text-center w-full md:w-350 bg-blue-100 border-2 border-blue-200 p-4 md:p-10 rounded-3xl mx-4 md:mx-0">
+      <div className="text-center w-full md:w-180 lg:w-250 bg-blue-100 border-2 border-blue-200 p-4 md:p-10 rounded-3xl mx-4 md:mx-0">
         <h2 className="text-2xl md:text-3xl font-extrabold pt-4 pb-6 md:pt-0 md:pb-8">
           {selectedService?.title ||
             "Exquisite Wedding Decor Tailored to Gujarati Traditions"}

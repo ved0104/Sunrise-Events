@@ -1,5 +1,5 @@
 import { Layout } from "lucide-react";
-import Navbar from "../../components/Navbar/navbar";
+import Navbar from "../../Components/Navbar/navbar";
 
 function NotFound() {
     return <Layout>

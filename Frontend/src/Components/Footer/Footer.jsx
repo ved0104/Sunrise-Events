@@ -62,9 +62,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
             <ul className="space-y-2.5">
               {[
-                { name: "About Us", path: "/about" },
+                { name: "About Us", path: "/privacy-policy#aboutus" },
                 { name: "Our Team", path: "/team" },
-                { name: "Testimonials", path: "/testimonials" },
+                { name: "Testimonials", path: "/#testimonials" },
                 { name: "Gallery", path: "/gallery" },
               ].map((item) => (
                 <li key={item.name}>
@@ -85,9 +85,9 @@ const Footer = () => {
             <ul className="space-y-2.5">
               {[
                 { name: "Contact Us", path: "/contact-us" },
-                { name: "FAQs", path: "/privacy-policy" },
-                { name: "Booking Policy", path: "/privacy-policy" },
-                { name: "Cancellation & Refund", path: "/privacy-policy" },
+                { name: "FAQs", path: "/privacy-policy#faq" },
+                { name: "Booking Policy", path: "/privacy-policy#bookingpolicy" },
+                { name: "Cancellation & Refund", path: "/privacy-policy#cancellationrefund" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link
