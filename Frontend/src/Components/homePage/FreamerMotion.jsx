@@ -32,7 +32,7 @@ const FramerMotion = () => {
       >
         {/* Clients */}
         <motion.div
-          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500"
+          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-[#f66435]"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -43,7 +43,7 @@ const FramerMotion = () => {
 
         {/* Years */}
         <motion.div
-          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500"
+          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-[#f66435]"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -54,7 +54,7 @@ const FramerMotion = () => {
 
         {/* Events */}
         <motion.div
-          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500"
+          className="pt-6 sm:pt-10 h-28 sm:h-40 w-full md:w-40 shadow-xl text-2xl sm:text-3xl md:text-4xl font-bold text-[#f66435]"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
