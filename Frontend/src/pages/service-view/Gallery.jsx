@@ -118,7 +118,7 @@ const Gallery = () => {
     featuredVideo;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 pt-20">
+    <div className="max-w-6xl mx-auto px-4 py-8 pt-25">
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold">A Luxe Ensemble of Elegance</h1>

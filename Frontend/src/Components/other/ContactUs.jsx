@@ -8,7 +8,7 @@ import Navbar from '../Navbar/navbar';
 const ContactUs = () => {
     return (<>
         <Navbar/>
-        <div className="max-w-7xl mx-auto px-4 py-12 pt-20">
+        <div className="max-w-7xl mx-auto px-4 py-12 pt-25">
             {/* Heading Section */}
             <div className='flex flex-col items-center'>
                 <div className="text-center mb-16">
