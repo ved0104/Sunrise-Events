@@ -5,6 +5,7 @@ import BookingTop from '../../Components/booking/BookingTop'
 import EndPart from '../../Components/homePage/End'
 import Navbar from '../../Components/Navbar/navbar'
 import Footer from '../../Components/Footer/Footer'
+import BookingPrice from '../../Components/booking/BookingPrice'
 
 const Booking = () => {
   return(
@@ -13,6 +14,7 @@ const Booking = () => {
           <div className="flex flex-col justify-center items-center mt-15">
           <div className="bg-amber-50 w-300 my-12 rounded-3xl border-2 border-amber-100">
             <BookingTop/>
+            <BookingPrice/>
             <BookingCalendar/>
           </div>
           <BookingDecoration/>
