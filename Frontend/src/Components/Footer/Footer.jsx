@@ -38,12 +38,12 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2.5">
               {[
-                { name: "Wedding Decors", path: "/wedding-decors" },
-                { name: "Reception Setup", path: "/reception-setup" },
-                { name: "Sangeet Decoration", path: "/sangeet-decoration" },
-                { name: "Haldi Decoration", path: "/haldi-decoration" },
-                { name: "Rental Furniture", path: "/rental-furniture" },
-                { name: "Sitting Arrangements", path: "/sitting-arrangements" },
+                { name: "Wedding Decors", path: "/services" },
+                { name: "Reception Setup", path: "/services" },
+                { name: "Sangeet Decoration", path: "/services" },
+                { name: "Haldi Decoration", path: "/services" },
+                { name: "Rental Furniture", path: "/services" },
+                { name: "Sitting Arrangements", path: "/services" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link
@@ -84,10 +84,10 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
             <ul className="space-y-2.5">
               {[
-                { name: "Contact Us", path: "/contact" },
-                { name: "FAQs", path: "/faqs" },
-                { name: "Booking Policy", path: "/booking-policy" },
-                { name: "Cancellation & Refund", path: "/cancellation-refund" },
+                { name: "Contact Us", path: "/contact-us" },
+                { name: "FAQs", path: "/privacy-policy" },
+                { name: "Booking Policy", path: "/privacy-policy" },
+                { name: "Cancellation & Refund", path: "/privacy-policy" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link

@@ -1,6 +1,6 @@
 import React from 'react'
 import BookingCalendar from '../../Components/booking/BookingCalender'
-import BookingDecoration from '../../Components/booking/bookingDecoration'
+import BookingDecoration from '../../Components/booking/BookingDecoration'
 import BookingTop from '../../Components/booking/BookingTop'
 import EndPart from '../../components/homePage/End'
 import Navbar from '../../components/Navbar/navbar'
@@ -16,8 +16,8 @@ const Booking = () => {
             <BookingCalendar/>
           </div>
           <BookingDecoration/>
-          <EndPart/>
         </div>
+        <EndPart/>
         <Footer/>
         </>
       )

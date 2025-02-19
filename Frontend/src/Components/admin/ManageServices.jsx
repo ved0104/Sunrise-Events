@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { X, Edit, Trash } from "lucide-react";
+import AddService from "./AddService";
 
 export default function ManageServices() {
   const [services, setServices] = useState([]);
@@ -131,6 +132,7 @@ export default function ManageServices() {
           </table>
         </div>
       )}
+      <AddService/>
     </div>
   );
 }

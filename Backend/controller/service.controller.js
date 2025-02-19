@@ -25,7 +25,6 @@ module.exports.getServiceById = async (req, res) => {
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }
-    
     res.status(200).json({ success: true, service });
   } catch (err) {
     console.error("Error fetching service:", err);
