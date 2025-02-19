@@ -115,7 +115,7 @@ const PolicyPage = () => {
                       needs. <br /> <br /> Let us turn your special moments into cherished
                       memories that last a lifetime.
                     </p>
-                    <div className="bg-blue-50 rounded-xl p-6">
+                    <div className="bg-blue-50 rounded-xl p-6 mt-10">
                       <h3 className="text-xl font-semibold mb-4">
                         Why Choose Us?
                       </h3>
@@ -141,7 +141,7 @@ const PolicyPage = () => {
                   </div>
                   <div className="relative rounded-xl overflow-hidden">
                     <img
-                      src="src\assets\images\galleryImages\sangeet.webp"
+                      src="src\assets\logo.png"
                       alt="Sunrise Events Team"
                       className="w-full h-full object-cover"
                       loading="lazy"

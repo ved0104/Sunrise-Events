@@ -110,6 +110,7 @@ module.exports.sendResetSuccessEmail = async (email) => {
 module.exports.sendBookingConfirmationEmail = async (email, booking) => {
   try {
     // Extract values from the booking document
+    console.log("email ",email);
     const bookingId = booking._id;
     const serviceTitle = booking.service;
     console.log(bookingId, "   ", booking.service, " ", email)
