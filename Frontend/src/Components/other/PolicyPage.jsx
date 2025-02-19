@@ -7,6 +7,8 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import Layout from '../Layout';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/navbar';
 // -------------------------
 // Main Page Component
 // -------------------------
@@ -65,9 +67,11 @@ const PolicyPage = () => {
 
   return (
     // <Layout>
-    <div className="min-h-screen bg-gray-50">
+    <>
+    <Navbar/>
+    <div className="min-h-screen bg-[#fff5ed] mt-15">
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 bg-white shadow-sm z-20">
+      {/* <nav className="sticky top-0 bg-white shadow-sm z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <h1 className="text-2xl font-bold text-blue-600">Sunrise Events</h1>
@@ -89,7 +93,7 @@ const PolicyPage = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -194,7 +198,7 @@ const PolicyPage = () => {
         </section>
 
         {/* Policy Sections */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-20">
+        <div className="grid lg:grid-cols-2 gap-8 mb-10">
           {/* Booking Policy */}
           <section id="booking" ref={sections.booking} className="scroll-mt-24">
             <motion.div
@@ -263,7 +267,7 @@ const PolicyPage = () => {
         </div>
 
         {/* Get Started Section */}
-        <section id="getStarted" ref={sections.getStarted} className="scroll-mt-24">
+        {/* <section id="getStarted" ref={sections.getStarted} className="scroll-mt-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -294,10 +298,10 @@ const PolicyPage = () => {
               </div>
             </div>
           </motion.div>
-        </section>
+        </section> */}
 
         {/* Back to Top Button */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {showScrollTop && (
             <motion.button
               initial={{ opacity: 0, y: 20 }}
@@ -310,9 +314,11 @@ const PolicyPage = () => {
               <ArrowUpIcon className="h-6 w-6" />
             </motion.button>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
       </main>
     </div>
+    <Footer/>
+    </>
     // </Layout>
   );
 };

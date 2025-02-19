@@ -133,6 +133,47 @@ module.exports.BOOKING_STATUS_UPDATE_TEMPLATE = `
 </html>
 `;
 
+module.exports.BOOKING_CONFIRMATION_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <!-- Header -->
+  <div style="background: linear-gradient(to right, #FF7E5F, #feb47b); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Booking Confirmation</h1>
+  </div>
+  
+  <!-- Main Content -->
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello {userName},</p>
+    <p>Thank you for booking with Sunrise Events! We are excited to help make your event a success. Below are the details of your booking:</p>
+    
+    <p><strong>Booking ID:</strong> {bookingId}</p>
+    <p><strong>Service:</strong> {serviceTitle}</p>
+    <p><strong>Event Date:</strong> {eventDate}</p>
+    <p><strong>Status:</strong> Pending</p>
+    
+    <p>If you need to make any changes or have any questions, feel free to contact us at <a href="mailto:support@sunriseevents.com" style="color: #FF7E5F;">support@sunriseevents.com</a> or call us at (123) 456-7890.</p>
+    
+    <p>We look forward to working with you to make your event unforgettable!</p>
+    
+    <p>Best regards,<br>
+    The Sunrise Events Team</p>
+  </div>
+  
+  <!-- Footer -->
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+    <p>&copy; ${new Date().getFullYear()} Sunrise Events. All rights reserved.</p>
+  </div>
+</body>
+</html>
+`;
+
 module.exports.WELCOME_EMAIL_TEMPLATE = `
 <!DOCTYPE html>
 <html lang="en">
@@ -164,5 +205,91 @@ module.exports.WELCOME_EMAIL_TEMPLATE = `
     <p>&copy; ${new Date().getFullYear()} Sunrise Events. All rights reserved.</p>
   </div>
 </body>
+</html>
+`;
+
+module.exports.CUSTOM_BOOKING_ADMIN_NOTIFICATION_TEMPLATE = ({
+  userName,
+  userEmail,
+  userPhone,
+  bookingId,
+  eventType,
+  description,
+  eventDate,
+  createdAt,
+}) => `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Custom Booking Request</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    "
+  >
+    <!-- Header -->
+    <div
+      style="
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+        padding: 20px;
+        text-align: center;
+        color: white;
+      "
+    >
+      <h1>New Custom Booking Request</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div
+      style="
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 0 0 5px 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <p>Dear Admin,</p>
+      <p>
+        A new custom event booking request has been submitted. Here are the
+        details:
+      </p>
+
+      <p><strong>Booking ID:</strong> ${bookingId}</p>
+      <p><strong>Submitted On:</strong> ${new Date(
+        createdAt
+      ).toLocaleString()}</p>
+
+      <h3>User Contact Details:</h3>
+      <p><strong>Name:</strong> ${userName}</p>
+      <p><strong>Email:</strong> ${userEmail}</p>
+      <p><strong>Phone:</strong> ${userPhone || "N/A"}</p>
+
+      <h3>Event Details:</h3>
+      <p><strong>Event Type:</strong> ${eventType}</p>
+      <p><strong>Description:</strong> ${description}</p>
+      <p><strong>Event Date:</strong> ${new Date(eventDate).toDateString()}</p>
+
+      <p>Please review this booking and take the necessary actions.</p>
+
+      <p>Best regards,<br />Sunrise Events System</p>
+    </div>
+
+    <!-- Footer -->
+    <div
+      style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em"
+    >
+      <p>This is an automated message. Please do not reply to this email.</p>
+      <p>&copy; ${new Date().getFullYear()} Sunrise Events. All rights reserved.</p>
+    </div>
+  </body>
 </html>
 `;

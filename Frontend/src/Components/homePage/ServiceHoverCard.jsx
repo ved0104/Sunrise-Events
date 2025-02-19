@@ -31,7 +31,7 @@ const HoverCard = () => {
     navigate("/services")
   }
   return (
-    <div className="flex flex-col items-center bg-[#FFF5ED] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
       {/* Responsive Heading */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-8">
         Choose what to decorate
