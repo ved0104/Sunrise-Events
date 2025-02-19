@@ -27,7 +27,7 @@ const HoverCard = () => {
     navigate("/request-booking")
   };
   const handleClickOthers=()=>{
-    console.log("Others")
+  
     navigate("/services")
   }
   return (

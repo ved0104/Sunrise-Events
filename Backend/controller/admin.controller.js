@@ -173,7 +173,6 @@ module.exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    console.log(process.env.CLIENT_URL);
     //send email
     await sendForgotPasswordEmail(
       user.email,

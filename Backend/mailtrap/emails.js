@@ -7,6 +7,7 @@ const {
   WELCOME_EMAIL_TEMPLATE,
   BOOKING_CONFIRMATION_TEMPLATE,
   CUSTOM_BOOKING_ADMIN_NOTIFICATION_TEMPLATE,
+  CONTACT_FORM_TEMPLATE,
 } = require("./emailTemplates.js");
 
 module.exports.sendVerificationEmail = async (email, verificationToken) => {
@@ -69,7 +70,6 @@ module.exports.sendWelcomeEmail = async (email, name) => {
 
 module.exports.sendForgotPasswordEmail = async (email, resetURL) => {
   try {
-    console.log(resetURL);
     const response = await transporter.sendMail({
       from: '"Sunrise Event " <allinoneatharv07@gmail.com>"',
       to: email,
@@ -94,7 +94,7 @@ module.exports.sendForgotPasswordEmail = async (email, resetURL) => {
 module.exports.sendResetSuccessEmail = async (email) => {
   try {
     const response = await transporter.sendMail({
-      from: '"Sunrise Event 👻" <allinoneatharv07@gmail.com>"',
+      from: '"Sunrise Event " <allinoneatharv07@gmail.com>"',
       to: email,
       subject: "Password Reset Successfull",
       html: PASSWORD_RESET_SUCCESS_TEMPLATE,
@@ -109,7 +109,6 @@ module.exports.sendResetSuccessEmail = async (email) => {
 
 module.exports.sendBookingConfirmationEmail = async (email, booking) => {
   try {
-    console.log("booking", booking);
     // Extract values from the booking document
     const bookingId = booking._id;
     const serviceTitle = booking.service;
@@ -216,5 +215,34 @@ module.exports.sendBookingStatusEmail = async (email, booking) => {
   } catch (error) {
     console.log("Error sending booking status email:", error.message);
     throw new Error(`Error sending booking status email: ${error}`);
+  }
+};
+
+// Function to send Contact Form email
+module.exports.sendContactEmail = async (formData) => {
+  try {
+    const { name, email, phone, services, message } = formData;
+
+    const emailHtml = CONTACT_FORM_TEMPLATE({
+      name,
+      email,
+      phone,
+      services,
+      message,
+    });
+
+    // Send email
+    await transporter.sendMail({
+      from: '"Sunrise Event " <allinoneatharv07@gmail.com>"', // Sender
+      to: "allinoneatharv07@gmail.com", // Admin Email
+      subject: "New Contact Form Submission - Sunrise Events",
+      html: emailHtml,
+    });
+
+    console.log("Contact form email sent successfully");
+    return { success: true, message: "Email sent successfully" };
+  } catch (error) {
+    console.error("Error sending contact form email:", error);
+    return { success: false, message: "Error sending email" };
   }
 };

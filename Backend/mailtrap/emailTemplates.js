@@ -293,3 +293,75 @@ module.exports.CUSTOM_BOOKING_ADMIN_NOTIFICATION_TEMPLATE = ({
   </body>
 </html>
 `;
+
+module.exports.CONTACT_FORM_TEMPLATE = ({
+  name,
+  email,
+  phone,
+  services,
+  message,
+}) => `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Contact Form Submission - Sunrise Events</title>
+  </head>
+  <body
+    style="
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+      <!-- Header -->
+      <div style="background-color: #ec4899; color: #ffffff; padding: 20px; text-align: center;">
+        <h1 style="margin: 0; font-size: 24px;">New Contact Form Submission</h1>
+        <p style="margin: 5px 0; font-size: 14px;">Sunrise Events Inquiry</p>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 20px; line-height: 1.6; color: #333;">
+        <p>Dear Admin,</p>
+        <p>You have received a new inquiry from the contact form on the Sunrise Events website. Here are the details:</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+          <tr>
+            <td style="padding: 8px; background-color: #f9f9f9; font-weight: bold;">Full Name:</td>
+            <td style="padding: 8px;">${name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; background-color: #f9f9f9; font-weight: bold;">Email Address:</td>
+            <td style="padding: 8px;"><a href="mailto:${email}" style="color: #ec4899; text-decoration: none;">${email}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; background-color: #f9f9f9; font-weight: bold;">Phone Number:</td>
+            <td style="padding: 8px;">${phone}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; background-color: #f9f9f9; font-weight: bold;">Interested Service:</td>
+            <td style="padding: 8px;">${services}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; background-color: #f9f9f9; font-weight: bold;">Message:</td>
+            <td style="padding: 8px;">${message}</td>
+          </tr>
+        </table>
+
+        <p style="margin-top: 20px;">Please reach out to the client as soon as possible.</p>
+
+        <p>Best Regards,<br /><strong>Sunrise Events Website</strong></p>
+      </div>
+
+      <!-- Footer -->
+      <div style="background-color: #f4f4f4; text-align: center; padding: 10px 0; color: #777; font-size: 12px;">
+        <p>This is an automated message from Sunrise Events. Please do not reply to this email.</p>
+        <p>&copy; ${new Date().getFullYear()} Sunrise Events. All Rights Reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
+`;

@@ -64,7 +64,7 @@ export const useAdminAuthStore = create((set) => ({
         email,
         password,
       });
-      console.log(response);
+
       set({
         user: response.data.user,
         isAuthenticated: true,

@@ -10,16 +10,15 @@ const {
   sendWelcomeEmail,
   sendForgotPasswordEmail,
   sendResetSuccessEmail,
+  sendContactEmail,
 } = require("../mailtrap/emails.js");
 
 module.exports.signup = async (req, res) => {
-  console.log("signup body", req.body);
   const { email, password, name, phonenumber } = req.body;
   try {
     if (!email || !password || !name || !phonenumber) {
       throw new Error("All Fields are required");
     }
-    console.log(email);
     const userAlreadyExist = await User.findOne({ email });
     if (userAlreadyExist) {
       throw new Error("User Already Exists");
@@ -130,7 +129,6 @@ module.exports.login = async (req, res) => {
   }
 };
 
-
 module.exports.logout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
@@ -155,7 +153,6 @@ module.exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    console.log(process.env.CLIENT_URL);
     //send email
     await sendForgotPasswordEmail(
       user.email,
@@ -220,5 +217,38 @@ module.exports.checkAuth = async (req, res) => {
   } catch (error) {
     console.log("Error in checkAuth ", error);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports.submitContactForm = async (req, res) => {
+  try {
+    const { name, email, phone, services, message } = req.body;
+
+    if (!name || !email || !phone || !services || !message) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
+    const response = await sendContactEmail({
+      name,
+      email,
+      phone,
+      services,
+      message,
+    });
+
+    if (response.success) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Message sent successfully" });
+    } else {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to send message" });
+    }
+  } catch (error) {
+    console.error("Contact form submission error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

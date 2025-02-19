@@ -37,28 +37,31 @@ const ResponsiveMenu = ({
             </div>
 
             {/* Navigation Links */}
-            <ul className="flex flex-col gap-4">
-              {NavbarMenu.map((item) => (
-                <li key={item.id}>
-                  <Link
-                    to={item.link}
-                    className="block px-4 py-3 text-lg font-medium rounded-md hover:bg-gray-100 transition-colors"
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  to="/admin/dashboard"
-                  className="block px-4 py-3 text-lg font-medium text-red-600 rounded-md hover:bg-red-50 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Admin Dashboard
-                </Link>
-              </li>
-            </ul>
+          {/* Navigation Links */}
+<ul className="flex flex-col gap-4">
+  {NavbarMenu.map((item) => (
+    <li key={item.id}>
+      <Link
+        to={item.link}
+        className="block px-4 py-3 text-lg font-medium rounded-md hover:bg-gray-100 transition-colors"
+        onClick={() => setOpen(false)}
+      >
+        {item.title}
+      </Link>
+    </li>
+  ))}
+  {isAdmin && (
+    <li>
+      <Link
+        to="/admin/dashboard"
+        className="block px-4 py-3 text-lg font-medium text-red-600 rounded-md hover:bg-red-50 transition-colors"
+        onClick={() => setOpen(false)}
+      >
+        Admin Dashboard
+      </Link>
+    </li>
+  )}
+</ul>
 
             {/* Auth Buttons */}
             <div className="mt-8 border-t pt-6">

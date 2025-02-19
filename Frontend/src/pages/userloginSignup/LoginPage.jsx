@@ -30,7 +30,7 @@ const LoginPage = () => {
     } else {
       localStorage.setItem("user", JSON.stringify(success)); // Store entire user object
       window.dispatchEvent(new Event("userAuthenticated"));
-      console.log("User Info:", success);
+      
     }
   };
 

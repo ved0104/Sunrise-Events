@@ -9,6 +9,7 @@ const {
   forgotPassword,
   resetPassword,
   checkAuth,
+  submitContactForm,
 } = require("../../controller/auth.controller.js");
 const { verifyToken } = require("../../middleware/verifyToken.js");
 
@@ -21,4 +22,5 @@ router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
 
 router.post("/reset-password/:token", resetPassword);
+router.post("/contactform", submitContactForm);
 module.exports = router;

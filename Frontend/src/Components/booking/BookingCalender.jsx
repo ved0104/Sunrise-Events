@@ -35,13 +35,13 @@ const BookingCalendar = () => {
       return;
     }
     try {
-      console.log("Confirming booking...");
+      
       const bookingResponse = await axios.post(
         `http://localhost:5000/users/services/${id}/booking`,
         { date: selectedDate },
         { withCredentials: true }
       );
-      console.log("Booking confirmed: ", bookingResponse);
+      
       // Set both user and booking info from the response
       setUser(bookingResponse.data.newBooking.user);
       setBooking(bookingResponse.data.newBooking.service);

@@ -11,12 +11,12 @@ export default function BookingDecoration() {
     // Fetch the service details based on the ID using Axios
     const fetchService = async () => {
       try {
-        console.log("Confirming booking...");
+       
         const response = await axios.get(
           `http://localhost:5000/users/services/${id}`,
           { withCredentials: true }
         );
-        console.log(response.data);
+       
         setSelectedService(response.data.service);
       } catch (err) {
         console.error("Error fetching service:", err);

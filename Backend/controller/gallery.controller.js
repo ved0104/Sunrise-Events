@@ -19,10 +19,11 @@ module.exports.getAllGalleryItems = async (req, res) => {
 };
 
 module.exports.getGalleryByEventType = async (req, res) => {
-  const { category } = req.query;  // Use req.query for query parameters
+  const { category } = req.query; // Use req.query for query parameters
   try {
     const items = await Gallery.find({ category });
-    if (!items || items.length === 0) {  // Check if no items are found
+    if (!items || items.length === 0) {
+      // Check if no items are found
       return res.status(404).json({
         success: false,
         message: "No gallery items found for this category",
@@ -40,7 +41,7 @@ module.exports.getGalleryByEventType = async (req, res) => {
 //admin gallery functions
 module.exports.createGalleryItem = async (req, res) => {
   let { category } = req.body;
-  console.log("comming", req.body);
+
   try {
     if (!req.file || !req.file.path) {
       return res.status(400).json({

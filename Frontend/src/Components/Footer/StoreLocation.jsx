@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 
 function MyComponent() {
   const map = useMap(); // Now correctly placed inside MapContainer context
-  console.log("Map center:", map.getCenter());
+  
   return null;
 }
 

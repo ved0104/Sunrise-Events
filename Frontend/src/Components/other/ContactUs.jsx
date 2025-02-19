@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import contactImage from "/src/assets/images/galleryImages/contactImage.jpg";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -12,9 +13,8 @@ import {
   Twitter,
   Linkedin,
 } from "lucide-react";
-import Layout from "../Layout";
-import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/navbar";
+import Footer from "../Footer/Footer";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,9 @@ const ContactUs = () => {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -32,9 +35,35 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
-    console.log("Form Data:", formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setResponseMessage("");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/contactform",
+        formData
+      );
+
+      if (response.data.success) {
+        setResponseMessage("Message sent successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          services: "",
+          message: "",
+        });
+      } else {
+        setResponseMessage("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setResponseMessage("An error occurred. Please try again.");
+    }
+
+    setLoading(false);
   };
 
   const location=useLocation();
@@ -60,10 +89,8 @@ const ContactUs = () => {
               Contact Us
             </h1>
             <p className="text-lg text-gray-600">
-              Looking for the best and most experienced décor professionals in
-              Surat? <br />
-              Get in touch with us without the slightest hesitation. Call us or
-              fill up the form! <br />
+              Looking for the best and most experienced décor professionals in Surat? <br />
+              Get in touch with us without hesitation. Call us or fill up the form! <br />
               We'd love to hear from you!
             </p>
           </div>
@@ -84,14 +111,11 @@ const ContactUs = () => {
               We are here to Help You!
             </h2>
             <p className="text-center text-gray-600 mb-6">
-              Fill out the form and our team will get back to you within 24
-              hours.
+              Fill out the form and our team will get back to you within 24 hours.
             </p>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-gray-700 mb-2" htmlFor="name">
-                  Your Name
-                </label>
+                <label className="block text-gray-700 mb-2" htmlFor="name">Your Name</label>
                 <input
                   type="text"
                   id="name"
@@ -103,9 +127,7 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2" htmlFor="email">
-                  Email Address
-                </label>
+                <label className="block text-gray-700 mb-2" htmlFor="email">Email Address</label>
                 <input
                   type="email"
                   id="email"
@@ -117,13 +139,11 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2" htmlFor="phone">
-                  Phone Number
-                </label>
+                <label className="block text-gray-700 mb-2" htmlFor="phone">Phone Number</label>
                 <input
                   type="tel"
                   id="phone"
-                  value={formData.phonenumber}
+                  value={formData.phone}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-pink-500 focus:outline-none"
                   required
@@ -131,9 +151,7 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2" htmlFor="services">
-                  Select Services
-                </label>
+                <label className="block text-gray-700 mb-2" htmlFor="services">Select Services</label>
                 <select
                   id="services"
                   value={formData.services}
@@ -149,23 +167,15 @@ const ContactUs = () => {
                   <option value="Rental Furniture">Rental Furniture</option>
                   <option value="Ballon Decoration">Ballon Decoration</option>
                   <option value="Flower Decoration">Flower Decorations</option>
-                  <option value="Birthday Party">
-                    Birthday Party Decoration
-                  </option>
-                  <option value="Suprise Party">
-                    Suprise Party Decorations
-                  </option>
-                  <option value="Entertainment">
-                    Entertainment & Fun Activities
-                  </option>
+                  <option value="Birthday Party">Birthday Party Decoration</option>
+                  <option value="Suprise Party">Suprise Party Decorations</option>
+                  <option value="Entertainment">Entertainment & Fun Activities</option>
                   <option value="Catering">Catering</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2" htmlFor="message">
-                  Message
-                </label>
+                <label className="block text-gray-700 mb-2" htmlFor="message">Message</label>
                 <textarea
                   id="message"
                   rows="5"
@@ -178,10 +188,17 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                className="w-full bg-pink-600 text-white py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors"
+                className="w-full bg-pink-600 text-white py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors disabled:bg-gray-400"
+                disabled={loading}
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
+
+              {responseMessage && (
+                <p className={`text-center mt-4 ${responseMessage.includes("success") ? "text-green-600" : "text-red-600"}`}>
+                  {responseMessage}
+                </p>
+              )}
             </form>
           </div>
 
