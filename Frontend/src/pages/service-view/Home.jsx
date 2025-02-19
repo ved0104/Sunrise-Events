@@ -1,6 +1,6 @@
 import React from 'react'
 import TopComponnent from '../../Components/homePage/Top'
-import ServiceComponent from '../../Components/homePage/ServiceComponent'
+import ServiceComponent from '../../Components/homePage/serviceComponent'
 import HeroSection from "../../Components/homePage/HeroSection"
 import FramerMotion from "../../Components/homePage/FreamerMotion"
 import HoverCard from '../../Components/homePage/ServiceHoverCard'

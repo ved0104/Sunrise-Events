@@ -4,7 +4,7 @@ import { useAuthStore } from "./store/authStore"; // User auth store
 import { useAdminAuthStore } from "./store/adminAuthStore"; // Admin auth store
 import LoadingSpinner from "./components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
-import Layout from "./components/Layout";
+import Layout from "./Components/Layout";
 
 // ===========================
 // User Authentication Pages
