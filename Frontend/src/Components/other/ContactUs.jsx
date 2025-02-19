@@ -56,7 +56,7 @@ const ContactUs = () => {
             <img
               src={contactImage}
               alt="sunriseEventsContactBanner"
-              className="mt-8 w-full h-auto object-cover rounded-xlv mb-25 shadow-[0_0_30px_rgba(236,72,153,1)]"
+              className="mt-8 w-full h-auto object-cover rounded-xlv mb-25"
             />
           </div>
         </div>
@@ -256,7 +256,7 @@ const ContactUs = () => {
         </div>
 
         {/* Map Section */}
-        <div className="relative rounded-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(236,72,153,1)]">
+        <div className="relative rounded-2xl overflow-hidden group">
           <div className="absolute inset-0 z-10 pointer-events-none  border-5" />
           <iframe
             title="Sunrise Events"
