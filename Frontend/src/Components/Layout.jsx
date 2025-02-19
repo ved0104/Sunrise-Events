@@ -6,7 +6,11 @@ import EndPart from "./homePage/End";
 
 const Layout = () => {
   return (
-    <div className="bg-[#FFF5ED]">
+    <div className="bg-[#fff5ed]">
+    {/*<div className="bg-amber-50">
+    <div className="bg-pink-50">
+    <div className="bg-pink-100">
+    </div><div className="bg-white"> */}
       <header>
         <Navbar />
       </header>
