@@ -70,18 +70,13 @@ const ContactUs = () => {
                                 required
                             >
                                 <option value="">Select a Service</option>
-                                <option value="Haldi Decoration">Haldi Decoration</option>
-                                <option value="Mehendi Decoration">Mehendi Decoration</option>
-                                <option value="Wedding Decoration">Wedding Decoration</option>
-                                <option value="Reception Setup">Reception Setup</option>
+                                <option value="Haldi Decoration">	Wedding Decoration</option>
+                                <option value="Mehendi Decoration">Reception Setup</option>
+                                <option value="Wedding Decoration">Sangeet Decoration</option>
+                                <option value="Reception Setup">Haldi Decoration</option>
                                 <option value="Rental Furniture">Rental Furniture</option>
-                                <option value="Ballon Decoration">Ballon Decoration</option>
-                                <option value="Flower Decoration">Flower Decorations</option>
-                                <option value="Birthday Party">Birthday Party Decoration</option>
-                                <option value="Suprise Party">Suprise Party Decorations</option>
-                                <option value="Entertainment">Entertainment & Fun Activities</option>
-                                <option value="Catering">Catering</option>
-
+                                <option value="Birthday Decor">Birthday Decor</option>
+                                <option value="other">Others</option>
                             </select>
                         </div>
 
