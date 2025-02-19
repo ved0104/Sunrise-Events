@@ -70,7 +70,7 @@ const Navbar = () => {
 
           {/* Navigation Links - visible on md and up */}
           <div className="hidden lg:block">
-            <ul className="flex items-center gap-6 text-gray-700">
+            <ul className="flex items-center gap-6 text-black-700">
               {NavbarMenu.map((item) => (
                 <li key={item.id} className="relative">
                   <Link

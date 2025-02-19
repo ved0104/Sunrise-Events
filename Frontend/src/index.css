@@ -1,9 +1,10 @@
 :root {
-  font-family: "Montserrat", serif;
+  font-family: "Atkinson Hyperlegible Next", serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
+
 @import "tailwindcss";
 /* Define global variables using :root */
 /* :root {
