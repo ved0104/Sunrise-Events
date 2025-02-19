@@ -1,7 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import furniture from "../../assets/images/home/furniture.jpg";
+import sangeet from "../../assets/images/home/sangeet.jpg"
+import reception from "../../assets/images/home/reception.jpg"
+import rental from "../../assets/images/home/rental.jpg"
 import haldiGif from "../../assets/images/home/haldi.gif";
+import weddingGif from "../../assets/images/home/wedding.gif";
+import birthdayGif from "../../assets/images/home/birthday.gif";
 import { color } from "framer-motion";
 
 const services = [
@@ -9,21 +14,21 @@ const services = [
   {
     title: "Sangeet",
     description: "Set the stage for a vibrant musical evening",
-    image: furniture,
+    image: sangeet,
     type: "standard",
     
   },
   {
     title: "Wedding",
     description: "Transform your venue with elegant decor",
-    background: haldiGif,
+    background: weddingGif,
     type: "full-bleed",
   
   },
   {
     title: "Reception",
     description: "Style your reception for a grand celebration",
-    image: furniture,
+    image: reception,
     type: "standard",
    
   },
@@ -37,14 +42,14 @@ const services = [
   {
     title: "Rental",
     description: "Furnish your event with premium rentals",
-    image: furniture,
+    image: rental,
     type: "standard",
    
   },
   {
     title: "Birthday",
     description: "Lavish birthday decor",
-    background: haldiGif,
+    background: birthdayGif,
     type: "full-bleed",
    
   }
