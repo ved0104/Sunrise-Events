@@ -41,6 +41,7 @@ import ManageGallery from "./Components/admin/ManageGallery";
 import ManageBookings from "./components/admin/ManageBooking";
 import ContactUs from "./Components/other/ContactUs";
 import PolicyPage from "./Components/other/PolicyPage";
+import CustomBookingForm from "./Components/booking/CustomService";
 
 
 // ---------------------------
@@ -240,6 +241,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/request-booking"
+          element={
+            <ProtectedRoute>
+              <CustomBookingForm />
             </ProtectedRoute>
           }
         />
