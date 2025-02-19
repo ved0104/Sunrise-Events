@@ -66,8 +66,6 @@ const ContactUs = () => {
     setLoading(false);
   };
 
-<<<<<<< HEAD
-=======
   const location=useLocation();
 
   useEffect(() => {
@@ -80,39 +78,22 @@ const ContactUs = () => {
   }, [location]);
 
 
->>>>>>> 116059a66e064589a31c9d8dd5a6ce858070ce5d
   return (
     <div className="bg-[#fff5ed]">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-12 pt-28">
         {/* Heading Section */}
         <div className="flex flex-col items-center">
-<<<<<<< HEAD
-          <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">Contact Us</h1>
-=======
           <div className="text-center mb-10">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
               Contact Us
             </h1>
->>>>>>> 116059a66e064589a31c9d8dd5a6ce858070ce5d
             <p className="text-lg text-gray-600">
               Looking for the best and most experienced décor professionals in Surat? <br />
               Get in touch with us without hesitation. Call us or fill up the form! <br />
               We'd love to hear from you!
             </p>
           </div>
-<<<<<<< HEAD
-          <img
-            src={contactImage}
-            alt="Sunrise Events Contact Banner"
-            className="mt-8 w-full h-auto object-cover rounded-xlv mb-25 shadow-[0_0_30px_rgba(236,72,153,1)]"
-          />
-        </div>
-
-        {/* Contact Form */}
-        <div className="grid md:grid-cols-2 gap-12 mb-16">
-=======
           <div>
             <img
               src={contactImage}
@@ -125,7 +106,6 @@ const ContactUs = () => {
         {/* Contact Content Grid */}
         <div id="calltoaction" className="grid md:grid-cols-2 gap-12 mb-16">
           {/* Left Side - Contact Form */}
->>>>>>> 116059a66e064589a31c9d8dd5a6ce858070ce5d
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">
               We are here to Help You!
@@ -221,8 +201,6 @@ const ContactUs = () => {
               )}
             </form>
           </div>
-<<<<<<< HEAD
-=======
 
           {/* Right Side - Contact Info */}
           <div className="space-y-8">
@@ -334,7 +312,6 @@ const ContactUs = () => {
               Gujarat 395007
             </span>
           </div>
->>>>>>> 116059a66e064589a31c9d8dd5a6ce858070ce5d
         </div>
       </div>
       <Footer />
