@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth/", authRoutes);
 app.use("/api/auth", adminRoutes);
 // app.use("/services", serviceRoutes);
 app.use("/booking", userBookingRoutes);

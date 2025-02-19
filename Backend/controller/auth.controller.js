@@ -10,6 +10,7 @@ const {
   sendWelcomeEmail,
   sendForgotPasswordEmail,
   sendResetSuccessEmail,
+  sendContactEmail,
 } = require("../mailtrap/emails.js");
 
 module.exports.signup = async (req, res) => {
@@ -130,7 +131,6 @@ module.exports.login = async (req, res) => {
   }
 };
 
-
 module.exports.logout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
@@ -220,5 +220,38 @@ module.exports.checkAuth = async (req, res) => {
   } catch (error) {
     console.log("Error in checkAuth ", error);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports.submitContactForm = async (req, res) => {
+  try {
+    const { name, email, phone, services, message } = req.body;
+
+    if (!name || !email || !phone || !services || !message) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
+    const response = await sendContactEmail({
+      name,
+      email,
+      phone,
+      services,
+      message,
+    });
+
+    if (response.success) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Message sent successfully" });
+    } else {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to send message" });
+    }
+  } catch (error) {
+    console.error("Contact form submission error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
