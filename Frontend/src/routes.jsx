@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore"; // User auth store
 import { useAdminAuthStore } from "./store/adminAuthStore"; // Admin auth store
-import LoadingSpinner from "./components/LoadingSpinner";
+import LoadingSpinner from "./Components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
 import Layout from "./Components/Layout";
 
