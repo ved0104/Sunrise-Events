@@ -20,7 +20,7 @@ const adminDashboardRoutes = require("./routes/admin/admin.dashboard.routes.js")
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Set frontend origin explicitly
+    origin: "https://sunriseevents.onrender.com", // Set frontend origin explicitly
     credentials: true, // Allow credentials (cookies, sessions)
   })
 );
