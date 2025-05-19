@@ -29,7 +29,7 @@ const ManageGallery = () => {
 
   const fetchGalleryItems = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/gallery", {
+      const response = await axios.get("https://sunrise-events.onrender.com/admin/gallery", {
         withCredentials: true,
       });
       setGalleryItems(response.data.galleryItems);
@@ -89,7 +89,7 @@ const ManageGallery = () => {
       }
       try {
         await axios.put(
-          `http://localhost:5000/admin/gallery/${currentItem._id}`,
+          `https://sunrise-events.onrender.com/admin/gallery/${currentItem._id}`,
           data,
           { withCredentials: true }
         );
@@ -110,8 +110,8 @@ const ManageGallery = () => {
 
       const endpoint =
         formData.uploadType === "single"
-          ? "http://localhost:5000/admin/gallery"
-          : "http://localhost:5000/admin/gallery/multiple";
+          ? "https://sunrise-events.onrender.com/admin/gallery"
+          : "https://sunrise-events.onrender.com/admin/gallery/multiple";
 
       try {
         await axios.post(endpoint, data, { withCredentials: true });
@@ -128,7 +128,7 @@ const ManageGallery = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`http://localhost:5000/admin/gallery/${id}`, {
+        await axios.delete(`https://sunrise-events.onrender.com/admin/gallery/${id}`, {
           withCredentials: true,
         });
         toast.success("Gallery item deleted successfully", toastOptions);

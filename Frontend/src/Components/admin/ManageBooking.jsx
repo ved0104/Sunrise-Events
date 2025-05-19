@@ -14,7 +14,7 @@ const ManageBookings = () => {
     const fetchBookings = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/admin/bookings");
+        const response = await axios.get("https://sunrise-events.onrender.com/admin/bookings");
         if (response.data.success) {
           setBookings(response.data.bookings);
         } else {
@@ -34,7 +34,7 @@ const ManageBookings = () => {
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/admin/bookings/${bookingId}`,
+        `https://sunrise-events.onrender.com/admin/bookings/${bookingId}`,
         { status: newStatus }
       );
       if (response.data.success) {
@@ -58,7 +58,7 @@ const ManageBookings = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5000/admin/bookings/${selectedBooking._id}`
+        `https://sunrise-events.onrender.com/admin/bookings/${selectedBooking._id}`
       );
       if (response.data.success) {
         toast.success("Booking deleted");

@@ -31,7 +31,7 @@ const AdminUserManagement = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("http://localhost:5000/admin/users");
+      const { data } = await axios.get("https://sunrise-events.onrender.com/admin/users");
       const userData = Array.isArray(data) ? data : data.users;
       setUsers(userData);
       setFilteredUsers(userData);
@@ -56,7 +56,7 @@ const AdminUserManagement = () => {
 
   const updateUserRole = async (id, newRole) => {
     try {
-      await axios.put(`http://localhost:5000/admin/users/${id}`, { role: newRole });
+      await axios.put(`https://sunrise-events.onrender.com/admin/users/${id}`, { role: newRole });
       toast.success("User role updated successfully");
       fetchUsers();
     } catch (error) {
@@ -66,7 +66,7 @@ const AdminUserManagement = () => {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/users/${id}`);
+      await axios.delete(`https://sunrise-events.onrender.com/admin/users/${id}`);
       toast.success("User deleted successfully");
       setDeleteConfirmOpen(null);
       fetchUsers();
@@ -78,7 +78,7 @@ const AdminUserManagement = () => {
   const addUser = async () => {
     setFormLoading(true);
     try {
-      await axios.post("http://localhost:5000/admin/users", newUser);
+      await axios.post("https://sunrise-events.onrender.com/admin/users", newUser);
       toast.success("User added successfully");
       setAddModalOpen(false);
       setNewUser({ name: "", email: "", password: "", phonenumber: "", role: "user" });

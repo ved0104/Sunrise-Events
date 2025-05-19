@@ -20,7 +20,7 @@ export default function AddService() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/admin/services/add",
+        "https://sunrise-events.onrender.com/admin/services/add",
         formData,
         {
           withCredentials: true, // This is required to send cookies

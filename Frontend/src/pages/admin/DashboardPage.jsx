@@ -33,8 +33,8 @@ const AdminDashboardPage = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const statsResponse = await axios.get("http://localhost:5000/admin/dashboard-stats");
-        const activitiesResponse = await axios.get("http://localhost:5000/admin/recent-activities");
+        const statsResponse = await axios.get("https://sunrise-events.onrender.com/admin/dashboard-stats");
+        const activitiesResponse = await axios.get("https://sunrise-events.onrender.com/admin/recent-activities");
 
         // Map stats with corresponding icons and colors
         const mappedStats = statsResponse.data.stats.map((stat) => {

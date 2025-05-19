@@ -10,7 +10,7 @@ const HoverCard = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/users/services"
+          "https://sunrise-events.onrender.com/users/services"
         );
         setServices(response.data.services);
       } catch (error) {

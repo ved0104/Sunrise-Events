@@ -46,7 +46,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/admin/gallery");
+        const response = await axios.get("https://sunrise-events.onrender.com/admin/gallery");
         const items = response.data.galleryItems.map((item) => {
           const type = item.imageUrl.match(/\.(mp4|mov|avi)$/i)
             ? "video"

@@ -20,7 +20,7 @@ export default function ManageServices() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/services", {
+      const response = await axios.get("https://sunrise-events.onrender.com/admin/services", {
         withCredentials: true,
       });
       setServices(response.data.services);
@@ -40,7 +40,7 @@ export default function ManageServices() {
 
   const handleDelete = async (serviceId) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/services/${serviceId}`, {
+      await axios.delete(`https://sunrise-events.onrender.com/admin/services/${serviceId}`, {
         withCredentials: true,
       });
       toast.success("Service deleted successfully", {
@@ -84,14 +84,14 @@ export default function ManageServices() {
         const formData = new FormData();
         formData.append("image", imageFile);
         const uploadResponse = await axios.post(
-          "http://localhost:5000/upload-image",
+          "https://sunrise-events.onrender.com/upload-image",
           formData,
           { withCredentials: true }
         );
         imageUrl = uploadResponse.data.imageUrl;
       }
       await axios.put(
-        `http://localhost:5000/admin/services/${editingService._id}`,
+        `https://sunrise-events.onrender.com/admin/services/${editingService._id}`,
         {
           title: editTitle,
           description: editDescription,

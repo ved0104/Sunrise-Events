@@ -42,7 +42,7 @@ const ContactUs = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/contactform",
+        "https://sunrise-events.onrender.com/api/auth/contactform",
         formData
       );
 

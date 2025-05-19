@@ -16,7 +16,7 @@ const CustomBookingForm = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5000/users/services/custom-service",
+        "https://sunrise-events.onrender.com/users/services/custom-service",
         { eventType, description, date },
         { withCredentials: true }
       );

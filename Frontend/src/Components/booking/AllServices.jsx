@@ -14,7 +14,7 @@ export default function AllServices() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/users/services"); // Your backend API
+      const response = await axios.get("https://sunrise-events.onrender.com/users/services"); // Your backend API
       
       setServices(response.data.services); // Assuming response.data is an array of services
     } catch (error) {

@@ -13,7 +13,7 @@ export default function BookingDecoration() {
       try {
        
         const response = await axios.get(
-          `http://localhost:5000/users/services/${id}`,
+          `https://sunrise-events.onrender.com/users/services/${id}`,
           { withCredentials: true }
         );
        
