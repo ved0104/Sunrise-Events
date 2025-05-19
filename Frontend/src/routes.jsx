@@ -38,7 +38,7 @@ import AdminHome from "./pages/admin/AdminHome";
 import ManageUsers from "./Components/admin/ManageUsers";
 import ManageServices from "./Components/admin/ManageServices";
 import ManageGallery from "./Components/admin/ManageGallery";
-import ManageBookings from "./components/admin/ManageBooking";
+import ManageBookings from "./Components/admin/ManageBooking";
 import ContactUs from "./Components/other/ContactUs";
 import PolicyPage from "./Components/other/PolicyPage";
 import CustomBookingForm from "./Components/booking/CustomService";
