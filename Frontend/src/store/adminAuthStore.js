@@ -1,10 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000/api/auth/admin"
-    : "https://sunrise-events.onrender.com/api/auth/admin";
+const API_URL = "https://sunrise-events.onrender.com/api/auth/admin";
 
 axios.defaults.withCredentials = true;
 
